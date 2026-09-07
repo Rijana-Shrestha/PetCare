@@ -22,5 +22,6 @@ data class Contact(
     val ownerId: Long,
     val name: String,
     val phoneNumber: String,
-    val relationship: String? = null
+    val relationship: String? = null,
+    val profileImageUri: String? = null
 )

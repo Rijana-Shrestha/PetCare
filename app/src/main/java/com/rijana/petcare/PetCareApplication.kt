@@ -1,4 +1,8 @@
 package com.rijana.petcare
 
-class PetCareApplication {
+import android.app.Application
+import com.rijana.petcare.data.local.database.AppDatabase
+
+class PetCareApplication : Application() {
+    val database: AppDatabase by lazy { AppDatabase.getInstance(this) }
 }
