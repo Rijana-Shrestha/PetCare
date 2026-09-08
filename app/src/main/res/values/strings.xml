@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">PetCare</string>
+
+
+<!-- GET STARTED -->
+    <string name="first_tagline">Happy pets,</string>
+    <string name="second_tagline">Happy hearts.</string>
+    <string name="get_started">Get Started</string>
+
+<!-- Onboarding -->
+    <string name="heading1">Personalized care&#10;made simple.</string>
+    <string name="heading2">Share the care,&#10;together.</string>
+    <string name="heading3">Ready to care smarter?</string>
+
+    <string name="description1">Create routines and checklists&#10;for pets. Get reminders so you&#10;never miss a care task.</string>
+    <string name="description2">Delegate tasks to family&#10;members or pet sitters.</string>
+    <string name="description3">Create your account and&#10; add your first pet.</string>
+
+    <string name="skip">Skip</string>
+    <string name="next">Next</string>
+    <string name="create_account">Create an account</string>
+    <string name="login">Login</string>
 </resources>

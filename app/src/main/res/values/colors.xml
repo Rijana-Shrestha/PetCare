@@ -1,5 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Primary - amber, used for main CTA buttons (Get Started, Sign Up, Save Changes) -->
+    <color name="color_primary">#1D95B1</color>
+<!--    <color name="color_primary_dark">#189CAF</color>-->
+
+    <!-- Secondary - teal, used for selected states, accents, chips -->
+    <color name="color_secondary">#FEC412</color>
+<!--    <color name="color_secondary_light">#E1F5EE</color>-->
+
+    <!-- Neutrals -->
+    <color name="color_background">#FAFAFA</color>
+    <color name="color_secondary_background">#E1EEF4</color>
+    <color name="color_surface">#FAFAF8</color>
+
+<!--    Borders-->
+    <color name="color_border">#E1EEF4</color>
+    <color name="color_border_light">#D3D3D3</color>
+
+
+    <color name="color_black">#000000</color>
+    <color name="color_white">#FFFFFF</color>
+
+    <!-- Text -->
+    <color name="text_primary">#000000</color>
+    <color name="text_secondary">#636363</color>
+
+    <!-- Status -->
+    <color name="color_success">#1D9E75</color>
+    <color name="color_danger">#D14520</color>
 </resources>

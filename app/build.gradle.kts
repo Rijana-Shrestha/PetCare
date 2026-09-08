@@ -10,6 +10,9 @@ android {
         version = release(37) {
             minorApiLevel = 1
         }
+        buildFeatures {
+            viewBinding = true
+        }
     }
 
     defaultConfig {
@@ -71,6 +74,7 @@ dependencies {
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.play.services)
 
     // Image loading
     implementation(libs.glide)
