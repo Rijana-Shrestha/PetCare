@@ -10,9 +10,10 @@ android {
         version = release(37) {
             minorApiLevel = 1
         }
-        buildFeatures {
-            viewBinding = true
-        }
+    }
+
+    buildFeatures {
+        viewBinding = true
     }
 
     defaultConfig {
