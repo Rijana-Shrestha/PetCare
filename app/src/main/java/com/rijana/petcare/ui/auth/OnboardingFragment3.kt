@@ -7,29 +7,33 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.rijana.petcare.R
-import com.rijana.petcare.databinding.FragmentOnboarding1Binding
+import com.rijana.petcare.databinding.FragmentOnboarding3Binding
 
-class OnboardingFragment1 : Fragment() {
+class OnboardingFragment3 : Fragment() {
 
-    private var _binding: FragmentOnboarding1Binding? = null
+    private var _binding: FragmentOnboarding3Binding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentOnboarding1Binding.inflate(inflater, container, false)
+        _binding = FragmentOnboarding3Binding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnNext.setOnClickListener {
-            findNavController().navigate(R.id.action_onboarding1_to_onboarding2)
+        binding.btnCreateAccount.setOnClickListener {
+            findNavController().navigate(R.id.action_onboarding3_to_signUp)
+        }
+
+        binding.btnLogin.setOnClickListener {
+            findNavController().navigate(R.id.action_onboarding3_to_signIn)
         }
 
         binding.tvSkip.setOnClickListener {
-            findNavController().navigate(R.id.action_onboarding1_to_signUp)
+            findNavController().navigate(R.id.action_onboarding3_to_signUp)
         }
     }
 

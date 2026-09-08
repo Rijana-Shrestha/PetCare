@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_onboarding1_to_onboarding2"
             app:destination="@id/onboardingFragment2" />
+        <action
+            android:id="@+id/action_onboarding1_to_signUp"
+            app:destination="@id/signUpFragment" />
     </fragment>
 
     <fragment
@@ -43,6 +46,9 @@
         <action
             android:id="@+id/action_onboarding2_to_onboarding3"
             app:destination="@id/onboardingFragment3" />
+        <action
+            android:id="@+id/action_onboarding2_to_signUp"
+            app:destination="@id/signUpFragment" />
     </fragment>
 
     <fragment
