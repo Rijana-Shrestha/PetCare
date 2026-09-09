@@ -31,6 +31,7 @@
     <string name="have_an_account">Already have an account? </string>
     <string name="sign_in">Sign In</string>
     <string name="no_account">Do not have an account? </string>
+    <string name="welcome">Welcome Back!</string>
 
     <!-- Home / Bottom Nav -->
     <string name="nav_home">Home</string>
