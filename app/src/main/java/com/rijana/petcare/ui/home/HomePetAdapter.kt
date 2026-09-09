@@ -1,4 +1,4 @@
-package com.rijana.petcare.ui.pets
+package com.rijana.petcare.ui.home
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,15 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rijana.petcare.R
 import com.rijana.petcare.data.local.entity.Pet
-import com.rijana.petcare.databinding.ItemPetBinding
+import com.rijana.petcare.databinding.ItemPetHomeBinding
 import java.util.concurrent.TimeUnit
 
-class PetAdapter(
+class HomePetAdapter(
     private val onPetClick: (Pet) -> Unit
-) : ListAdapter<Pet, PetAdapter.PetViewHolder>(PetDiffCallback()) {
+) : ListAdapter<Pet, HomePetAdapter.PetViewHolder>(PetDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PetViewHolder {
-        val binding = ItemPetBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemPetHomeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PetViewHolder(binding)
     }
 
@@ -25,22 +25,20 @@ class PetAdapter(
         holder.bind(getItem(position))
     }
 
-    inner class PetViewHolder(private val binding: ItemPetBinding) :
+    inner class PetViewHolder(private val binding: ItemPetHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(pet: Pet) {
             val context = binding.root.context
             binding.tvPetName.text = pet.name
-            binding.tvPetBreed.text = pet.breed
-            
-            val age = calculateAge(context, pet.dateOfBirth)
-            val weight = context.getString(R.string.pet_weight_format, pet.weightKg)
+            binding.tvPetAge.text = calculateAge(context, pet.dateOfBirth)
+            binding.tvPetWeight.text = context.getString(R.string.pet_weight_format, pet.weightKg)
 
             Glide.with(binding.ivPetPhoto)
                 .load(pet.photoUri)
                 .placeholder(R.drawable.circle_avatar_placeholder)
                 .error(R.drawable.circle_avatar_placeholder)
-                .circleCrop()
+                .centerCrop()
                 .into(binding.ivPetPhoto)
 
             binding.root.setOnClickListener { onPetClick(pet) }

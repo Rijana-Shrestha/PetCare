@@ -9,8 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rijana.petcare.PetCareApplication
+import com.rijana.petcare.R
 import com.rijana.petcare.data.firebase.AuthManager
 import com.rijana.petcare.data.repository.PetRepository
 import com.rijana.petcare.data.repository.UserRepository
@@ -50,7 +52,7 @@ class MyPetsFragment : Fragment() {
         binding.rvPets.adapter = petAdapter
 
         binding.btnAddNewPet.setOnClickListener {
-            // TODO: navigate to Add/Edit Pet once that screen is built
+            findNavController().navigate(R.id.action_myPets_to_addPet)
         }
 
         observePets()
