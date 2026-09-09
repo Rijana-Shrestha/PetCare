@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_background"
+    android:background="#F8F9FA"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,10 +13,11 @@
         android:layout_height="wrap_content"
         android:paddingBottom="32dp">
 
+        <!-- Top Pet Image -->
         <ImageView
             android:id="@+id/ivPetPhoto"
             android:layout_width="0dp"
-            android:layout_height="260dp"
+            android:layout_height="280dp"
             android:scaleType="centerCrop"
             android:background="@color/color_border_light"
             android:contentDescription="@null"
@@ -24,6 +25,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Navigation / Header Action Buttons -->
         <ImageView
             android:id="@+id/ivBack"
             android:layout_width="36dp"
@@ -31,12 +33,12 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="20dp"
             android:padding="6dp"
-            android:background="@drawable/circle_avatar_placeholder"
             android:rotation="180"
             android:src="@drawable/ic_chevron_right"
             android:contentDescription="@null"
             android:clickable="true"
             android:focusable="true"
+            app:tint="#FFFFFF"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -47,216 +49,281 @@
             android:layout_marginEnd="16dp"
             android:layout_marginTop="20dp"
             android:padding="8dp"
-            android:background="@drawable/circle_avatar_placeholder"
             android:src="@drawable/ic_delete"
             android:contentDescription="@null"
             android:clickable="true"
             android:focusable="true"
+            app:tint="#FFFFFF"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <ImageView
-            android:id="@+id/ivEdit"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_marginEnd="12dp"
-            android:padding="8dp"
-            android:background="@drawable/circle_avatar_placeholder"
-            android:src="@drawable/ic_edit"
-            android:contentDescription="@null"
-            android:clickable="true"
-            android:focusable="true"
-            app:layout_constraintTop_toTopOf="@id/ivDelete"
-            app:layout_constraintBottom_toBottomOf="@id/ivDelete"
-            app:layout_constraintEnd_toStartOf="@id/ivDelete" />
-
-        <TextView
-            android:id="@+id/tvPetName"
+        <!-- Overlapping Main Details Sheet -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="@color/text_primary"
-            tools:text="Max"
+            android:layout_marginTop="-24dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="#FFFFFF"
             app:layout_constraintTop_toBottomOf="@id/ivPetPhoto"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/tvPetBreedAge"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="20dp"
-            android:textSize="14sp"
-            android:textColor="@color/text_secondary"
-            tools:text="Golden Retriever · 3 yrs"
-            app:layout_constraintTop_toBottomOf="@id/tvPetName"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/tvWeightChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="14dp"
-            android:background="@drawable/card_white_rounded"
-            android:paddingStart="14dp"
-            android:paddingEnd="14dp"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
-            android:textSize="12sp"
-            android:textColor="@color/text_primary"
-            tools:text="Wt: 25 kg"
-            app:layout_constraintTop_toBottomOf="@id/tvPetBreedAge"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/tvGenderChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/card_white_rounded"
-            android:paddingStart="14dp"
-            android:paddingEnd="14dp"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
-            android:textSize="12sp"
-            android:textColor="@color/text_primary"
-            tools:text="Male"
-            app:layout_constraintTop_toTopOf="@id/tvWeightChip"
-            app:layout_constraintBottom_toBottomOf="@id/tvWeightChip"
-            app:layout_constraintStart_toEndOf="@id/tvWeightChip" />
-
-        <TextView
-            android:id="@+id/tvAboutLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="24dp"
-            android:text="About"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/text_primary"
-            app:layout_constraintTop_toBottomOf="@id/tvWeightChip"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cardAbout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/card_white_rounded"
-            android:padding="18dp"
-            app:layout_constraintTop_toBottomOf="@id/tvAboutLabel"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <TextView
-                android:id="@+id/tvBirthdayLabel"
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/birthday"
-                android:textSize="13sp"
-                android:textColor="@color/text_secondary"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tvBirthdayValue" />
+                android:padding="20dp">
 
-            <TextView
-                android:id="@+id/tvBirthdayValue"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_primary"
-                android:gravity="end"
-                tools:text="09 Dec 2022"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tvBirthdayLabel"
-                app:layout_constraintEnd_toEndOf="parent" />
+                <!-- Edit Icon -->
+                <ImageView
+                    android:id="@+id/ivEdit"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_edit"
+                    android:contentDescription="@null"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:tint="#1C1C1E"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
-            <TextView
-                android:id="@+id/tvDietLabel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:text="@string/diet"
-                android:textSize="13sp"
-                android:textColor="@color/text_secondary"
-                app:layout_constraintTop_toBottomOf="@id/tvBirthdayLabel"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tvDietValue" />
+                <!-- Pet Name -->
+                <TextView
+                    android:id="@+id/tvPetName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="#1C1C1E"
+                    tools:text="Max"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/ivEdit" />
 
-            <TextView
-                android:id="@+id/tvDietValue"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_primary"
-                android:gravity="end"
-                tools:text="Chicken, Rice, Vegetables"
-                app:layout_constraintTop_toTopOf="@id/tvDietLabel"
-                app:layout_constraintStart_toEndOf="@id/tvDietLabel"
-                app:layout_constraintEnd_toEndOf="parent" />
+                <!-- Breed and Age -->
+                <TextView
+                    android:id="@+id/tvPetBreedAge"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textSize="14sp"
+                    android:textColor="#6E6E73"
+                    tools:text="Golden Retriever  •  3 years"
+                    app:layout_constraintTop_toBottomOf="@id/tvPetName"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
-            <TextView
-                android:id="@+id/tvAllergiesLabel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:text="@string/allergies"
-                android:textSize="13sp"
-                android:textColor="@color/text_secondary"
-                app:layout_constraintTop_toBottomOf="@id/tvDietLabel"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tvAllergiesValue" />
+                <!-- Info Chips Section -->
+                <TextView
+                    android:id="@+id/tvWeightChip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/card_white_rounded"
+                    android:backgroundTint="#F2F2F7"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="10dp"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="#1C1C1E"
+                    tools:text="Wt: 25 kg"
+                    app:layout_constraintTop_toBottomOf="@id/tvPetBreedAge"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-            <TextView
-                android:id="@+id/tvAllergiesValue"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_primary"
-                android:gravity="end"
-                tools:text="No known allergies"
-                app:layout_constraintTop_toTopOf="@id/tvAllergiesLabel"
-                app:layout_constraintStart_toEndOf="@id/tvAllergiesLabel"
-                app:layout_constraintEnd_toEndOf="parent" />
+                <TextView
+                    android:id="@+id/tvGenderChip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:background="@drawable/card_white_rounded"
+                    android:backgroundTint="#F2F2F7"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="10dp"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="#1C1C1E"
+                    tools:text="Male"
+                    app:layout_constraintTop_toTopOf="@id/tvWeightChip"
+                    app:layout_constraintBottom_toBottomOf="@id/tvWeightChip"
+                    app:layout_constraintStart_toEndOf="@id/tvWeightChip" />
 
-            <TextView
-                android:id="@+id/tvFavToyLabel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:text="@string/favorite_toy"
-                android:textSize="13sp"
-                android:textColor="@color/text_secondary"
-                app:layout_constraintTop_toBottomOf="@id/tvAllergiesLabel"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tvFavToyValue" />
+                <!-- Section Header -->
+                <TextView
+                    android:id="@+id/tvAboutLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:text="About Max"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#1C1C1E"
+                    app:layout_constraintTop_toBottomOf="@id/tvWeightChip"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-            <TextView
-                android:id="@+id/tvFavToyValue"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_primary"
-                android:gravity="end"
-                tools:text="Blue Ball"
-                app:layout_constraintTop_toTopOf="@id/tvFavToyLabel"
-                app:layout_constraintStart_toEndOf="@id/tvFavToyLabel"
-                app:layout_constraintEnd_toEndOf="parent" />
+                <!-- About Details Table / Section -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cardAbout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/tvAboutLabel"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <!-- Birthday Row -->
+                    <ImageView
+                        android:id="@+id/ivBirthdayIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_birthday"
+                        android:contentDescription="@null"
+                        app:tint="#1C1C1E"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvBirthdayLabel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="@string/birthday"
+                        android:textSize="14sp"
+                        android:textColor="#1C1C1E"
+                        app:layout_constraintTop_toTopOf="@id/ivBirthdayIcon"
+                        app:layout_constraintBottom_toBottomOf="@id/ivBirthdayIcon"
+                        app:layout_constraintStart_toEndOf="@id/ivBirthdayIcon"
+                        app:layout_constraintEnd_toStartOf="@id/tvBirthdayValue" />
+
+                    <TextView
+                        android:id="@+id/tvBirthdayValue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#1C1C1E"
+                        android:gravity="end"
+                        tools:text="09 Dec 2022"
+                        app:layout_constraintTop_toTopOf="@id/ivBirthdayIcon"
+                        app:layout_constraintBottom_toBottomOf="@id/ivBirthdayIcon"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <!-- Diet Row -->
+                    <ImageView
+                        android:id="@+id/ivDietIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginTop="20dp"
+                        android:src="@drawable/ic_diet"
+                        android:contentDescription="@null"
+                        app:tint="#1C1C1E"
+                        app:layout_constraintTop_toBottomOf="@id/ivBirthdayIcon"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvDietLabel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="@string/diet"
+                        android:textSize="14sp"
+                        android:textColor="#1C1C1E"
+                        app:layout_constraintTop_toTopOf="@id/ivDietIcon"
+                        app:layout_constraintBottom_toBottomOf="@id/ivDietIcon"
+                        app:layout_constraintStart_toEndOf="@id/ivDietIcon"
+                        app:layout_constraintEnd_toStartOf="@id/tvDietValue" />
+
+                    <TextView
+                        android:id="@+id/tvDietValue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#1C1C1E"
+                        android:gravity="end"
+                        tools:text="Chicken, Rice, Vegetables"
+                        app:layout_constraintTop_toTopOf="@id/ivDietIcon"
+                        app:layout_constraintBottom_toBottomOf="@id/ivDietIcon"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <!-- Allergies Row -->
+                    <ImageView
+                        android:id="@+id/ivAllergiesIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginTop="20dp"
+                        android:src="@drawable/ic_allergies"
+                        android:contentDescription="@null"
+                        app:tint="#1C1C1E"
+                        app:layout_constraintTop_toBottomOf="@id/ivDietIcon"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvAllergiesLabel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="@string/allergies"
+                        android:textSize="14sp"
+                        android:textColor="#1C1C1E"
+                        app:layout_constraintTop_toTopOf="@id/ivAllergiesIcon"
+                        app:layout_constraintBottom_toBottomOf="@id/ivAllergiesIcon"
+                        app:layout_constraintStart_toEndOf="@id/ivAllergiesIcon"
+                        app:layout_constraintEnd_toStartOf="@id/tvAllergiesValue" />
+
+                    <TextView
+                        android:id="@+id/tvAllergiesValue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#1C1C1E"
+                        android:gravity="end"
+                        tools:text="No known allergies"
+                        app:layout_constraintTop_toTopOf="@id/ivAllergiesIcon"
+                        app:layout_constraintBottom_toBottomOf="@id/ivAllergiesIcon"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <!-- Favorite Toy Row -->
+                    <ImageView
+                        android:id="@+id/ivFavToyIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginTop="20dp"
+                        android:src="@drawable/ic_toy"
+                        android:contentDescription="@null"
+                        app:tint="#1C1C1E"
+                        app:layout_constraintTop_toBottomOf="@id/ivAllergiesIcon"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvFavToyLabel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="@string/favorite_toy"
+                        android:textSize="14sp"
+                        android:textColor="#1C1C1E"
+                        app:layout_constraintTop_toTopOf="@id/ivFavToyIcon"
+                        app:layout_constraintBottom_toBottomOf="@id/ivFavToyIcon"
+                        app:layout_constraintStart_toEndOf="@id/ivFavToyIcon"
+                        app:layout_constraintEnd_toStartOf="@id/tvFavToyValue" />
+
+                    <TextView
+                        android:id="@+id/tvFavToyValue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#1C1C1E"
+                        android:gravity="end"
+                        tools:text="Blue Ball"
+                        app:layout_constraintTop_toTopOf="@id/ivFavToyIcon"
+                        app:layout_constraintBottom_toBottomOf="@id/ivFavToyIcon"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

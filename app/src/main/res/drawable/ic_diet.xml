@@ -1,0 +1,14 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Plate Outer Edge -->
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M12,2 C6.48,2 2,6.48 2,12 C2,17.52 6.48,22 12,22 C17.52,22 22,17.52 22,12 C22,6.48 17.52,2 12,2 Z M12,20 C7.59,20 4,16.41 4,12 C4,7.59 7.59,4 12,4 C16.41,4 20,7.59 20,12 C20,16.41 16.41,20 12,20 Z" />
+    <!-- Fork & Knife Inside -->
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M9,7 v4 c0,0.55 -0.45,1 -1,1 h-0.5 v5 h-1 v-5 H6 c-0.55,0 -1,-0.45 -1,-1 V7 h1 v3 h0.5 V7 h1 v3 H9 V7 H9 Z M15,7 v10 h-1.5 V12 h-1 V9.5 C12.5,7.8 13.8,7 15,7 Z" />
+</vector>

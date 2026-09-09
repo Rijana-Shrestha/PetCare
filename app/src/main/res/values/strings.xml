@@ -70,7 +70,7 @@
     <string name="allergies">Allergies</string>
     <string name="favorite_toy">Favorite Toy</string>
     <string name="note_optional">Note (Optional)</string>
-    <string name="save_changes">Save Changes</string>
+    <string name="save_pet">Save Pet</string>
 
     <!-- Pet Details Formats -->
     <string name="pet_weight_format">%1$.1f kg</string>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Darker/Bolder border color when selected -->
+    <item android:state_checked="true" android:color="#1D95B1" />
+    <!-- Normal border color when unselected -->
+    <item android:color="#D3D3D3" />
+</selector>
