@@ -21,6 +21,10 @@ class AuthManager {
         return result.user ?: throw IllegalStateException("Sign in succeeded but no user was returned")
     }
 
+    suspend fun sendPasswordResetEmail(email: String) {
+        firebaseAuth.sendPasswordResetEmail(email).await()
+    }
+
     fun signOut() {
         firebaseAuth.signOut()
     }
