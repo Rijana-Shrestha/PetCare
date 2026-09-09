@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.rijana.petcare.data.local.entity.Pet
 import com.rijana.petcare.data.repository.PetRepository
 import com.rijana.petcare.data.repository.UserRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -21,14 +22,9 @@ class PetViewModel(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
-    // The signed-in user's Room id (Pet.ownerId points to this, NOT the Firebase uid).
-    // Starts null until we resolve it in init{}, once, when the ViewModel is created.
     private val _ownerId = MutableStateFlow<Long?>(null)
     val ownerId: StateFlow<Long?> = _ownerId.asStateFlow()
 
-    // Whenever ownerId changes (goes from null -> an id), automatically switch to
-    // watching THAT owner's pets. flatMapLatest cancels the previous query if a
-    // newer one comes in, so we never watch two owners' pet lists at once.
     val pets: StateFlow<List<Pet>> = _ownerId
         .filterNotNull()
         .flatMapLatest { id -> petRepository.getPetsForOwner(id) }
@@ -49,6 +45,8 @@ class PetViewModel(
             _ownerId.value = localUser?.id
         }
     }
+
+    fun getPetById(petId: Long): Flow<Pet?> = petRepository.getPetById(petId)
 
     fun addPet(pet: Pet) {
         viewModelScope.launch {

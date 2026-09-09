@@ -55,8 +55,10 @@ class HomeDashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         homePetAdapter = HomePetAdapter { pet ->
-            // TODO: navigate to Pet Detail once that screen is built
+            val bundle = Bundle().apply { putLong("petId", pet.id) }
+            findNavController().navigate(R.id.action_homeDashboard_to_petDetail, bundle)
         }
+
         binding.rvMyPets.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvMyPets.adapter = homePetAdapter

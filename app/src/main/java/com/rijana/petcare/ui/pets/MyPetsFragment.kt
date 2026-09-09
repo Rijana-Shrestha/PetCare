@@ -46,8 +46,10 @@ class MyPetsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         petAdapter = PetAdapter { pet ->
-            // TODO: navigate to Pet Detail once that screen is built
+            val bundle = Bundle().apply { putLong("petId", pet.id) }
+            findNavController().navigate(R.id.action_myPets_to_petDetail, bundle)
         }
+
         binding.rvPets.layoutManager = LinearLayoutManager(requireContext())
         binding.rvPets.adapter = petAdapter
 

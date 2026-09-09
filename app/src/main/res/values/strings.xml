@@ -77,4 +77,13 @@
     <string name="pet_age_less_than_year">&lt;1 yr</string>
     <string name="pet_age_years">%1$d yrs</string>
     <string name="pet_details_format">%1$s    %2$s</string>
+
+    <!-- Pet Detail -->
+    <string name="birthday">Birthday</string>
+    <string name="diet">Diet</string>
+    <string name="no_known_allergies">No known allergies</string>
+    <string name="delete_pet_title">Delete Pet</string>
+    <string name="delete_pet_message">This will permanently remove %1$s and all their routines, medications, appointments, and expenses. This cannot be undone.</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
 </resources>

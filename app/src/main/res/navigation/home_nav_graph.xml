@@ -8,9 +8,12 @@
         android:id="@+id/homeDashboardFragment"
         android:name="com.rijana.petcare.ui.home.HomeDashboardFragment"
         android:label="Home">
-    <action
+        <action
         android:id="@+id/action_homeDashboard_to_addPet"
         app:destination="@id/addPetFragment" />
+        <action
+            android:id="@+id/action_homeDashboard_to_petDetail"
+            app:destination="@id/petDetailFragment" />
     </fragment>
 
     <fragment
@@ -20,12 +23,24 @@
         <action
             android:id="@+id/action_myPets_to_addPet"
             app:destination="@id/addPetFragment" />
+        <action
+            android:id="@+id/action_myPets_to_petDetail"
+            app:destination="@id/petDetailFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/addPetFragment"
         android:name="com.rijana.petcare.ui.pets.AddPetFragment"
         android:label="Add Pet" />
+
+    <fragment
+        android:id="@+id/petDetailFragment"
+        android:name="com.rijana.petcare.ui.pets.PetDetailFragment"
+        android:label="Pet Detail">
+        <argument
+            android:name="petId"
+            app:argType="long" />
+    </fragment>
 
     <fragment
         android:id="@+id/schedulePlaceholderFragment"
