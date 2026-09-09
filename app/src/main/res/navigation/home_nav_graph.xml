@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/home_nav_graph"
+    app:startDestination="@id/homeDashboardFragment">
+
+    <fragment
+        android:id="@+id/homeDashboardFragment"
+        android:name="com.rijana.petcare.ui.home.HomeDashboardFragment"
+        android:label="Home" />
+
+    <fragment
+        android:id="@+id/petsPlaceholderFragment"
+        android:name="com.rijana.petcare.ui.home.PlaceholderFragment"
+        android:label="Pets">
+        <argument
+            android:name="arg_title"
+            app:argType="string"
+            android:defaultValue="Pets — coming soon" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/schedulePlaceholderFragment"
+        android:name="com.rijana.petcare.ui.home.PlaceholderFragment"
+        android:label="Schedule">
+        <argument
+            android:name="arg_title"
+            app:argType="string"
+            android:defaultValue="Schedule — coming soon" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/findPlaceholderFragment"
+        android:name="com.rijana.petcare.ui.home.PlaceholderFragment"
+        android:label="Find">
+        <argument
+            android:name="arg_title"
+            app:argType="string"
+            android:defaultValue="Find — coming soon" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/profilePlaceholderFragment"
+        android:name="com.rijana.petcare.ui.home.PlaceholderFragment"
+        android:label="Profile">
+        <argument
+            android:name="arg_title"
+            app:argType="string"
+            android:defaultValue="Profile — coming soon" />
+    </fragment>
+
+</navigation>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/homeDashboardFragment"
+        android:icon="@drawable/ic_nav_home"
+        android:title="@string/nav_home" />
+    <item
+        android:id="@+id/petsPlaceholderFragment"
+        android:icon="@drawable/ic_nav_pets"
+        android:title="@string/nav_pets" />
+    <item
+        android:id="@+id/schedulePlaceholderFragment"
+        android:icon="@drawable/ic_nav_schedule"
+        android:title="@string/nav_schedule" />
+    <item
+        android:id="@+id/findPlaceholderFragment"
+        android:icon="@drawable/ic_nav_find"
+        android:title="@string/nav_find" />
+    <item
+        android:id="@+id/profilePlaceholderFragment"
+        android:icon="@drawable/ic_nav_profile"
+        android:title="@string/nav_profile" />
+</menu>

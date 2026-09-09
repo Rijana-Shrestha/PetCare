@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F7F9FA"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="24dp">
+
+        <!-- Top bar -->
+        <ImageView
+            android:id="@+id/ivMenu"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/ic_menu"
+            android:contentDescription="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvGreeting"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#1A1A1A"
+            tools:text="Good morning, Emily!"
+            app:layout_constraintTop_toTopOf="@id/ivMenu"
+            app:layout_constraintBottom_toBottomOf="@id/ivMenu"
+            app:layout_constraintStart_toEndOf="@id/ivMenu"
+            app:layout_constraintEnd_toStartOf="@id/ivNotification" />
+
+        <ImageView
+            android:id="@+id/ivNotification"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_notification"
+            android:contentDescription="@null"
+            app:layout_constraintTop_toTopOf="@id/ivMenu"
+            app:layout_constraintBottom_toBottomOf="@id/ivMenu"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- My pets section -->
+        <TextView
+            android:id="@+id/tvMyPetsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="28dp"
+            android:text="@string/my_pets"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="#1A1A1A"
+            app:layout_constraintTop_toBottomOf="@id/ivMenu"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Empty state: no pets yet -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cardNoPets"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/dashed_border_card"
+            android:paddingTop="28dp"
+            android:paddingBottom="28dp"
+            app:layout_constraintTop_toBottomOf="@id/tvMyPetsLabel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:id="@+id/ivPawLarge"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_paw_large"
+                android:contentDescription="@null"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvAddFirstPet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/add_your_first_pet"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#1A1A1A"
+                app:layout_constraintTop_toBottomOf="@id/ivPawLarge"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvAddFirstPetSubtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="32dp"
+                android:gravity="center"
+                android:text="@string/add_first_pet_subtitle"
+                android:textSize="13sp"
+                android:textColor="#5A5A5A"
+                app:layout_constraintTop_toBottomOf="@id/tvAddFirstPet"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAddPet"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginTop="18dp"
+                android:text="@string/add_pet"
+                android:textAllCaps="false"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                app:icon="@drawable/ic_add"
+                app:iconTint="#000000"
+                app:backgroundTint="@color/color_secondary"
+                app:cornerRadius="10dp"
+                app:layout_constraintTop_toBottomOf="@id/tvAddFirstPetSubtitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Today's Care section -->
+        <TextView
+            android:id="@+id/tvTodaysCareLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="28dp"
+            android:text="@string/todays_care"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="#1A1A1A"
+            app:layout_constraintTop_toBottomOf="@id/cardNoPets"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Empty state: no routines yet -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cardNoRoutines"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/card_white_rounded"
+            android:elevation="2dp"
+            android:padding="18dp"
+            app:layout_constraintTop_toBottomOf="@id/tvTodaysCareLabel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:id="@+id/ivCalendar"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_nav_schedule"
+                android:contentDescription="@null"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/tvNoRoutines"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:text="@string/no_routines_yet"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#1A1A1A"
+                app:layout_constraintTop_toTopOf="@id/ivCalendar"
+                app:layout_constraintStart_toEndOf="@id/ivCalendar"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvNoRoutinesSubtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/no_routines_subtitle"
+                android:textSize="12sp"
+                android:textColor="#5A5A5A"
+                app:layout_constraintTop_toBottomOf="@id/tvNoRoutines"
+                app:layout_constraintStart_toEndOf="@id/ivCalendar"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
