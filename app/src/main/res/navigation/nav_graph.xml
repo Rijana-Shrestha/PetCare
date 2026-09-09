@@ -68,6 +68,9 @@
         android:name="com.rijana.petcare.ui.auth.SignUpFragment"
         android:label="Sign Up">
         <action
+            android:id="@+id/action_signUp_to_signIn"
+            app:destination="@id/signInFragment" />
+        <action
             android:id="@+id/action_signUp_to_home"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/nav_graph"
@@ -78,6 +81,9 @@
         android:id="@+id/signInFragment"
         android:name="com.rijana.petcare.ui.auth.SignInFragment"
         android:label="Sign In">
+        <action
+            android:id="@+id/action_signIn_to_signUp"
+            app:destination="@id/signUpFragment" />
         <action
             android:id="@+id/action_signIn_to_home"
             app:destination="@id/homeFragment"

@@ -42,6 +42,11 @@ class SignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Navigation listener to go back to SignInFragment
+        binding.tvAlreadyHaveAccount.setOnClickListener {
+            findNavController().navigate(R.id.action_signUp_to_signIn)
+        }
+
         binding.btnSignUp.setOnClickListener {
             val name = binding.etFullName.text.toString().trim()
             val email = binding.etEmail.text.toString().trim()

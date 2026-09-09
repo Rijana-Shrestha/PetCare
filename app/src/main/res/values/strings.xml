@@ -28,6 +28,9 @@
     <string name="confirm_password">Confirm Password:</string>
     <string name="sign_up">Sign Up</string>
     <string name="forgot_password">Forgot Password?</string>
+    <string name="have_an_account">Already have an account? </string>
+    <string name="sign_in">Sign In</string>
+    <string name="no_account">Do not have an account? </string>
 
     <!-- Home / Bottom Nav -->
     <string name="nav_home">Home</string>
