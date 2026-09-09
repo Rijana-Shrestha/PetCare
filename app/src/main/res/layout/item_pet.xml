@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/card_teal_rounded"
+    android:padding="14dp"
+    android:clickable="true"
+    android:focusable="true">
+
+    <ImageView
+        android:id="@+id/ivPetPhoto"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/circle_avatar_placeholder"
+        android:contentDescription="@null"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/tvPetName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="8dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        tools:text="Max"
+        app:layout_constraintTop_toTopOf="@id/ivPetPhoto"
+        app:layout_constraintStart_toEndOf="@id/ivPetPhoto"
+        app:layout_constraintEnd_toStartOf="@id/ivChevron" />
+
+    <TextView
+        android:id="@+id/tvPetBreed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="2dp"
+        android:textSize="13sp"
+        android:textColor="#E4F2F6"
+        tools:text="Golden Retriever"
+        app:layout_constraintTop_toBottomOf="@id/tvPetName"
+        app:layout_constraintStart_toEndOf="@id/ivPetPhoto"
+        app:layout_constraintEnd_toStartOf="@id/ivChevron" />
+
+    <TextView
+        android:id="@+id/tvPetDetails"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="2dp"
+        android:textSize="12sp"
+        android:textColor="#E4F2F6"
+        tools:text="3 years    25 kg"
+        app:layout_constraintTop_toBottomOf="@id/tvPetBreed"
+        app:layout_constraintStart_toEndOf="@id/ivPetPhoto"
+        app:layout_constraintEnd_toStartOf="@id/ivChevron" />
+
+    <ImageView
+        android:id="@+id/ivChevron"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_chevron_right"
+        android:contentDescription="@null"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

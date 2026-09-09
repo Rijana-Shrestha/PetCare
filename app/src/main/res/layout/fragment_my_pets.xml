@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F7F9FA"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="24dp">
+
+        <!-- Top bar -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="128dp"
+            android:text="My Pets"
+            android:textColor="#1A1A1A"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/ivNotification"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivNotification"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_notification"
+            android:contentDescription="@null"
+            app:layout_constraintTop_toTopOf="@id/tvTitle"
+            app:layout_constraintBottom_toBottomOf="@id/tvTitle"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Pet list; wrap_content + nested scrolling disabled so the whole
+             screen scrolls as one (fine for pet lists, which are short) -->
+
+        <!-- Always-visible "Add New Pet" card, whether the list is empty or not -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPets"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="88dp"
+            android:nestedScrollingEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            tools:listitem="@layout/item_pet" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btnAddNewPet"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/dashed_border_card"
+            android:paddingTop="18dp"
+            android:paddingBottom="18dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintTop_toBottomOf="@id/rvPets"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="＋  Add New Pet"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#1D95B1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
