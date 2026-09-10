@@ -11,15 +11,22 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.rijana.petcare.PetCareApplication
 import com.rijana.petcare.R
 import com.rijana.petcare.data.firebase.AuthManager
+import com.rijana.petcare.data.repository.GroomingAppointmentRepository
+import com.rijana.petcare.data.repository.MedicationRepository
 import com.rijana.petcare.data.repository.PetRepository
 import com.rijana.petcare.data.repository.RoutineRepository
 import com.rijana.petcare.data.repository.UserRepository
+import com.rijana.petcare.data.repository.VetAppointmentRepository
 import com.rijana.petcare.databinding.FragmentCareBinding
+import com.rijana.petcare.viewmodel.AppointmentViewModel
+import com.rijana.petcare.viewmodel.AppointmentViewModelFactory
+import com.rijana.petcare.viewmodel.MedicationViewModel
+import com.rijana.petcare.viewmodel.MedicationViewModelFactory
 import com.rijana.petcare.viewmodel.PetViewModel
 import com.rijana.petcare.viewmodel.PetViewModelFactory
 import com.rijana.petcare.viewmodel.RoutineViewModel
@@ -30,13 +37,19 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
+private enum class CareTab { ROUTINES, MEDICATION, VET_GROOMING }
+
 class CareFragment : Fragment() {
 
     private var _binding: FragmentCareBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var routineAdapter: RoutineAdapter
+    private lateinit var medicationAdapter: MedicationAdapter
+    private lateinit var vetAdapter: VetAppointmentAdapter
+    private lateinit var groomingAdapter: GroomingAppointmentAdapter
     private val dayCells = mutableListOf<TextView>()
+    private var currentTab = CareTab.ROUTINES
 
     private val userRepository by lazy {
         val app = requireActivity().application as PetCareApplication
@@ -48,6 +61,20 @@ class CareFragment : Fragment() {
         val routineRepository =
             RoutineRepository(app.database.routineDao(), app.database.routineCompletionDao())
         RoutineViewModelFactory(routineRepository, userRepository)
+    }
+
+    private val medicationViewModel: MedicationViewModel by viewModels {
+        val app = requireActivity().application as PetCareApplication
+        MedicationViewModelFactory(MedicationRepository(app.database.medicationDao()), userRepository)
+    }
+
+    private val appointmentViewModel: AppointmentViewModel by viewModels {
+        val app = requireActivity().application as PetCareApplication
+        AppointmentViewModelFactory(
+            VetAppointmentRepository(app.database.vetAppointmentDao()),
+            GroomingAppointmentRepository(app.database.groomingAppointmentDao()),
+            userRepository
+        )
     }
 
     private val petViewModel: PetViewModel by viewModels {
@@ -73,11 +100,22 @@ class CareFragment : Fragment() {
         binding.rvRoutines.layoutManager = LinearLayoutManager(requireContext())
         binding.rvRoutines.adapter = routineAdapter
 
-        binding.btnAddRoutine.setOnClickListener {
-            findNavController().navigate(R.id.action_care_to_addRoutine)
-        }
+        medicationAdapter = MedicationAdapter { medication -> medicationViewModel.deleteMedication(medication) }
+        binding.rvMedications.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvMedications.adapter = medicationAdapter
 
+        vetAdapter = VetAppointmentAdapter { appt -> appointmentViewModel.deleteVetAppointment(appt) }
+        binding.rvVetAppointments.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvVetAppointments.adapter = vetAdapter
+
+        groomingAdapter = GroomingAppointmentAdapter { appt -> appointmentViewModel.deleteGroomingAppointment(appt) }
+        binding.rvGroomingAppointments.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvGroomingAppointments.adapter = groomingAdapter
+
+        updateAddButton()
         observeRoutines()
+        observeMedications()
+        observeAppointments()
     }
 
     private fun setupDayTabs() {
@@ -85,9 +123,9 @@ class CareFragment : Fragment() {
         dayCells.clear()
 
         val calendar = Calendar.getInstance()
-        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) // 1=Sun ... 7=Sat
+        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
         val daysSinceMonday = ((dayOfWeek - Calendar.MONDAY) + 7) % 7
-        calendar.add(Calendar.DAY_OF_MONTH, -daysSinceMonday) // roll back to this week's Monday
+        calendar.add(Calendar.DAY_OF_MONTH, -daysSinceMonday)
 
         val todayStart = RoutineViewModel.startOfDay(System.currentTimeMillis())
         val dayLetterFormat = SimpleDateFormat("EEE", Locale.getDefault())
@@ -127,30 +165,83 @@ class CareFragment : Fragment() {
     private fun setupSectionToggle() {
         binding.toggleCareSection.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (!isChecked) return@addOnButtonCheckedListener
-            val showRoutines = checkedId == binding.btnRoutinesTab.id
-            binding.rvRoutines.visibility = if (showRoutines) View.VISIBLE else View.GONE
-            binding.btnAddRoutine.visibility = if (showRoutines) View.VISIBLE else View.GONE
-            binding.tvComingSoon.visibility = if (showRoutines) View.GONE else View.VISIBLE
+            currentTab = when (checkedId) {
+                binding.btnRoutinesTab.id -> CareTab.ROUTINES
+                binding.btnMedicationTab.id -> CareTab.MEDICATION
+                else -> CareTab.VET_GROOMING
+            }
+            binding.rvRoutines.visibility = if (currentTab == CareTab.ROUTINES) View.VISIBLE else View.GONE
+            binding.rvMedications.visibility = if (currentTab == CareTab.MEDICATION) View.VISIBLE else View.GONE
+            binding.vetGroomingScroll.visibility = if (currentTab == CareTab.VET_GROOMING) View.VISIBLE else View.GONE
+            updateAddButton()
+        }
+    }
+
+    private fun updateAddButton() {
+        when (currentTab) {
+            CareTab.ROUTINES -> {
+                binding.btnAddRoutine.visibility = View.VISIBLE
+                binding.btnAddRoutine.text = getString(R.string.add_routine)
+                binding.btnAddRoutine.setOnClickListener {
+                    findNavController().navigate(R.id.action_care_to_addRoutine)
+                }
+            }
+            CareTab.MEDICATION -> {
+                binding.btnAddRoutine.visibility = View.VISIBLE
+                binding.btnAddRoutine.text = getString(R.string.add_medication)
+                binding.btnAddRoutine.setOnClickListener {
+                    findNavController().navigate(R.id.action_care_to_addMedication)
+                }
+            }
+            CareTab.VET_GROOMING -> {
+                binding.btnAddRoutine.visibility = View.VISIBLE
+                binding.btnAddRoutine.text = getString(R.string.add_appointment)
+                binding.btnAddRoutine.setOnClickListener {
+                    // TODO: navigate to Add Vet/Grooming appointment once those forms exist (step 7.6)
+                }
+            }
         }
     }
 
     private fun observeRoutines() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                combine(
-                    petViewModel.pets,
-                    routineViewModel.routinesForSelectedDay
-                ) { pets, occurrences ->
+                combine(petViewModel.pets, routineViewModel.routinesForSelectedDay) { pets, occurrences ->
                     val petNamesById = pets.associate { it.id to it.name }
                     occurrences.map { occurrence ->
-                        RoutineListItem(
-                            occurrence = occurrence,
-                            petName = petNamesById[occurrence.routine.petId] ?: ""
-                        )
+                        RoutineListItem(occurrence = occurrence, petName = petNamesById[occurrence.routine.petId] ?: "")
                     }
-                }.collect { items ->
-                    routineAdapter.submitList(items)
-                }
+                }.collect { items -> routineAdapter.submitList(items) }
+            }
+        }
+    }
+
+    private fun observeMedications() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                combine(petViewModel.pets, medicationViewModel.medications) { pets, meds ->
+                    val petNamesById = pets.associate { it.id to it.name }
+                    meds.map { med -> MedicationListItem(medication = med, petName = petNamesById[med.petId] ?: "") }
+                }.collect { items -> medicationAdapter.submitList(items) }
+            }
+        }
+    }
+
+    private fun observeAppointments() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                combine(petViewModel.pets, appointmentViewModel.vetAppointments) { pets, appts ->
+                    val petNamesById = pets.associate { it.id to it.name }
+                    appts.map { appt -> VetAppointmentListItem(appointment = appt, petName = petNamesById[appt.petId] ?: "") }
+                }.collect { items -> vetAdapter.submitList(items) }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                combine(petViewModel.pets, appointmentViewModel.groomingAppointments) { pets, appts ->
+                    val petNamesById = pets.associate { it.id to it.name }
+                    appts.map { appt -> GroomingAppointmentListItem(appointment = appt, petName = petNamesById[appt.petId] ?: "") }
+                }.collect { items -> groomingAdapter.submitList(items) }
             }
         }
     }

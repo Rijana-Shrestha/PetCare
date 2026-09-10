@@ -107,4 +107,23 @@
     <string name="select_at_least_one_pet">Please select at least one pet</string>
     <string name="select_at_least_one_day">Please select at least one day</string>
 
+<!--    Medication-->
+    <string name="add_medication">+ Add Medication</string>
+    <string name="completed">Completed</string>
+    <string name="ongoing">Ongoing</string>
+    <string name="days_left">%1$d days left</string>
+    <string name="add_medication_for">Add medication for</string>
+    <string name="medication_details">Medication Details</string>
+    <string name="medication_name">Medication name</string>
+    <string name="type">Type</string>
+    <string name="dosage">Dosage</string>
+    <string name="instructions">Instructions</string>
+    <string name="frequency">Frequency</string>
+    <string name="end_date_optional">End Date (optional)</string>
+
+<!--    Appointment-->
+    <string name="veterinary_care">Veterinary Care</string>
+    <string name="grooming">Grooming</string>
+    <string name="add_appointment">+ Add Appointment</string>
+    <string name="upcoming">Upcoming</string>
 </resources>
