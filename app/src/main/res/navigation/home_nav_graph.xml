@@ -66,6 +66,9 @@
         <action
             android:id="@+id/action_care_to_addGroomingAppointment"
             app:destination="@id/addGroomingAppointmentFragment" />
+        <action
+            android:id="@+id/action_care_to_delegateTask"
+            app:destination="@id/delegateTaskFragment" />
     </fragment>
 
     <fragment
@@ -87,6 +90,11 @@
         android:id="@+id/addGroomingAppointmentFragment"
         android:name="com.rijana.petcare.ui.care.AddGroomingAppointmentFragment"
         android:label="Add Grooming Appointment" />
+
+    <fragment
+        android:id="@+id/delegateTaskFragment"
+        android:name="com.rijana.petcare.ui.care.DelegateTaskFragment"
+        android:label="Delegate Task" />
 
     <fragment
         android:id="@+id/findPlaceholderFragment"

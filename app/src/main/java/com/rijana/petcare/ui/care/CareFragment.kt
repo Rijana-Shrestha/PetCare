@@ -93,6 +93,10 @@ class CareFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.btnShareRoutine.setOnClickListener {
+            findNavController().navigate(R.id.action_care_to_delegateTask)
+        }
+
         setupDayTabs()
         setupSectionToggle()
 

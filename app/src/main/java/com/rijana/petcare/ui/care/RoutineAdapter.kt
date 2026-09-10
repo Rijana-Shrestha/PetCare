@@ -34,6 +34,9 @@ class RoutineAdapter(
         fun bind(item: RoutineListItem) {
             val routine = item.occurrence.routine
             binding.tvRoutineTitle.text = "${item.petName} · ${routine.taskName}"
+            binding.tvRoutineSubtitle.text = routine.durationMinutes
+                ?.let { "$it minutes" }
+                ?: routine.taskType
             binding.tvRoutineTime.text = "Today ${formatTime(routine.time)}"
 
             // Clear the old listener before setting isChecked, so restoring

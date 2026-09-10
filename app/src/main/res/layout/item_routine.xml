@@ -32,6 +32,19 @@
         app:layout_constraintEnd_toStartOf="@id/tvRoutineTime" />
 
     <TextView
+        android:id="@+id/tvRoutineSubtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="2dp"
+        android:textSize="12sp"
+        android:textColor="@color/text_secondary"
+        tools:text="15 minutes"
+        app:layout_constraintTop_toBottomOf="@id/tvRoutineTitle"
+        app:layout_constraintStart_toEndOf="@id/cbDone"
+        app:layout_constraintEnd_toStartOf="@id/tvRoutineTime" />
+
+    <TextView
         android:id="@+id/tvRoutineTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
