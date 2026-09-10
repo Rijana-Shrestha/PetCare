@@ -52,13 +52,8 @@
 
     <fragment
         android:id="@+id/schedulePlaceholderFragment"
-        android:name="com.rijana.petcare.ui.home.PlaceholderFragment"
-        android:label="Schedule">
-        <argument
-            android:name="arg_title"
-            app:argType="string"
-            android:defaultValue="Schedule — coming soon" />
-    </fragment>
+        android:name="com.rijana.petcare.ui.care.CareFragment"
+        android:label="Care" />
 
     <fragment
         android:id="@+id/findPlaceholderFragment"
