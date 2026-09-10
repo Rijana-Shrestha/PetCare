@@ -1,5 +1,6 @@
 package com.rijana.petcare.ui.pets
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,9 +11,13 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.rijana.petcare.PetCareApplication
+import com.rijana.petcare.R
 import com.rijana.petcare.data.firebase.AuthManager
 import com.rijana.petcare.data.local.entity.Gender
 import com.rijana.petcare.data.local.entity.Pet
@@ -22,7 +27,10 @@ import com.rijana.petcare.data.repository.UserRepository
 import com.rijana.petcare.databinding.FragmentAddPetBinding
 import com.rijana.petcare.viewmodel.PetViewModel
 import com.rijana.petcare.viewmodel.PetViewModelFactory
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class AddPetFragment : Fragment() {
 
@@ -39,11 +47,16 @@ class AddPetFragment : Fragment() {
     private var selectedPhotoUri: String? = null
     private var selectedDateOfBirth: Long? = null
 
+    // If this stays null, we're adding a new pet. If it gets set (edit mode),
+    // saving updates THIS pet instead of inserting a new one.
+    private var existingPet: Pet? = null
+    private val isEditMode: Boolean get() = existingPet != null
+
     private val pickPhotoLauncher =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
                 selectedPhotoUri = uri.toString()
-                Glide.with(this).load(uri).centerCrop().into(binding.imgPetPhoto)
+                showPickedPhoto(uri.toString())
             }
         }
 
@@ -72,6 +85,65 @@ class AddPetFragment : Fragment() {
         binding.etDateOfBirth.setOnClickListener { showDatePicker() }
 
         binding.btnSaveChanges.setOnClickListener { savePet() }
+
+        val petId = arguments?.getLong("petId", -1L) ?: -1L
+        if (petId != -1L) {
+            loadPetForEditing(petId)
+        }
+    }
+
+    private fun loadPetForEditing(petId: Long) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                petViewModel.getPetById(petId).collect { pet ->
+                    if (pet != null) {
+                        existingPet = pet
+                        prefillForm(pet)
+                        switchToEditModeUi()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun prefillForm(pet: Pet) {
+        binding.etPetName.setText(pet.name)
+
+        val typeLabel = pet.type.name.lowercase().replaceFirstChar(Char::uppercase)
+        binding.actvPetType.setText(typeLabel, false)
+
+        binding.etBreed.setText(pet.breed)
+
+        selectedDateOfBirth = pet.dateOfBirth
+        binding.etDateOfBirth.setText(formatDate(pet.dateOfBirth))
+
+        when (pet.gender) {
+            Gender.FEMALE -> binding.toggleGender.check(binding.btnFemale.id)
+            else -> binding.toggleGender.check(binding.btnMale.id)
+        }
+
+        binding.etWeight.setText(pet.weightKg.toString())
+        binding.etDietaryPreference.setText(pet.dietaryPreference)
+        binding.etAllergies.setText(pet.allergies)
+        binding.etFavoriteToy.setText(pet.favoriteToy)
+        binding.etNote.setText(pet.note)
+
+        selectedPhotoUri = pet.photoUri
+        if (pet.photoUri != null) {
+            showPickedPhoto(pet.photoUri)
+        }
+    }
+
+    private fun switchToEditModeUi() {
+        binding.tvTitle.text = getString(R.string.edit_pet)
+        binding.ivNotification.setImageResource(R.drawable.ic_delete)
+        binding.ivNotification.setOnClickListener { confirmDelete() }
+    }
+
+    private fun showPickedPhoto(uriOrPath: String) {
+        Glide.with(this).load(uriOrPath).centerCrop().into(binding.imgPetPhoto)
+        binding.ivCameraIcon.visibility = View.GONE
+        binding.tvAddPhoto.visibility = View.GONE
     }
 
     private fun setupPetTypeDropdown() {
@@ -83,12 +155,13 @@ class AddPetFragment : Fragment() {
 
     private fun showDatePicker() {
         val calendar = Calendar.getInstance()
+        selectedDateOfBirth?.let { calendar.timeInMillis = it }
         DatePickerDialog(
             requireContext(),
             { _, year, month, day ->
                 calendar.set(year, month, day, 0, 0, 0)
                 selectedDateOfBirth = calendar.timeInMillis
-                binding.etDateOfBirth.setText("%02d/%02d/%04d".format(day, month + 1, year))
+                binding.etDateOfBirth.setText(formatDate(calendar.timeInMillis))
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
@@ -98,12 +171,15 @@ class AddPetFragment : Fragment() {
         }.show()
     }
 
+    private fun formatDate(millis: Long): String =
+        SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(millis)
+
     private fun savePet() {
         val name = binding.etPetName.text.toString().trim()
         val typeText = binding.actvPetType.text.toString().trim()
         val breed = binding.etBreed.text.toString().trim()
         val weightText = binding.etWeight.text.toString().trim()
-        val ownerId = petViewModel.ownerId.value
+        val ownerId = existingPet?.ownerId ?: petViewModel.ownerId.value
 
         if (name.isEmpty() || typeText.isEmpty() || breed.isEmpty() ||
             selectedDateOfBirth == null || weightText.isEmpty()
@@ -127,6 +203,7 @@ class AddPetFragment : Fragment() {
         }
 
         val pet = Pet(
+            id = existingPet?.id ?: 0,
             ownerId = ownerId,
             name = name,
             type = PetType.valueOf(typeText.uppercase()),
@@ -141,8 +218,26 @@ class AddPetFragment : Fragment() {
             photoUri = selectedPhotoUri
         )
 
-        petViewModel.addPet(pet)
+        if (isEditMode) {
+            petViewModel.updatePet(pet)
+        } else {
+            petViewModel.addPet(pet)
+        }
         findNavController().popBackStack()
+    }
+
+    private fun confirmDelete() {
+        val pet = existingPet ?: return
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.delete_pet_title)
+            .setMessage(getString(R.string.delete_pet_message, pet.name))
+            .setNegativeButton(R.string.cancel, null)
+            .setPositiveButton(R.string.delete) { _, _ ->
+                petViewModel.deletePet(pet)
+                // Pop back past Pet Detail too — that pet no longer exists
+                findNavController().popBackStack(R.id.petDetailFragment, true)
+            }
+            .show()
     }
 
     override fun onDestroyView() {

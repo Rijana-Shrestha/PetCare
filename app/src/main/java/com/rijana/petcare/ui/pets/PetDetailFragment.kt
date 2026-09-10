@@ -59,7 +59,9 @@ class PetDetailFragment : Fragment() {
         binding.ivBack.setOnClickListener { findNavController().popBackStack() }
         binding.ivDelete.setOnClickListener { confirmDelete() }
         binding.ivEdit.setOnClickListener {
-            // TODO: navigate to Edit Pet (reusing Add Pet form) once that's built
+            val pet = currentPet ?: return@setOnClickListener
+            val bundle = Bundle().apply { putLong("petId", pet.id) }
+            findNavController().navigate(R.id.action_petDetail_to_addPet, bundle)
         }
 
         observePet(petId)

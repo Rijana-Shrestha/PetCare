@@ -166,7 +166,7 @@
 
                         <EditText
                             android:id="@+id/etPetName"
-                            android:layout_width="230dp"
+                            android:layout_width="180dp"
                             android:layout_height="40dp"
                             android:background="@drawable/outlined_border"
                             android:inputType="textCapWords"
@@ -194,7 +194,7 @@
 
                         <AutoCompleteTextView
                             android:id="@+id/actvPetType"
-                            android:layout_width="230dp"
+                            android:layout_width="180dp"
                             android:layout_height="40dp"
                             android:background="@drawable/outlined_border"
                             android:drawableEnd="@drawable/ic_chevron_right"
@@ -223,7 +223,7 @@
 
                         <EditText
                             android:id="@+id/etBreed"
-                            android:layout_width="230dp"
+                            android:layout_width="180dp"
                             android:layout_height="40dp"
                             android:background="@drawable/outlined_border"
                             android:inputType="textCapWords"
@@ -251,7 +251,7 @@
 
                         <EditText
                             android:id="@+id/etDateOfBirth"
-                            android:layout_width="230dp"
+                            android:layout_width="180dp"
                             android:layout_height="40dp"
                             android:background="@drawable/outlined_border"
                             android:drawableStart="@drawable/ic_nav_schedule"
@@ -283,7 +283,7 @@
 
                         <com.google.android.material.button.MaterialButtonToggleGroup
                             android:id="@+id/toggleGender"
-                            android:layout_width="230dp"
+                            android:layout_width="180dp"
                             android:layout_height="40dp"
                             app:checkedButton="@id/btnMale"
                             app:selectionRequired="true"
@@ -340,7 +340,7 @@
 
                         <EditText
                             android:id="@+id/etWeight"
-                            android:layout_width="230dp"
+                            android:layout_width="180dp"
                             android:layout_height="40dp"
                             android:background="@drawable/outlined_border"
                             android:inputType="numberDecimal"
@@ -408,7 +408,7 @@
 
                         <EditText
                             android:id="@+id/etDietaryPreference"
-                            android:layout_width="230dp"
+                            android:layout_width="180dp"
                             android:layout_height="40dp"
                             android:background="@drawable/outlined_border"
                             android:paddingStart="10dp"
@@ -435,7 +435,7 @@
 
                         <EditText
                             android:id="@+id/etAllergies"
-                            android:layout_width="230dp"
+                            android:layout_width="180dp"
                             android:layout_height="40dp"
                             android:background="@drawable/outlined_border"
                             android:paddingStart="10dp"
@@ -462,7 +462,7 @@
 
                         <EditText
                             android:id="@+id/etFavoriteToy"
-                            android:layout_width="230dp"
+                            android:layout_width="180dp"
                             android:layout_height="40dp"
                             android:background="@drawable/outlined_border"
                             android:paddingStart="10dp"
@@ -489,7 +489,7 @@
 
                         <EditText
                             android:id="@+id/etNote"
-                            android:layout_width="230dp"
+                            android:layout_width="180dp"
                             android:layout_height="40dp"
                             android:background="@drawable/outlined_border"
                             android:gravity="center_vertical"

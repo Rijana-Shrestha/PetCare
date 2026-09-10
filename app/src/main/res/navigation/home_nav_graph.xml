@@ -31,7 +31,12 @@
     <fragment
         android:id="@+id/addPetFragment"
         android:name="com.rijana.petcare.ui.pets.AddPetFragment"
-        android:label="Add Pet" />
+        android:label="Add Pet">
+    <argument
+        android:name="petId"
+        app:argType="long"
+        android:defaultValue="-1L" />
+    </fragment>
 
     <fragment
         android:id="@+id/petDetailFragment"
@@ -40,6 +45,9 @@
         <argument
             android:name="petId"
             app:argType="long" />
+        <action
+            android:id="@+id/action_petDetail_to_addPet"
+            app:destination="@id/addPetFragment" />
     </fragment>
 
     <fragment
