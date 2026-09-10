@@ -114,10 +114,12 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="16dp"
         android:clipToPadding="false"
-        app:layout_constraintTop_toBottomOf="@id/btnAddRoutine"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnAddRoutine"
+        app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/item_routine" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -188,6 +190,23 @@
                 tools:listitem="@layout/item_appointment" />
 
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
 
+
+    </androidx.core.widget.NestedScrollView>
+<com.google.android.material.button.MaterialButton
+    android:id="@+id/btnShareRoutine"
+    android:layout_width="0dp"
+    android:layout_height="52dp"
+    android:layout_marginStart="20dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginEnd="20dp"
+    android:layout_marginBottom="30dp"
+    android:text="@string/share_routine"
+    android:textAllCaps="false"
+    android:textColor="@color/text_primary"
+    app:backgroundTint="@color/color_secondary"
+    app:cornerRadius="12dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

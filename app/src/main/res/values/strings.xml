@@ -134,4 +134,7 @@
     <string name="clinic">Clinic</string>
     <string name="groomer_salon">Groomer / Salon</string>
     <string name="date">Date</string>
+    <string name="share_routine">Share Routine</string>
+    <string name="share_medication">Share Medication</string>
+    <string name="share_appointment">Share Appointment</string>
 </resources>
