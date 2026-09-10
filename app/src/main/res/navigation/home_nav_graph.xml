@@ -53,7 +53,16 @@
     <fragment
         android:id="@+id/schedulePlaceholderFragment"
         android:name="com.rijana.petcare.ui.care.CareFragment"
-        android:label="Care" />
+        android:label="Care">
+    <action
+        android:id="@+id/action_care_to_addRoutine"
+        app:destination="@id/addRoutineFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addRoutineFragment"
+        android:name="com.rijana.petcare.ui.care.AddRoutineFragment"
+        android:label="Add Routine" />
 
     <fragment
         android:id="@+id/findPlaceholderFragment"

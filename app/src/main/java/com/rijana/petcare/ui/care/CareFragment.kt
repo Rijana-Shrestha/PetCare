@@ -12,6 +12,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.fragment.findNavController
 import com.rijana.petcare.PetCareApplication
 import com.rijana.petcare.R
 import com.rijana.petcare.data.firebase.AuthManager
@@ -73,7 +74,7 @@ class CareFragment : Fragment() {
         binding.rvRoutines.adapter = routineAdapter
 
         binding.btnAddRoutine.setOnClickListener {
-            // TODO: navigate to Add Routine once that form is built
+            findNavController().navigate(R.id.action_care_to_addRoutine)
         }
 
         observeRoutines()

@@ -87,4 +87,24 @@
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
     <string name="edit_pet">Edit Pet</string>
+
+<!--    Care/Schedule-->
+    <string name="care">Care</string>
+    <string name="add_routine">+ Add Routine</string>
+    <string name="coming_soon">Coming soon</string>
+    <string name="add_routine_for">Add routine for</string>
+    <string name="routine_details">Routine Details</string>
+    <string name="task_name">Task Name</string>
+    <string name="task_type">Task Type</string>
+    <string name="schedule">Schedule</string>
+    <string name="time">Time</string>
+    <string name="duration_minutes">Duration (minutes)</string>
+    <string name="repeat">Repeat</string>
+    <string name="start_date">Start Date</string>
+    <string name="reminders">Reminders</string>
+    <string name="reminder">Reminder</string>
+    <string name="remind_me">Remind me</string>
+    <string name="select_at_least_one_pet">Please select at least one pet</string>
+    <string name="select_at_least_one_day">Please select at least one day</string>
+
 </resources>
