@@ -197,7 +197,15 @@ class CareFragment : Fragment() {
                 binding.btnAddRoutine.visibility = View.VISIBLE
                 binding.btnAddRoutine.text = getString(R.string.add_appointment)
                 binding.btnAddRoutine.setOnClickListener {
-                    // TODO: navigate to Add Vet/Grooming appointment once those forms exist (step 7.6)
+                    android.app.AlertDialog.Builder(requireContext())
+                        .setItems(arrayOf("Vet Appointment", "Grooming Appointment")) { _, which ->
+                            if (which == 0) {
+                                findNavController().navigate(R.id.action_care_to_addVetAppointment)
+                            } else {
+                                findNavController().navigate(R.id.action_care_to_addGroomingAppointment)
+                            }
+                        }
+                        .show()
                 }
             }
         }

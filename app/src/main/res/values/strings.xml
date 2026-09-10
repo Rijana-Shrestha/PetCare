@@ -126,4 +126,12 @@
     <string name="grooming">Grooming</string>
     <string name="add_appointment">+ Add Appointment</string>
     <string name="upcoming">Upcoming</string>
+    <string name="add_vet_appointment">+ Add Vet Appointment</string>
+    <string name="add_grooming_appointment">+ Add Grooming Appointment</string>
+    <string name="appointment_for">Appointment for</string>
+    <string name="appointment_details">Appointment Details</string>
+    <string name="grooming_details">Grooming Details</string>
+    <string name="clinic">Clinic</string>
+    <string name="groomer_salon">Groomer / Salon</string>
+    <string name="date">Date</string>
 </resources>

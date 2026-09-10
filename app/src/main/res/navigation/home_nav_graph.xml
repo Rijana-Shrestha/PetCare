@@ -60,6 +60,12 @@
         <action
             android:id="@+id/action_care_to_addMedication"
             app:destination="@id/addMedicationFragment" />
+        <action
+            android:id="@+id/action_care_to_addVetAppointment"
+            app:destination="@id/addVetAppointmentFragment" />
+        <action
+            android:id="@+id/action_care_to_addGroomingAppointment"
+            app:destination="@id/addGroomingAppointmentFragment" />
     </fragment>
 
     <fragment
@@ -71,6 +77,16 @@
         android:id="@+id/addMedicationFragment"
         android:name="com.rijana.petcare.ui.care.AddMedicationFragment"
         android:label="Add Medication" />
+
+    <fragment
+        android:id="@+id/addVetAppointmentFragment"
+        android:name="com.rijana.petcare.ui.care.AddVetAppointmentFragment"
+        android:label="Add Vet Appointment" />
+
+    <fragment
+        android:id="@+id/addGroomingAppointmentFragment"
+        android:name="com.rijana.petcare.ui.care.AddGroomingAppointmentFragment"
+        android:label="Add Grooming Appointment" />
 
     <fragment
         android:id="@+id/findPlaceholderFragment"
