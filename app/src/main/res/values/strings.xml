@@ -140,10 +140,23 @@
 
 
 <!--    Profile-->
-    <string name="view_all">View All</string>
-    <string name="add_expenses">+ Add Expenses</string>
-    <string name="no_expenses_yet">No expenses recorded yet</string>
+    <!-- Screen Header -->
+    <string name="profile">Profile</string>
+
+    <!-- Expenses Section -->
     <string name="expenses">Expenses</string>
+    <string name="view_all">View All</string>
+    <string name="no_expenses_yet">No expenses yet</string>
+    <string name="add_expenses">Add Expenses</string>
+
+    <!-- Account Settings Section -->
+    <string name="account_settings">Account Settings</string>
+    <string name="personal_information">Personal Information</string>
+    <string name="change_password">Change Password</string>
+    <string name="notification_preference">Notification Preference</string>
+    <string name="emergency_contacts">Emergency Contacts</string>
+    <string name="log_out">Log Out</string>
+
     <string name="all_pets">All pets</string>
     <string name="total_this_month">Total this month</string>
     <string name="add_expense">+ Add expense</string>

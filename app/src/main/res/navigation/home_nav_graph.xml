@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_homeDashboard_to_petDetail"
             app:destination="@id/petDetailFragment" />
+        <action
+            android:id="@+id/action_homeDashboard_to_expenseList"
+            app:destination="@id/expenseListFragment" />
     </fragment>
 
     <fragment

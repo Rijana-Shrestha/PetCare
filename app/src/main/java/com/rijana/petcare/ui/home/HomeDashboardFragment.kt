@@ -16,12 +16,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.rijana.petcare.PetCareApplication
 import com.rijana.petcare.R
 import com.rijana.petcare.data.firebase.AuthManager
+import com.rijana.petcare.data.repository.ExpenseRepository
 import com.rijana.petcare.data.repository.PetRepository
 import com.rijana.petcare.data.repository.RoutineRepository
 import com.rijana.petcare.data.repository.UserRepository
 import com.rijana.petcare.databinding.FragmentHomeDashboardBinding
 import com.rijana.petcare.ui.care.RoutineAdapter
 import com.rijana.petcare.ui.care.RoutineListItem
+import com.rijana.petcare.ui.expenses.ExpenseAdapter
+import com.rijana.petcare.ui.expenses.ExpenseListItem
+import com.rijana.petcare.viewmodel.ExpenseViewModel
+import com.rijana.petcare.viewmodel.ExpenseViewModelFactory
 import com.rijana.petcare.viewmodel.PetViewModel
 import com.rijana.petcare.viewmodel.PetViewModelFactory
 import com.rijana.petcare.viewmodel.RoutineViewModel
@@ -39,6 +44,7 @@ class HomeDashboardFragment : Fragment() {
 
     private lateinit var homePetAdapter: HomePetAdapter
     private lateinit var todaysCareAdapter: RoutineAdapter
+    private lateinit var expenseAdapter: ExpenseAdapter
 
     private val userRepository by lazy {
         val app = requireActivity().application as PetCareApplication
@@ -56,6 +62,11 @@ class HomeDashboardFragment : Fragment() {
         val routineRepository =
             RoutineRepository(app.database.routineDao(), app.database.routineCompletionDao())
         RoutineViewModelFactory(routineRepository, userRepository)
+    }
+
+    private val expenseViewModel: ExpenseViewModel by viewModels {
+        val app = requireActivity().application as PetCareApplication
+        ExpenseViewModelFactory(ExpenseRepository(app.database.expenseDao()), userRepository)
     }
 
     override fun onCreateView(
@@ -80,13 +91,25 @@ class HomeDashboardFragment : Fragment() {
         binding.rvTodaysCare.layoutManager = LinearLayoutManager(requireContext())
         binding.rvTodaysCare.adapter = todaysCareAdapter
 
+        expenseAdapter = ExpenseAdapter()
+        binding.expensesCard.rvRecentExpenses.layoutManager = LinearLayoutManager(requireContext())
+        binding.expensesCard.rvRecentExpenses.adapter = expenseAdapter
+
         binding.btnAddPet.setOnClickListener {
             findNavController().navigate(R.id.action_homeDashboard_to_addPet)
+        }
+        binding.expensesCard.btnViewAllExpenses.setOnClickListener {
+            findNavController().navigate(R.id.action_homeDashboard_to_expenseList)
+        }
+        binding.expensesCard.btnAddExpenses.setOnClickListener {
+            findNavController().navigate(R.id.action_homeDashboard_to_expenseList)
+            findNavController().navigate(R.id.action_expenseList_to_addExpense)
         }
 
         observeGreeting()
         observePets()
         observeTodaysCare()
+        observeExpenses()
     }
 
     private fun observeGreeting() {
@@ -120,8 +143,6 @@ class HomeDashboardFragment : Fragment() {
     }
 
     private fun observeTodaysCare() {
-        // routineViewModel.selectedDate defaults to today already (see RoutineViewModel init) -
-        // no need to call selectDate() here, Home always shows "today," never a different day.
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 combine(petViewModel.pets, routineViewModel.routinesForSelectedDay) { pets, occurrences ->
@@ -137,9 +158,43 @@ class HomeDashboardFragment : Fragment() {
         }
     }
 
+    private fun observeExpenses() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                combine(
+                    petViewModel.pets, expenseViewModel.expenses, expenseViewModel.monthlyTotal
+                ) { pets, expenses, total -> Triple(pets, expenses, total) }
+                    .collect { (pets, expenses, total) ->
+                        val hasExpenses = expenses.isNotEmpty()
+                        binding.expensesCard.tvNoExpenses.visibility =
+                            if (hasExpenses) View.GONE else View.VISIBLE
+                        binding.expensesCard.hasExpensesGroup.visibility =
+                            if (hasExpenses) View.VISIBLE else View.GONE
+
+                        if (hasExpenses) {
+                            binding.expensesCard.tvMonthlyTotal.text = "$${"%.2f".format(total)}"
+                            val petNamesById = pets.associate { it.id to it.name }
+                            val recent = expenses.take(3)
+                                .map { ExpenseListItem(it, petNamesById[it.petId] ?: "") }
+                            expenseAdapter.submitList(recent)
+                        }
+                    }
+            }
+        }
+    }
+
     private fun toggleTodaysCareSection(hasItems: Boolean) {
         binding.cardNoRoutines.visibility = if (hasItems) View.GONE else View.VISIBLE
         binding.rvTodaysCare.visibility = if (hasItems) View.VISIBLE else View.GONE
+
+        val anchorId = if (hasItems) binding.rvTodaysCare.id else binding.cardNoRoutines.id
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(binding.root.getChildAt(0) as ConstraintLayout)
+        constraintSet.connect(
+            binding.tvExpensesLabel.id, ConstraintSet.TOP,
+            anchorId, ConstraintSet.BOTTOM, 28.dpToPx()
+        )
+        constraintSet.applyTo(binding.root.getChildAt(0) as ConstraintLayout)
     }
 
     private fun togglePetsSection(hasPets: Boolean) {

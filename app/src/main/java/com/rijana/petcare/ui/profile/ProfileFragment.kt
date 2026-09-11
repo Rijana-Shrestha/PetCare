@@ -11,22 +11,28 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.rijana.petcare.PetCareApplication
 import com.rijana.petcare.R
 import com.rijana.petcare.data.firebase.AuthManager
+import com.rijana.petcare.data.repository.ExpenseRepository
 import com.rijana.petcare.data.repository.PetRepository
 import com.rijana.petcare.data.repository.UserRepository
 import com.rijana.petcare.databinding.FragmentProfileBinding
+import com.rijana.petcare.ui.expenses.ExpenseAdapter
+import com.rijana.petcare.ui.expenses.ExpenseListItem
 import com.rijana.petcare.ui.home.HomePetAdapter
+import com.rijana.petcare.viewmodel.ExpenseViewModel
+import com.rijana.petcare.viewmodel.ExpenseViewModelFactory
 import com.rijana.petcare.viewmodel.PetViewModel
 import com.rijana.petcare.viewmodel.PetViewModelFactory
 import com.rijana.petcare.viewmodel.ProfileViewModel
 import com.rijana.petcare.viewmodel.ProfileViewModelFactory
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment() {
@@ -35,6 +41,7 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var petAdapter: HomePetAdapter
+    private lateinit var expenseAdapter: ExpenseAdapter
 
     private val userRepository by lazy {
         val app = requireActivity().application as PetCareApplication
@@ -48,6 +55,11 @@ class ProfileFragment : Fragment() {
     private val petViewModel: PetViewModel by viewModels {
         val app = requireActivity().application as PetCareApplication
         PetViewModelFactory(PetRepository(app.database.petDao()), userRepository)
+    }
+
+    private val expenseViewModel: ExpenseViewModel by viewModels {
+        val app = requireActivity().application as PetCareApplication
+        ExpenseViewModelFactory(ExpenseRepository(app.database.expenseDao()), userRepository)
     }
 
     override fun onCreateView(
@@ -68,16 +80,20 @@ class ProfileFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvPets.adapter = petAdapter
 
+        expenseAdapter = ExpenseAdapter()
+        binding.expensesCard.rvRecentExpenses.layoutManager = LinearLayoutManager(requireContext())
+        binding.expensesCard.rvRecentExpenses.adapter = expenseAdapter
+
         binding.ivEdit.setOnClickListener {
             findNavController().navigate(R.id.action_profile_to_editProfile)
         }
         binding.btnAddNewPet.setOnClickListener {
             findNavController().navigate(R.id.action_profile_to_addPet)
         }
-        binding.btnViewAllExpenses.setOnClickListener {
+        binding.expensesCard.btnViewAllExpenses.setOnClickListener {
             findNavController().navigate(R.id.action_profile_to_expenseList)
         }
-        binding.btnAddExpenses.setOnClickListener {
+        binding.expensesCard.btnAddExpenses.setOnClickListener {
             findNavController().navigate(R.id.action_profile_to_expenseList)
             findNavController().navigate(R.id.action_expenseList_to_addExpense)
         }
@@ -95,6 +111,7 @@ class ProfileFragment : Fragment() {
 
         observeUser()
         observePets()
+        observeExpenses()
     }
 
     private fun observeUser() {
@@ -118,6 +135,31 @@ class ProfileFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 petViewModel.pets.collect { pets -> petAdapter.submitList(pets) }
+            }
+        }
+    }
+
+    private fun observeExpenses() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                combine(
+                    petViewModel.pets, expenseViewModel.expenses, expenseViewModel.monthlyTotal
+                ) { pets, expenses, total -> Triple(pets, expenses, total) }
+                    .collect { (pets, expenses, total) ->
+                        val hasExpenses = expenses.isNotEmpty()
+                        binding.expensesCard.tvNoExpenses.visibility =
+                            if (hasExpenses) View.GONE else View.VISIBLE
+                        binding.expensesCard.hasExpensesGroup.visibility =
+                            if (hasExpenses) View.VISIBLE else View.GONE
+
+                        if (hasExpenses) {
+                            binding.expensesCard.tvMonthlyTotal.text = "$${"%.2f".format(total)}"
+                            val petNamesById = pets.associate { it.id to it.name }
+                            val recent = expenses.take(3)
+                                .map { ExpenseListItem(it, petNamesById[it.petId] ?: "") }
+                            expenseAdapter.submitList(recent)
+                        }
+                    }
             }
         }
     }
