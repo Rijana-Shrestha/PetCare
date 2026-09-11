@@ -116,6 +116,11 @@
         <action
             android:id="@+id/action_profile_to_addPet"
             app:destination="@id/addPetFragment" />
+        <action
+            android:id="@+id/action_profile_to_expenseList"
+            app:destination="@id/expenseListFragment" />
+        <action android:id="@+id/action_profile_to_petDetail"
+            app:destination="@id/petDetailFragment"/>
     </fragment>
 
     <fragment
@@ -130,9 +135,6 @@
         <action
             android:id="@+id/action_expenseList_to_addExpense"
             app:destination="@id/addExpenseFragment" />
-        <action
-            android:id="@+id/action_profile_to_expenseList"
-            app:destination="@id/expenseListFragment" />
     </fragment>
 
     <fragment

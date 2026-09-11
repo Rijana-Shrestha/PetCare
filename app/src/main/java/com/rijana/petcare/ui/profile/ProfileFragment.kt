@@ -60,7 +60,10 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        petAdapter = HomePetAdapter { /* TODO: navigate to Pet Detail from here too, same as My Pets tab */ }
+        petAdapter = HomePetAdapter { pet ->
+            val bundle = Bundle().apply { putLong("petId", pet.id) }
+            findNavController().navigate(R.id.action_profile_to_petDetail, bundle)
+        }
         binding.rvPets.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvPets.adapter = petAdapter
