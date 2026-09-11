@@ -46,6 +46,9 @@ class HomeDashboardFragment : Fragment() {
     private lateinit var todaysCareAdapter: RoutineAdapter
     private lateinit var expenseAdapter: ExpenseAdapter
 
+    private var hasPets = false
+
+    private var hasTodaysCareItems = false
     private val userRepository by lazy {
         val app = requireActivity().application as PetCareApplication
         UserRepository(AuthManager(), app.database.userDao())
@@ -136,7 +139,10 @@ class HomeDashboardFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 petViewModel.pets.collect { pets ->
                     homePetAdapter.submitList(pets)
-                    togglePetsSection(hasPets = pets.isNotEmpty())
+                    hasPets = pets.isNotEmpty()
+                    binding.cardNoPets.visibility = if (hasPets) View.GONE else View.VISIBLE
+                    binding.rvMyPets.visibility = if (hasPets) View.VISIBLE else View.GONE
+                    updateLayoutAnchors()
                 }
             }
         }
@@ -152,7 +158,10 @@ class HomeDashboardFragment : Fragment() {
                     }
                 }.collect { items ->
                     todaysCareAdapter.submitList(items)
-                    toggleTodaysCareSection(hasItems = items.isNotEmpty())
+                    hasTodaysCareItems = items.isNotEmpty()
+                    binding.cardNoRoutines.visibility = if (hasTodaysCareItems) View.GONE else View.VISIBLE
+                    binding.rvTodaysCare.visibility = if (hasTodaysCareItems) View.VISIBLE else View.GONE
+                    updateLayoutAnchors()
                 }
             }
         }
@@ -183,33 +192,24 @@ class HomeDashboardFragment : Fragment() {
         }
     }
 
-    private fun toggleTodaysCareSection(hasItems: Boolean) {
-        binding.cardNoRoutines.visibility = if (hasItems) View.GONE else View.VISIBLE
-        binding.rvTodaysCare.visibility = if (hasItems) View.VISIBLE else View.GONE
 
-        val anchorId = if (hasItems) binding.rvTodaysCare.id else binding.cardNoRoutines.id
-        val constraintSet = ConstraintSet()
-        constraintSet.clone(binding.root.getChildAt(0) as ConstraintLayout)
-        constraintSet.connect(
-            binding.tvExpensesLabel.id, ConstraintSet.TOP,
-            anchorId, ConstraintSet.BOTTOM, 28.dpToPx()
-        )
-        constraintSet.applyTo(binding.root.getChildAt(0) as ConstraintLayout)
-    }
+    private fun updateLayoutAnchors() {
+        val petsAnchorId = if (hasPets) binding.rvMyPets.id else binding.cardNoPets.id
+        val careAnchorId = if (hasTodaysCareItems) binding.rvTodaysCare.id else binding.cardNoRoutines.id
 
-    private fun togglePetsSection(hasPets: Boolean) {
-        binding.cardNoPets.visibility = if (hasPets) View.GONE else View.VISIBLE
-        binding.rvMyPets.visibility = if (hasPets) View.VISIBLE else View.GONE
-
-        val anchorId = if (hasPets) binding.rvMyPets.id else binding.cardNoPets.id
         val constraintSet = ConstraintSet()
         constraintSet.clone(binding.root.getChildAt(0) as ConstraintLayout)
         constraintSet.connect(
             binding.tvTodaysCareLabel.id, ConstraintSet.TOP,
-            anchorId, ConstraintSet.BOTTOM, 28.dpToPx()
+            petsAnchorId, ConstraintSet.BOTTOM, 28.dpToPx()
+        )
+        constraintSet.connect(
+            binding.tvExpensesLabel.id, ConstraintSet.TOP,
+            careAnchorId, ConstraintSet.BOTTOM, 28.dpToPx()
         )
         constraintSet.applyTo(binding.root.getChildAt(0) as ConstraintLayout)
     }
+
 
     private fun Int.dpToPx(): Int =
         (this * resources.displayMetrics.density).toInt()
