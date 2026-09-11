@@ -126,6 +126,87 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cardExpenses"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/card_white_rounded"
+            android:padding="16dp"
+            app:layout_constraintTop_toBottomOf="@id/btnAddNewPet"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/tvExpensesLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/expenses"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btnViewAllExpenses" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnViewAllExpenses"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="@string/view_all"
+                android:textAllCaps="false"
+                android:textSize="12sp"
+                android:textColor="@color/text_primary"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:backgroundTint="@color/color_primary"
+                app:cornerRadius="18dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <View
+                android:id="@+id/dividerExpenses"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/color_border_light"
+                app:layout_constraintTop_toBottomOf="@id/tvExpensesLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvNoExpenses"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:gravity="center"
+                android:text="@string/no_expenses_yet"
+                android:textSize="13sp"
+                android:textColor="@color/text_secondary"
+                app:layout_constraintTop_toBottomOf="@id/dividerExpenses"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAddExpenses"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/add_expenses"
+                android:textAllCaps="false"
+                android:textColor="@color/text_primary"
+                app:backgroundTint="@color/color_secondary"
+                app:cornerRadius="12dp"
+                app:layout_constraintTop_toBottomOf="@id/tvNoExpenses"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
         <!-- Account Settings -->
         <TextView
             android:id="@+id/tvAccountSettingsLabel"
@@ -137,7 +218,7 @@
             android:textSize="15sp"
             android:textStyle="bold"
             android:textColor="@color/text_primary"
-            app:layout_constraintTop_toBottomOf="@id/btnAddNewPet"
+            app:layout_constraintTop_toBottomOf="@id/cardExpenses"
             app:layout_constraintStart_toStartOf="parent" />
 
         <LinearLayout
@@ -269,6 +350,8 @@
                 android:textSize="14sp"
                 android:textColor="@color/text_primary" />
         </LinearLayout>
+
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogOut"

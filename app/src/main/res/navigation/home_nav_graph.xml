@@ -123,4 +123,21 @@
         android:name="com.rijana.petcare.ui.profile.EditProfileFragment"
         android:label="Edit Profile" />
 
+    <fragment
+        android:id="@+id/expenseListFragment"
+        android:name="com.rijana.petcare.ui.expenses.ExpenseListFragment"
+        android:label="Expenses">
+        <action
+            android:id="@+id/action_expenseList_to_addExpense"
+            app:destination="@id/addExpenseFragment" />
+        <action
+            android:id="@+id/action_profile_to_expenseList"
+            app:destination="@id/expenseListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addExpenseFragment"
+        android:name="com.rijana.petcare.ui.expenses.AddExpenseFragment"
+        android:label="Add Expense" />
+
 </navigation>

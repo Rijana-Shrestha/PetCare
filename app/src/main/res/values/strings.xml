@@ -137,4 +137,20 @@
     <string name="share_routine">Share Routine</string>
     <string name="share_medication">Share Medication</string>
     <string name="share_appointment">Share Appointment</string>
+
+
+<!--    Profile-->
+    <string name="view_all">View All</string>
+    <string name="add_expenses">+ Add Expenses</string>
+    <string name="no_expenses_yet">No expenses recorded yet</string>
+    <string name="expenses">Expenses</string>
+    <string name="all_pets">All pets</string>
+    <string name="total_this_month">Total this month</string>
+    <string name="add_expense">+ Add expense</string>
+    <string name="for_pet">For pet</string>
+    <string name="expense_details">Expense details</string>
+    <string name="category">Category</string>
+    <string name="amount">Amount</string>
+    <string name="save_expense">Save expense</string>
+    <string name="please_select_a_pet">Please select a pet</string>
 </resources>

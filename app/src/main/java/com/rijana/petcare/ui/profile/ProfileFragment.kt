@@ -71,6 +71,13 @@ class ProfileFragment : Fragment() {
         binding.btnAddNewPet.setOnClickListener {
             findNavController().navigate(R.id.action_profile_to_addPet)
         }
+        binding.btnViewAllExpenses.setOnClickListener {
+            findNavController().navigate(R.id.action_profile_to_expenseList)
+        }
+        binding.btnAddExpenses.setOnClickListener {
+            findNavController().navigate(R.id.action_profile_to_expenseList)
+            findNavController().navigate(R.id.action_expenseList_to_addExpense)
+        }
         binding.rowPersonalInfo.setOnClickListener {
             findNavController().navigate(R.id.action_profile_to_editProfile)
         }
