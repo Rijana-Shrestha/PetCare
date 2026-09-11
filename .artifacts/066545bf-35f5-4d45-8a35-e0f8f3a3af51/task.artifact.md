@@ -1,0 +1,2 @@
+- `[x]` Fix `findNavController` call in `ProfileFragment.kt`
+- `[x]` Verify the build

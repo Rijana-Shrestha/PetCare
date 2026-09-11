@@ -108,12 +108,19 @@
 
     <fragment
         android:id="@+id/profilePlaceholderFragment"
-        android:name="com.rijana.petcare.ui.home.PlaceholderFragment"
+        android:name="com.rijana.petcare.ui.profile.ProfileFragment"
         android:label="Profile">
-        <argument
-            android:name="arg_title"
-            app:argType="string"
-            android:defaultValue="Profile — coming soon" />
+        <action
+            android:id="@+id/action_profile_to_editProfile"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_profile_to_addPet"
+            app:destination="@id/addPetFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.rijana.petcare.ui.profile.EditProfileFragment"
+        android:label="Edit Profile" />
 
 </navigation>

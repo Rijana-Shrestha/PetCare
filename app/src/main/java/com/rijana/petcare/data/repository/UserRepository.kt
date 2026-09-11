@@ -38,6 +38,7 @@ class UserRepository(
     suspend fun sendPasswordResetEmail(email: String) = authManager.sendPasswordResetEmail(email)
 
     fun getUserProfile(firebaseUid: String): Flow<User?> = userDao.getUserByFirebaseUid(firebaseUid)
+    suspend fun updateProfile(user: User) = userDao.update(user)
 
     fun signOut() = authManager.signOut()
 }
