@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -142,7 +140,6 @@ class HomeDashboardFragment : Fragment() {
                     hasPets = pets.isNotEmpty()
                     binding.cardNoPets.visibility = if (hasPets) View.GONE else View.VISIBLE
                     binding.rvMyPets.visibility = if (hasPets) View.VISIBLE else View.GONE
-                    updateLayoutAnchors()
                 }
             }
         }
@@ -161,7 +158,6 @@ class HomeDashboardFragment : Fragment() {
                     hasTodaysCareItems = items.isNotEmpty()
                     binding.cardNoRoutines.visibility = if (hasTodaysCareItems) View.GONE else View.VISIBLE
                     binding.rvTodaysCare.visibility = if (hasTodaysCareItems) View.VISIBLE else View.GONE
-                    updateLayoutAnchors()
                 }
             }
         }
@@ -191,28 +187,6 @@ class HomeDashboardFragment : Fragment() {
             }
         }
     }
-
-
-    private fun updateLayoutAnchors() {
-        val petsAnchorId = if (hasPets) binding.rvMyPets.id else binding.cardNoPets.id
-        val careAnchorId = if (hasTodaysCareItems) binding.rvTodaysCare.id else binding.cardNoRoutines.id
-
-        val constraintSet = ConstraintSet()
-        constraintSet.clone(binding.root.getChildAt(0) as ConstraintLayout)
-        constraintSet.connect(
-            binding.tvTodaysCareLabel.id, ConstraintSet.TOP,
-            petsAnchorId, ConstraintSet.BOTTOM, 28.dpToPx()
-        )
-        constraintSet.connect(
-            binding.tvExpensesLabel.id, ConstraintSet.TOP,
-            careAnchorId, ConstraintSet.BOTTOM, 28.dpToPx()
-        )
-        constraintSet.applyTo(binding.root.getChildAt(0) as ConstraintLayout)
-    }
-
-
-    private fun Int.dpToPx(): Int =
-        (this * resources.displayMetrics.density).toInt()
 
     override fun onDestroyView() {
         super.onDestroyView()
