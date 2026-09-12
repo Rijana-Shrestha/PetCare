@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -24,23 +26,61 @@ import com.rijana.petcare.data.firebase.AuthManager
 import com.rijana.petcare.data.local.entity.Contact
 import com.rijana.petcare.data.local.entity.Pet
 import com.rijana.petcare.data.repository.ContactRepository
+import com.rijana.petcare.data.repository.GroomingAppointmentRepository
+import com.rijana.petcare.data.repository.MedicationRepository
 import com.rijana.petcare.data.repository.PetRepository
 import com.rijana.petcare.data.repository.RoutineRepository
 import com.rijana.petcare.data.repository.UserRepository
+import com.rijana.petcare.data.repository.VetAppointmentRepository
 import com.rijana.petcare.databinding.FragmentDelegateTaskBinding
 import com.rijana.petcare.databinding.ItemDelegateContactBinding
 import com.rijana.petcare.databinding.ItemDelegatePetBinding
 import com.rijana.petcare.databinding.ItemRoutineBinding
+import com.rijana.petcare.viewmodel.AppointmentViewModel
+import com.rijana.petcare.viewmodel.AppointmentViewModelFactory
 import com.rijana.petcare.viewmodel.ContactViewModel
 import com.rijana.petcare.viewmodel.ContactViewModelFactory
+import com.rijana.petcare.viewmodel.MedicationOccurrence
+import com.rijana.petcare.viewmodel.MedicationViewModel
+import com.rijana.petcare.viewmodel.MedicationViewModelFactory
 import com.rijana.petcare.viewmodel.PetViewModel
 import com.rijana.petcare.viewmodel.PetViewModelFactory
 import com.rijana.petcare.viewmodel.RoutineOccurrence
 import com.rijana.petcare.viewmodel.RoutineViewModel
 import com.rijana.petcare.viewmodel.RoutineViewModelFactory
+import com.rijana.petcare.viewmodel.UpcomingAppointmentItem
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
+
+sealed class DelegateTask {
+    abstract val petId: Long
+    abstract val title: String
+    abstract val subtitle: String
+    abstract val time: String
+
+    data class RoutineTask(val occurrence: RoutineOccurrence) : DelegateTask() {
+        override val petId: Long = occurrence.routine.petId
+        override val title: String = occurrence.routine.taskName
+        override val subtitle: String = occurrence.routine.durationMinutes
+            ?.let { "$it minutes" } ?: occurrence.routine.taskType
+        override val time: String = occurrence.routine.time
+    }
+
+    data class MedicationTask(val occurrence: MedicationOccurrence) : DelegateTask() {
+        override val petId: Long = occurrence.medication.petId
+        override val title: String = occurrence.medication.name
+        override val subtitle: String = "${occurrence.medication.dosage} · Medication"
+        override val time: String = occurrence.medication.time
+    }
+
+    data class AppointmentTask(val item: UpcomingAppointmentItem) : DelegateTask() {
+        override val petId: Long = item.petId
+        override val title: String = item.title
+        override val subtitle: String = "${item.category} appointment"
+        override val time: String = item.time
+    }
+}
 
 class DelegateTaskFragment : Fragment() {
 
@@ -64,17 +104,36 @@ class DelegateTaskFragment : Fragment() {
         RoutineViewModelFactory(routineRepository, userRepository)
     }
 
+    private val medicationViewModel: MedicationViewModel by viewModels {
+        val app = requireActivity().application as PetCareApplication
+        MedicationViewModelFactory(
+            MedicationRepository(app.database.medicationDao(), app.database.medicationCompletionDao()),
+            userRepository
+        )
+    }
+
+    private val appointmentViewModel: AppointmentViewModel by viewModels {
+        val app = requireActivity().application as PetCareApplication
+        AppointmentViewModelFactory(
+            VetAppointmentRepository(app.database.vetAppointmentDao()),
+            GroomingAppointmentRepository(app.database.groomingAppointmentDao()),
+            userRepository
+        )
+    }
+
     private val contactViewModel: ContactViewModel by viewModels {
         val app = requireActivity().application as PetCareApplication
         ContactViewModelFactory(ContactRepository(app.database.contactDao()), userRepository)
     }
 
     private val selectedPetIds = mutableSetOf<Long>()
-    private val selectedRoutineIds = mutableSetOf<Long>()
+    private val selectedTasks = mutableSetOf<DelegateTask>()
     private val selectedContactIds = mutableSetOf<Long>()
 
     private var latestPets: List<Pet> = emptyList()
-    private var latestOccurrences: List<RoutineOccurrence> = emptyList()
+    private var latestRoutineOccurrences: List<RoutineOccurrence> = emptyList()
+    private var latestMedicationOccurrences: List<MedicationOccurrence> = emptyList()
+    private var latestAppointments: List<UpcomingAppointmentItem> = emptyList()
     private var lastAutoMessage: String = ""
 
     override fun onCreateView(
@@ -93,6 +152,8 @@ class DelegateTaskFragment : Fragment() {
 
         observePets()
         observeRoutines()
+        observeMedications()
+        observeAppointments()
         observeContacts()
     }
 
@@ -112,7 +173,29 @@ class DelegateTaskFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 routineViewModel.routinesForSelectedDay.collect { occurrences ->
-                    latestOccurrences = occurrences
+                    latestRoutineOccurrences = occurrences
+                    renderTaskSections()
+                }
+            }
+        }
+    }
+
+    private fun observeMedications() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                medicationViewModel.medicationsForToday.collect { occurrences ->
+                    latestMedicationOccurrences = occurrences
+                    renderTaskSections()
+                }
+            }
+        }
+    }
+
+    private fun observeAppointments() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                appointmentViewModel.upcomingAppointments.collect { appointments ->
+                    latestAppointments = appointments
                     renderTaskSections()
                 }
             }
@@ -126,6 +209,11 @@ class DelegateTaskFragment : Fragment() {
             }
         }
     }
+
+    private fun allTasks(): List<DelegateTask> =
+        latestRoutineOccurrences.map { DelegateTask.RoutineTask(it) } +
+                latestMedicationOccurrences.map { DelegateTask.MedicationTask(it) } +
+                latestAppointments.map { DelegateTask.AppointmentTask(it) }
 
     private fun renderPetList() {
         binding.petListContainer.removeAllViews()
@@ -152,10 +240,10 @@ class DelegateTaskFragment : Fragment() {
     private fun renderTaskSections() {
         binding.taskSectionsContainer.removeAllViews()
 
-        val relevantOccurrences = latestOccurrences.filter { it.routine.petId in selectedPetIds }
-        val byPet = relevantOccurrences.groupBy { it.routine.petId }
+        val relevantTasks = allTasks().filter { it.petId in selectedPetIds }
+        val byPet = relevantTasks.groupBy { it.petId }
 
-        byPet.forEach { (petId, occurrences) ->
+        byPet.forEach { (petId, tasks) ->
             val petName = latestPets.firstOrNull { it.id == petId }?.name ?: ""
 
             val header = TextView(requireContext()).apply {
@@ -167,30 +255,27 @@ class DelegateTaskFragment : Fragment() {
             }
             binding.taskSectionsContainer.addView(header)
 
-            val card = android.widget.LinearLayout(requireContext()).apply {
-                orientation = android.widget.LinearLayout.VERTICAL
+            val card = LinearLayout(requireContext()).apply {
+                orientation = LinearLayout.VERTICAL
                 setBackgroundResource(R.drawable.card_stroke_unselected)
                 setPadding(28, 20, 28, 20)
-                val params = android.widget.LinearLayout.LayoutParams(
-                    android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
-                    android.widget.LinearLayout.LayoutParams.WRAP_CONTENT
+                val params = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
                 )
                 params.bottomMargin = 20
                 layoutParams = params
             }
 
-            occurrences.forEach { occurrence ->
+            tasks.forEach { task ->
                 val row = ItemRoutineBinding.inflate(layoutInflater, card, false)
-                row.tvRoutineTitle.text = occurrence.routine.taskName
-                row.tvRoutineSubtitle.text = occurrence.routine.durationMinutes
-                    ?.let { "$it minutes" }
-                    ?: occurrence.routine.taskType
-                row.tvRoutineTime.text = formatTime(occurrence.routine.time)
+                row.tvRoutineTitle.text = task.title
+                row.tvRoutineSubtitle.text = task.subtitle
+                row.tvRoutineTime.text = formatTime(task.time)
                 row.cbDone.setOnCheckedChangeListener(null)
-                row.cbDone.isChecked = selectedRoutineIds.contains(occurrence.routine.id)
+                row.cbDone.isChecked = selectedTasks.contains(task)
                 row.cbDone.setOnCheckedChangeListener { _, isChecked ->
-                    if (isChecked) selectedRoutineIds.add(occurrence.routine.id)
-                    else selectedRoutineIds.remove(occurrence.routine.id)
+                    if (isChecked) selectedTasks.add(task) else selectedTasks.remove(task)
                     updateDefaultMessage()
                 }
                 card.addView(row.root)
@@ -224,7 +309,7 @@ class DelegateTaskFragment : Fragment() {
         }
     }
 
-    private fun bindSelectable(row: View, checkbox: android.widget.CheckBox, isSelected: Boolean) {
+    private fun bindSelectable(row: View, checkbox: CheckBox, isSelected: Boolean) {
         checkbox.isChecked = isSelected
         row.setBackgroundResource(
             if (isSelected) R.drawable.card_stroke_selected else R.drawable.card_stroke_unselected
@@ -239,13 +324,12 @@ class DelegateTaskFragment : Fragment() {
     }
 
     private fun updateDefaultMessage() {
-        val selected = latestOccurrences.filter { it.routine.id in selectedRoutineIds }
-        val newDefault = if (selected.isEmpty()) {
+        val newDefault = if (selectedTasks.isEmpty()) {
             ""
         } else {
-            val petName = latestPets.firstOrNull { it.id == selected.first().routine.petId }?.name ?: ""
-            val taskList = selected.joinToString(", ") {
-                "${it.routine.taskName} (${formatTime(it.routine.time)})"
+            val petName = latestPets.firstOrNull { it.id == selectedTasks.first().petId }?.name ?: ""
+            val taskList = selectedTasks.joinToString(", ") {
+                "${it.title} (${formatTime(it.time)})"
             }
             "Hi! Could you help with $petName's care today: $taskList? Thanks!"
         }
@@ -279,7 +363,7 @@ class DelegateTaskFragment : Fragment() {
     }
 
     private fun sendViaSms() {
-        if (selectedRoutineIds.isEmpty()) {
+        if (selectedTasks.isEmpty()) {
             Toast.makeText(requireContext(), "Select at least one task to delegate", Toast.LENGTH_SHORT).show()
             return
         }
