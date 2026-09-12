@@ -78,7 +78,7 @@ class MapFragment : Fragment() {
             findNavController().navigate(R.id.action_map_to_addLocation)
         }
         binding.ivViewAllPlaces.setOnClickListener {
-            // TODO: navigate to Saved Places list once that screen exists (step 9.5)
+            findNavController().navigate(R.id.action_map_to_savedPlaces)
         }
 
         binding.mapView.getMapAsync { map ->
@@ -91,6 +91,13 @@ class MapFragment : Fragment() {
                 observePlaces(style)
             }
         }
+
+        findNavController().currentBackStackEntry
+            ?.savedStateHandle
+            ?.getLiveData<DoubleArray>(SavedPlacesListFragment.FOCUS_LAT_LNG_KEY)
+            ?.observe(viewLifecycleOwner) { latLng ->
+                moveCamera(latLng[0], latLng[1])
+            }
     }
 
     private fun addMarkerImage(style: Style) {

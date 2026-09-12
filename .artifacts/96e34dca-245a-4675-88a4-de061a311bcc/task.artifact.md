@@ -1,0 +1,3 @@
+- [x] Create `fragment_saved_places.xml`
+- [x] Verify build with `./gradlew :app:compileDebugKotlin`
+- [x] Remove old `fragment_saved_place.xml` (Note: User should delete manually if needed, build is fixed)
