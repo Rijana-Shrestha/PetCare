@@ -101,13 +101,17 @@
 
     <fragment
         android:id="@+id/findPlaceholderFragment"
-        android:name="com.rijana.petcare.ui.home.PlaceholderFragment"
+        android:name="com.rijana.petcare.ui.map.MapFragment"
         android:label="Find">
-        <argument
-            android:name="arg_title"
-            app:argType="string"
-            android:defaultValue="Find — coming soon" />
+        <action
+            android:id="@+id/action_map_to_addLocation"
+            app:destination="@id/addLocationFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/addLocationFragment"
+        android:name="com.rijana.petcare.ui.map.AddLocationFragment"
+        android:label="Add Location" />
 
     <fragment
         android:id="@+id/profilePlaceholderFragment"

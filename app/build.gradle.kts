@@ -1,3 +1,12 @@
+import java.util.Properties
+import java.io.FileInputStream
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(FileInputStream(localPropertiesFile))
+}
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.ksp)
@@ -14,6 +23,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     defaultConfig {
@@ -24,6 +34,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "MAPTILER_API_KEY", "\"${localProperties.getProperty("MAPTILER_API_KEY") ?: ""}\"")
     }
 
     buildTypes {
@@ -83,6 +94,14 @@ dependencies {
 
     // Maps + Location (geotagging)
     implementation(libs.play.services.maps)
+
+    // Maps (geotagging) - MapLibre instead of Google Maps, no billing account required
+    implementation(libs.maplibre)
     implementation(libs.play.services.location)
+    implementation(libs.okhttp)
+
+// Networking (Nominatim geocoding/search)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
 }
 

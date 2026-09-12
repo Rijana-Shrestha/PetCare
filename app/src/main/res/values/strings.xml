@@ -166,4 +166,14 @@
     <string name="amount">Amount</string>
     <string name="save_expense">Save expense</string>
     <string name="please_select_a_pet">Please select a pet</string>
+
+<!--    Find-->
+    <string name="saved_places">Saved Places</string>
+    <string name="no_address_saved">No address saved</string>
+    <string name="add_location">Add Location</string>
+    <string name="search_place">Search for a place</string>
+    <string name="location_name">Location name</string>
+    <string name="selected_address">Selected address</string>
+    <string name="save_location">Save Location</string>
+    <string name="please_enter_a_name">Please enter a name</string>
 </resources>
