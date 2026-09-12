@@ -101,14 +101,7 @@ class RoutineViewModel(
     }
 
     companion object {
-        fun startOfDay(millis: Long): Long =
-            Calendar.getInstance().apply {
-                timeInMillis = millis
-                set(Calendar.HOUR_OF_DAY, 0)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-            }.timeInMillis
+        fun startOfDay(millis: Long): Long = com.rijana.petcare.util.DateUtils.startOfDay(millis)
 
         private fun occursOn(routine: Routine, dateMillis: Long): Boolean {
             if (dateMillis < startOfDay(routine.startDate)) return false

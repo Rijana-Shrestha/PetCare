@@ -18,6 +18,9 @@ import com.rijana.petcare.data.repository.ExpenseRepository
 import com.rijana.petcare.data.repository.PetRepository
 import com.rijana.petcare.data.repository.RoutineRepository
 import com.rijana.petcare.data.repository.UserRepository
+import com.rijana.petcare.data.repository.MedicationRepository
+import com.rijana.petcare.data.repository.VetAppointmentRepository
+import com.rijana.petcare.data.repository.GroomingAppointmentRepository
 import com.rijana.petcare.databinding.FragmentHomeDashboardBinding
 import com.rijana.petcare.ui.care.RoutineAdapter
 import com.rijana.petcare.ui.care.RoutineListItem
@@ -29,6 +32,10 @@ import com.rijana.petcare.viewmodel.PetViewModel
 import com.rijana.petcare.viewmodel.PetViewModelFactory
 import com.rijana.petcare.viewmodel.RoutineViewModel
 import com.rijana.petcare.viewmodel.RoutineViewModelFactory
+import com.rijana.petcare.viewmodel.MedicationViewModel
+import com.rijana.petcare.viewmodel.MedicationViewModelFactory
+import com.rijana.petcare.viewmodel.AppointmentViewModel
+import com.rijana.petcare.viewmodel.AppointmentViewModelFactory
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
@@ -43,6 +50,10 @@ class HomeDashboardFragment : Fragment() {
     private lateinit var homePetAdapter: HomePetAdapter
     private lateinit var todaysCareAdapter: RoutineAdapter
     private lateinit var expenseAdapter: ExpenseAdapter
+
+    private lateinit var medicationTodayAdapter: MedicationTodayAdapter
+
+    private lateinit var upcomingAdapter: UpcomingAppointmentAdapter
 
     private var hasPets = false
 
@@ -65,9 +76,27 @@ class HomeDashboardFragment : Fragment() {
         RoutineViewModelFactory(routineRepository, userRepository)
     }
 
+
     private val expenseViewModel: ExpenseViewModel by viewModels {
         val app = requireActivity().application as PetCareApplication
         ExpenseViewModelFactory(ExpenseRepository(app.database.expenseDao()), userRepository)
+    }
+
+    private val medicationViewModel: MedicationViewModel by viewModels {
+        val app = requireActivity().application as PetCareApplication
+        MedicationViewModelFactory(
+            MedicationRepository(app.database.medicationDao(), app.database.medicationCompletionDao()),
+            userRepository
+        )
+    }
+
+    private val appointmentViewModel: AppointmentViewModel by viewModels {
+        val app = requireActivity().application as PetCareApplication
+        AppointmentViewModelFactory(
+            VetAppointmentRepository(app.database.vetAppointmentDao()),
+            GroomingAppointmentRepository(app.database.groomingAppointmentDao()),
+            userRepository
+        )
     }
 
     override fun onCreateView(
@@ -92,6 +121,14 @@ class HomeDashboardFragment : Fragment() {
         binding.rvTodaysCare.layoutManager = LinearLayoutManager(requireContext())
         binding.rvTodaysCare.adapter = todaysCareAdapter
 
+        medicationTodayAdapter = MedicationTodayAdapter { occurrence -> medicationViewModel.toggleComplete(occurrence) }
+        binding.rvTodaysMedication.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvTodaysMedication.adapter = medicationTodayAdapter
+
+        upcomingAdapter = UpcomingAppointmentAdapter()
+        binding.rvUpcoming.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvUpcoming.adapter = upcomingAdapter
+
         expenseAdapter = ExpenseAdapter()
         binding.expensesCard.rvRecentExpenses.layoutManager = LinearLayoutManager(requireContext())
         binding.expensesCard.rvRecentExpenses.adapter = expenseAdapter
@@ -110,6 +147,8 @@ class HomeDashboardFragment : Fragment() {
         observeGreeting()
         observePets()
         observeTodaysCare()
+        observeTodaysMedication()
+        observeUpcoming()
         observeExpenses()
     }
 
@@ -158,6 +197,40 @@ class HomeDashboardFragment : Fragment() {
                     hasTodaysCareItems = items.isNotEmpty()
                     binding.cardNoRoutines.visibility = if (hasTodaysCareItems) View.GONE else View.VISIBLE
                     binding.rvTodaysCare.visibility = if (hasTodaysCareItems) View.VISIBLE else View.GONE
+                }
+            }
+        }
+    }
+
+    private fun observeTodaysMedication() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                combine(petViewModel.pets, medicationViewModel.medicationsForToday) { pets, occurrences ->
+                    val petNamesById = pets.associate { it.id to it.name }
+                    occurrences.map { occ ->
+                        MedicationTodayItem(occ, petNamesById[occ.medication.petId] ?: "")
+                    }
+                }.collect { items ->
+                    medicationTodayAdapter.submitList(items)
+                    val hasItems = items.isNotEmpty()
+                    binding.cardNoMedication.visibility = if (hasItems) View.GONE else View.VISIBLE
+                    binding.rvTodaysMedication.visibility = if (hasItems) View.VISIBLE else View.GONE
+                }
+            }
+        }
+    }
+
+    private fun observeUpcoming() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                combine(petViewModel.pets, appointmentViewModel.upcomingAppointments) { pets, appts ->
+                    val petNamesById = pets.associate { it.id to it.name }
+                    appts.map { appt -> UpcomingListItem(appt, petNamesById[appt.petId] ?: "") }
+                }.collect { items ->
+                    upcomingAdapter.submitList(items)
+                    val hasItems = items.isNotEmpty()
+                    binding.cardNoUpcoming.visibility = if (hasItems) View.GONE else View.VISIBLE
+                    binding.rvUpcoming.visibility = if (hasItems) View.VISIBLE else View.GONE
                 }
             }
         }

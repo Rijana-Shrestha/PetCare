@@ -56,7 +56,10 @@ class AddMedicationFragment : Fragment() {
 
     private val medicationViewModel: MedicationViewModel by viewModels {
         val app = requireActivity().application as PetCareApplication
-        MedicationViewModelFactory(MedicationRepository(app.database.medicationDao()), userRepository)
+        MedicationViewModelFactory(
+            MedicationRepository(app.database.medicationDao(), app.database.medicationCompletionDao()),
+            userRepository
+        )
     }
 
     override fun onCreateView(

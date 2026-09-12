@@ -51,6 +51,10 @@
     <string name="todays_care">Today\'s Care</string>
     <string name="no_routines_yet">No routines yet</string>
     <string name="no_routines_subtitle">Add a pet and create care routines to get started.</string>
+    <string name="todays_medication">Today\'s Medication</string>
+    <string name="upcoming_appointment">Upcoming Appointments</string>
+    <string name="no_medication_today">No medication due today</string>
+    <string name="no_upcoming_appointments">No upcoming appointments</string>
 
 <!--    Pets-->
     <!-- Add Pet -->
