@@ -127,7 +127,7 @@
 
     </LinearLayout>
 
-    <!-- Next -->
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnNext"
         android:layout_width="0dp"
