@@ -60,10 +60,12 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="true"
-            android:text="Routines"
+            android:text="@string/routines"
             android:textAllCaps="false"
             android:textSize="12sp"
-            app:strokeColor="@color/color_primary" />
+            android:textColor="@color/gender_button_text_selector"
+            app:backgroundTint="@color/gender_button_background_selector"
+            app:strokeColor="@color/gender_button_stroke_selector" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnMedicationTab"
@@ -71,10 +73,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Medication"
+            android:text="@string/medication"
             android:textAllCaps="false"
             android:textSize="12sp"
-            app:strokeColor="@color/color_primary" />
+            android:textColor="@color/gender_button_text_selector"
+            app:backgroundTint="@color/gender_button_background_selector"
+            app:strokeColor="@color/gender_button_stroke_selector" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnVetGroomingTab"
@@ -82,10 +86,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Vet and Grooming"
+            android:text="@string/vet_grooming"
             android:textAllCaps="false"
             android:textSize="11sp"
-            app:strokeColor="@color/color_primary" />
+            android:textColor="@color/gender_button_text_selector"
+            app:backgroundTint="@color/gender_button_background_selector"
+            app:strokeColor="@color/gender_button_stroke_selector" />
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
 

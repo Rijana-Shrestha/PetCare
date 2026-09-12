@@ -137,6 +137,9 @@
     <string name="share_routine">Share Routine</string>
     <string name="share_medication">Share Medication</string>
     <string name="share_appointment">Share Appointment</string>
+    <string name="vet_grooming">Vet and Grooming</string>
+    <string name="medication">Medication</string>
+    <string name="routines">Routines</string>
 
 
 <!--    Profile-->

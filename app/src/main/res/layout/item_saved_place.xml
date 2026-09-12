@@ -21,8 +21,6 @@
         android:padding="9dp"
         android:background="@drawable/ic_map_pin"
         android:backgroundTint="@color/color_primary"
-        android:src="@drawable/ic_map_pin"
-        app:tint="@color/color_white"
         android:contentDescription="@null"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
