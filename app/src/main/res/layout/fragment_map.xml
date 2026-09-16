@@ -7,19 +7,22 @@
     android:layout_height="match_parent"
     android:background="@color/color_background">
 
+
     <TextView
         android:id="@+id/tvMapTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="24dp"
+        android:gravity="center"
         android:text="@string/saved_places"
+        android:textColor="@color/text_primary"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="@color/text_primary"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/ivViewAllPlaces" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ivViewAllPlaces"  />
 
     <ImageView
         android:id="@+id/ivViewAllPlaces"
