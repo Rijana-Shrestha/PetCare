@@ -57,12 +57,16 @@ class EditProfileFragment : Fragment() {
 
         binding.ivBack.setOnClickListener { findNavController().popBackStack() }
 
+        val photoPickerRequest = androidx.activity.result.PickVisualMediaRequest(
+            ActivityResultContracts.PickVisualMedia.ImageOnly
+        )
+
         binding.photoFrame.setOnClickListener {
-            pickPhotoLauncher.launch(
-                androidx.activity.result.PickVisualMediaRequest(
-                    ActivityResultContracts.PickVisualMedia.ImageOnly
-                )
-            )
+            pickPhotoLauncher.launch(photoPickerRequest)
+        }
+
+        binding.tvChangeProfile.setOnClickListener {
+            pickPhotoLauncher.launch(photoPickerRequest)
         }
 
         binding.btnSaveChanges.setOnClickListener { saveChanges() }

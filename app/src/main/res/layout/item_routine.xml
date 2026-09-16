@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
+    android:paddingBottom="8dp"
     android:background="@drawable/card_white_rounded"
     android:padding="10dp">
 
@@ -50,6 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginRight="10dp"
         android:textSize="12sp"
         android:textColor="@color/text_secondary"
         tools:text="Today 8:00 AM"

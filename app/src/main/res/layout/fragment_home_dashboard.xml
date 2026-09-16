@@ -16,8 +16,8 @@
         <!-- Top bar -->
         <ImageView
             android:id="@+id/ivMenu"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="24dp"
             android:src="@drawable/ic_menu"
@@ -42,8 +42,8 @@
 
         <ImageView
             android:id="@+id/ivNotification"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:layout_marginEnd="20dp"
             android:src="@drawable/ic_notification"
             android:contentDescription="@null"

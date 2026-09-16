@@ -69,12 +69,14 @@
                     android:contentDescription="@null" />
 
                 <ImageView
+                    android:id="@+id/ivCameraIcon"
                     android:layout_width="26dp"
                     android:layout_height="26dp"
-                    android:layout_gravity="bottom|end"
+                    android:layout_gravity="center"
                     android:src="@drawable/ic_add"
-                    app:tint="@color/color_primary"
+                    app:tint="@color/color_black"
                     android:contentDescription="@null" />
+
             </FrameLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -83,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Change Profile"
+            android:text="@string/change_profile"
             android:textSize="13sp"
             android:textStyle="bold"
             android:textColor="@color/text_primary"
@@ -99,7 +101,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="20dp"
-            android:text="Full Name:"
+            android:text="@string/full_name"
             android:textSize="14sp"
             android:textColor="@color/text_primary"
             app:layout_constraintTop_toBottomOf="@id/tvChangeProfile"
@@ -163,7 +165,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="18dp"
             android:layout_marginEnd="20dp"
-            android:text="Phone Number (Optional):"
+            android:text="@string/phone_number"
             android:textSize="14sp"
             android:textColor="@color/text_primary"
             app:layout_constraintTop_toBottomOf="@id/etEmail"
@@ -195,7 +197,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="18dp"
             android:layout_marginEnd="20dp"
-            android:text="Address:"
+            android:text="@string/address"
             android:textSize="14sp"
             android:textColor="@color/text_primary"
             app:layout_constraintTop_toBottomOf="@id/etPhone"

@@ -146,7 +146,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvBasicInfo"
-                app:strokeColor="#7ECEE0"
+                app:strokeColor="#17778E"
                 app:strokeWidth="1.5dp">
 
                 <LinearLayout
@@ -393,7 +393,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvOthers"
-                app:strokeColor="#7ECEE0"
+                app:strokeColor="#17778E"
                 app:strokeWidth="1.5dp">
 
                 <LinearLayout

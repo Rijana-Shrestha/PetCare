@@ -148,6 +148,7 @@
     <string name="vet_grooming">Vet and Grooming</string>
     <string name="medication">Medication</string>
     <string name="routines">Routines</string>
+    <string name="message">Message (Optional)</string>
 
 
 <!--    Profile-->
@@ -159,6 +160,9 @@
     <string name="view_all">View All</string>
     <string name="no_expenses_yet">No expenses yet</string>
     <string name="add_expenses">Add Expenses</string>
+    <string name="change_profile">Change Profile</string>
+    <string name="phone_number">Phone Number (Optional):</string>
+    <string name="address">Address:</string>
 
     <!-- Account Settings Section -->
     <string name="account_settings">Account Settings</string>
