@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -29,6 +31,15 @@ class HomeFragment : Fragment() {
         val navController = navHostFragment.navController
 
         binding.bottomNavigation.setupWithNavController(navController)
+
+        // The nav bar's own white background extends into the system bar's
+        // reserved area, instead of leaving a gap - only its CONTENT (icons,
+        // labels) gets pushed up above the system buttons.
+        ViewCompat.setOnApplyWindowInsetsListener(binding.bottomNavigation) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, systemBars.bottom)
+            insets
+        }
     }
 
     override fun onDestroyView() {
