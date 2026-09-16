@@ -95,6 +95,7 @@
 <!--    Care/Schedule-->
     <string name="care">Care</string>
     <string name="add_routine">+ Add Routine</string>
+    <string name="routine">Add Routine</string>
     <string name="coming_soon">Coming soon</string>
     <string name="add_routine_for">Add routine for</string>
     <string name="routine_details">Routine Details</string>
@@ -113,6 +114,7 @@
 
 <!--    Medication-->
     <string name="add_medication">+ Add Medication</string>
+    <string name="med">Add Medication</string>
     <string name="completed">Completed</string>
     <string name="ongoing">Ongoing</string>
     <string name="days_left">%1$d days left</string>
@@ -129,6 +131,7 @@
     <string name="veterinary_care">Veterinary Care</string>
     <string name="grooming">Grooming</string>
     <string name="add_appointment">+ Add Appointment</string>
+    <string name="appointment">Add Appointment</string>
     <string name="upcoming">Upcoming</string>
     <string name="add_vet_appointment">+ Add Vet Appointment</string>
     <string name="add_grooming_appointment">+ Add Grooming Appointment</string>

@@ -133,7 +133,6 @@
             android:id="@+id/btnAddNewContact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
             android:layout_marginTop="4dp"
             android:text="+ Add New Contact"
             android:textAllCaps="false"
@@ -142,7 +141,8 @@
             app:backgroundTint="@color/color_primary"
             app:cornerRadius="20dp"
             app:layout_constraintTop_toBottomOf="@id/contactListContainer"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <!-- Message -->
         <TextView
@@ -168,6 +168,7 @@
             android:background="@color/color_secondary_background"
             android:gravity="top|start"
             android:inputType="textMultiLine"
+            android:textColor="@color/text_primary"
             android:padding="12dp"
             android:textSize="13sp"
             app:layout_constraintTop_toBottomOf="@id/tvMessageLabel"
