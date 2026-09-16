@@ -44,11 +44,14 @@ class SignInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+        // The layout is now a scrollable NestedScrollView. Adding bottom
+        // padding equal to the keyboard's height gives it "room" below the
+        // last field to scroll into - Android then automatically scrolls
+        // whichever field is focused into view, without moving anything
+        // that's already visible above the keyboard.
+        ViewCompat.setOnApplyWindowInsetsListener(binding.scrollView) { v, insets ->
             val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            val overlap = (imeInsets.bottom - systemBars.bottom).coerceAtLeast(0)
-            v.translationY = -overlap.toFloat()
+            v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, imeInsets.bottom)
             insets
         }
 

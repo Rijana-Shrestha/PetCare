@@ -109,6 +109,9 @@
         <action
             android:id="@+id/action_map_to_savedPlaces"
             app:destination="@id/savedPlacesListFragment" />
+        <action
+            android:id="@+id/action_map_to_search"
+            app:destination="@id/searchPlaceFragment" />
     </fragment>
 
     <fragment
@@ -120,6 +123,11 @@
         android:id="@+id/savedPlacesListFragment"
         android:name="com.rijana.petcare.ui.map.SavedPlacesListFragment"
         android:label="Saved Places" />
+
+    <fragment
+        android:id="@+id/searchPlaceFragment"
+        android:name="com.rijana.petcare.ui.map.SearchPlaceFragment"
+        android:label="Search" />
 
     <fragment
         android:id="@+id/profilePlaceholderFragment"

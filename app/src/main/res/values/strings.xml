@@ -184,4 +184,6 @@
     <string name="save_location">Save Location</string>
     <string name="please_enter_a_name">Please enter a name</string>
     <string name="no_saved_places_yet">No saved places yet. Tap the map to add one.</string>
+    <string name="search_hint">Search places</string>
+    <string name="saved_to_places">Saved to your places</string>
 </resources>

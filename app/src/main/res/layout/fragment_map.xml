@@ -8,33 +8,46 @@
     android:background="@color/color_background">
 
 
+    <ImageView
+        android:id="@+id/ivViewAllPlaces"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/ic_bookmark_outline"
+        android:contentDescription="@null"
+        android:clickable="true"
+        android:focusable="true"
+        app:tint="@color/color_black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/tvMapTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="24dp"
         android:gravity="center"
         android:text="@string/saved_places"
         android:textColor="@color/text_primary"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/ivViewAllPlaces"  />
+        app:layout_constraintTop_toTopOf="@id/ivViewAllPlaces"
+        app:layout_constraintBottom_toBottomOf="@id/ivViewAllPlaces"
+        app:layout_constraintStart_toEndOf="@id/ivViewAllPlaces"
+        app:layout_constraintEnd_toStartOf="@id/ivSearch" />
 
     <ImageView
-        android:id="@+id/ivViewAllPlaces"
+        android:id="@+id/ivSearch"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginEnd="20dp"
-        android:src="@drawable/ic_menu"
+        android:src="@drawable/ic_search"
         android:contentDescription="@null"
         android:clickable="true"
         android:focusable="true"
-        app:layout_constraintTop_toTopOf="@id/tvMapTitle"
-        app:layout_constraintBottom_toBottomOf="@id/tvMapTitle"
+        app:tint="@color/color_black"
+        app:layout_constraintTop_toTopOf="@id/ivViewAllPlaces"
+        app:layout_constraintBottom_toBottomOf="@id/ivViewAllPlaces"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <org.maplibre.android.maps.MapView

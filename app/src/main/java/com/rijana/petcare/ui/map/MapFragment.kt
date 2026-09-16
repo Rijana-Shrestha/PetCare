@@ -77,6 +77,9 @@ class MapFragment : Fragment() {
         binding.fabAddLocation.setOnClickListener {
             findNavController().navigate(R.id.action_map_to_addLocation)
         }
+        binding.ivSearch.setOnClickListener {
+            findNavController().navigate(R.id.action_map_to_search)
+        }
         binding.ivViewAllPlaces.setOnClickListener {
             findNavController().navigate(R.id.action_map_to_savedPlaces)
         }
