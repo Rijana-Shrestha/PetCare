@@ -167,8 +167,9 @@
                         <EditText
                             android:id="@+id/etPetName"
                             android:layout_width="180dp"
-                            android:layout_height="40dp"
+                            android:layout_height="34dp"
                             android:background="@drawable/outlined_border"
+                            android:textColor="@color/text_primary"
                             android:inputType="textCapWords"
                             android:paddingStart="10dp"
                             android:paddingEnd="10dp"
@@ -195,12 +196,13 @@
                         <AutoCompleteTextView
                             android:id="@+id/actvPetType"
                             android:layout_width="180dp"
-                            android:layout_height="40dp"
+                            android:layout_height="34dp"
                             android:background="@drawable/outlined_border"
                             android:drawableEnd="@drawable/ic_chevron_right"
+                            android:textColor="@color/text_primary"
                             android:inputType="none"
                             android:paddingStart="10dp"
-                            android:paddingEnd="10dp"
+                            android:paddingEnd="6dp"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -224,9 +226,10 @@
                         <EditText
                             android:id="@+id/etBreed"
                             android:layout_width="180dp"
-                            android:layout_height="40dp"
+                            android:layout_height="34dp"
                             android:background="@drawable/outlined_border"
                             android:inputType="textCapWords"
+                            android:textColor="@color/text_primary"
                             android:paddingStart="10dp"
                             android:paddingEnd="10dp"
                             android:textSize="14sp" />
@@ -252,10 +255,11 @@
                         <EditText
                             android:id="@+id/etDateOfBirth"
                             android:layout_width="180dp"
-                            android:layout_height="40dp"
+                            android:layout_height="34dp"
                             android:background="@drawable/outlined_border"
                             android:drawableStart="@drawable/ic_nav_schedule"
                             android:drawablePadding="6dp"
+                            android:textColor="@color/text_primary"
                             android:clickable="true"
                             android:focusable="false"
                             android:paddingStart="10dp"
@@ -299,7 +303,7 @@
                                 android:text="@string/male"
                                 android:textAllCaps="false"
                                 android:textColor="@color/gender_button_text_selector"
-                                android:textSize="16sp"
+                                android:textSize="14sp"
                                 app:backgroundTint="@color/gender_button_background_selector"
                                 app:strokeColor="@color/gender_button_stroke_selector"
                                 app:strokeWidth="2.5dp" />
@@ -314,7 +318,7 @@
                                 android:text="@string/female"
                                 android:textAllCaps="false"
                                 android:textColor="@color/gender_button_text_selector"
-                                android:textSize="16sp"
+                                android:textSize="14sp"
                                 app:backgroundTint="@color/gender_button_background_selector"
                                 app:strokeColor="@color/gender_button_stroke_selector"
                                 app:strokeWidth="2.5dp" />
@@ -341,9 +345,10 @@
                         <EditText
                             android:id="@+id/etWeight"
                             android:layout_width="180dp"
-                            android:layout_height="40dp"
+                            android:layout_height="34dp"
                             android:background="@drawable/outlined_border"
                             android:inputType="numberDecimal"
+                            android:textColor="@color/text_primary"
                             android:paddingStart="10dp"
                             android:paddingEnd="10dp"
                             android:textSize="14sp" />
@@ -409,8 +414,9 @@
                         <EditText
                             android:id="@+id/etDietaryPreference"
                             android:layout_width="180dp"
-                            android:layout_height="40dp"
+                            android:layout_height="34dp"
                             android:background="@drawable/outlined_border"
+                            android:textColor="@color/text_primary"
                             android:paddingStart="10dp"
                             android:paddingEnd="10dp"
                             android:textSize="14sp" />
@@ -436,8 +442,9 @@
                         <EditText
                             android:id="@+id/etAllergies"
                             android:layout_width="180dp"
-                            android:layout_height="40dp"
+                            android:layout_height="34dp"
                             android:background="@drawable/outlined_border"
+                            android:textColor="@color/text_primary"
                             android:paddingStart="10dp"
                             android:paddingEnd="10dp"
                             android:textSize="14sp" />
@@ -463,8 +470,9 @@
                         <EditText
                             android:id="@+id/etFavoriteToy"
                             android:layout_width="180dp"
-                            android:layout_height="40dp"
+                            android:layout_height="34dp"
                             android:background="@drawable/outlined_border"
+                            android:textColor="@color/text_primary"
                             android:paddingStart="10dp"
                             android:paddingEnd="10dp"
                             android:textSize="14sp" />
@@ -490,8 +498,9 @@
                         <EditText
                             android:id="@+id/etNote"
                             android:layout_width="180dp"
-                            android:layout_height="40dp"
+                            android:layout_height="34dp"
                             android:background="@drawable/outlined_border"
+                            android:textColor="@color/text_primary"
                             android:gravity="center_vertical"
                             android:inputType="textMultiLine"
                             android:paddingStart="10dp"
@@ -509,7 +518,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSaveChanges"
         android:layout_width="0dp"
-        android:layout_height="52dp"
+        android:layout_height="50dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="16dp"
