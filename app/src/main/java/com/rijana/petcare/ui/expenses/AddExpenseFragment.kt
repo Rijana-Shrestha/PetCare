@@ -86,8 +86,10 @@ class AddExpenseFragment : Fragment() {
         radioIdToPetId.clear()
         pets.forEach { pet ->
             val radioButton = RadioButton(requireContext()).apply {
-                text = pet.name
                 id = View.generateViewId()
+                text = pet.name
+                setTextColor(requireContext().getColor(R.color.text_primary))
+                textSize = 14f
             }
             radioIdToPetId[radioButton.id] = pet.id
             binding.petRadioGroup.addView(radioButton)

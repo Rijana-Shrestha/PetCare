@@ -43,6 +43,7 @@
         android:contentDescription="@null"
         android:clickable="true"
         android:focusable="true"
+        app:tint = "@color/color_black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
