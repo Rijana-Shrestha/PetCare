@@ -64,9 +64,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/total_this_month"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="22dp"
             android:textSize="15sp"
             android:textStyle="bold"
-            android:layout_marginStart="20dp"
             android:textColor="@color/color_primary"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
