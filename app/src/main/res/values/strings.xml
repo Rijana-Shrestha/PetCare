@@ -91,6 +91,7 @@
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
     <string name="edit_pet">Edit Pet</string>
+    <string name="save_changes">Save Changes</string>
 
 <!--    Care/Schedule-->
     <string name="care">Care</string>

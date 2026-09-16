@@ -389,11 +389,13 @@ class DelegateTaskFragment : Fragment() {
             val row = ItemDelegateContactBinding.inflate(layoutInflater, binding.contactListContainer, false)
             row.tvContactName.text = contact.name
             row.tvContactPhone.text = contact.phoneNumber
-            Glide.with(row.ivContactAvatar)
-                .load(contact.profileImageUri)
-                .placeholder(R.drawable.circle_avatar_placeholder)
-                .circleCrop()
-                .into(row.ivContactAvatar)
+            row.tvContactAvatar.text = contact.name.take(1).uppercase()
+            row.tvContactAvatar.background.setTint(avatarColorFor(contact.name))
+//            Glide.with(row.ivContactAvatar)
+//                .load(contact.profileImageUri)
+//                .placeholder(R.drawable.circle_avatar_placeholder)
+//                .circleCrop()
+//                .into(row.ivContactAvatar)
             bindSelectable(row.root, row.cbContactSelected, selectedContactIds.contains(contact.id))
 
             row.root.setOnClickListener {
@@ -410,6 +412,17 @@ class DelegateTaskFragment : Fragment() {
         row.setBackgroundResource(
             if (isSelected) R.drawable.card_stroke_selected else R.drawable.card_stroke_unselected
         )
+    }
+
+    private fun avatarColorFor(name: String): Int {
+        val palette = listOf(
+            android.graphics.Color.parseColor("#1D95B1"),
+            android.graphics.Color.parseColor("#F2A623"),
+            android.graphics.Color.parseColor("#1D9E75"),
+            android.graphics.Color.parseColor("#D14520"),
+            android.graphics.Color.parseColor("#7B61FF")
+        )
+        return palette[Math.abs(name.hashCode()) % palette.size]
     }
 
     private fun formatTime(rawTime: String): String = try {

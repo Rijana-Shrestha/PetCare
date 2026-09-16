@@ -11,12 +11,16 @@
     android:clickable="true"
     android:focusable="true">
 
-    <ImageView
-        android:id="@+id/ivContactAvatar"
+    <TextView
+        android:id="@+id/tvContactAvatar"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:background="@drawable/circle_avatar_placeholder"
-        android:contentDescription="@null"
+        android:background="@drawable/bg_category_circle"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/color_white"
+        android:textSize="14sp"
+        tools:text="S"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -30,8 +34,8 @@
         android:textStyle="bold"
         android:textColor="@color/text_primary"
         tools:text="Sarah Johnson"
-        app:layout_constraintTop_toTopOf="@id/ivContactAvatar"
-        app:layout_constraintStart_toEndOf="@id/ivContactAvatar"
+        app:layout_constraintTop_toTopOf="@id/tvContactAvatar"
+        app:layout_constraintStart_toEndOf="@id/tvContactAvatar"
         app:layout_constraintEnd_toStartOf="@id/cbContactSelected" />
 
     <TextView
@@ -44,7 +48,7 @@
         android:textColor="@color/text_secondary"
         tools:text="+977 9876538901"
         app:layout_constraintTop_toBottomOf="@id/tvContactName"
-        app:layout_constraintStart_toEndOf="@id/ivContactAvatar"
+        app:layout_constraintStart_toEndOf="@id/tvContactAvatar"
         app:layout_constraintEnd_toStartOf="@id/cbContactSelected" />
 
     <CheckBox

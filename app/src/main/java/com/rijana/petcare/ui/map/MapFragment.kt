@@ -38,6 +38,9 @@ import org.maplibre.android.utils.BitmapUtils
 import org.maplibre.geojson.Feature
 import org.maplibre.geojson.FeatureCollection
 import org.maplibre.geojson.Point
+import org.maplibre.android.location.LocationComponentActivationOptions
+import org.maplibre.android.location.modes.CameraMode
+import org.maplibre.android.location.modes.RenderMode
 
 class MapFragment : Fragment() {
 
@@ -46,6 +49,8 @@ class MapFragment : Fragment() {
 
     private lateinit var maplibreMap: MapLibreMap
     private var currentPlaces: List<SavedPlace> = emptyList()
+
+    private var mapStyle: Style? = null
 
     private val userRepository by lazy {
         val app = requireActivity().application as PetCareApplication
@@ -59,7 +64,10 @@ class MapFragment : Fragment() {
 
     private val requestLocationPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-            if (granted) centerOnCurrentLocation()
+            if (granted) {
+                centerOnCurrentLocation()
+                mapStyle?.let { enableLocationComponent(it) }
+            }
         }
 
     override fun onCreateView(
@@ -99,6 +107,7 @@ class MapFragment : Fragment() {
                 setupMapClickListener(map)
                 requestLocationOrFallback()
                 observePlaces(style)
+                enableLocationComponent(style)
             }
         }
 
@@ -200,6 +209,21 @@ class MapFragment : Fragment() {
                     moveCamera(DEFAULT_LAT, DEFAULT_LNG)
                 }
             }
+    }
+
+    @Suppress("MissingPermission")
+    private fun enableLocationComponent(style: Style) {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) return
+
+        val locationComponent = maplibreMap.locationComponent
+        val options = LocationComponentActivationOptions.builder(requireContext(), style).build()
+        locationComponent.activateLocationComponent(options)
+        locationComponent.isLocationComponentEnabled = true
+        locationComponent.cameraMode = CameraMode.NONE
+        locationComponent.renderMode = RenderMode.NORMAL
     }
 
     private fun moveCamera(lat: Double, lng: Double) {

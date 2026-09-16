@@ -9,7 +9,8 @@
 <!--    <color name="color_secondary_light">#E1F5EE</color>-->
 
     <!-- Neutrals -->
-    <color name="color_background">#FAFAFA</color>
+<!--    <color name="color_background">#FAFAFA</color>-->
+    <color name="color_background">#EFF6F9</color>
     <color name="color_secondary_background">#E1EEF4</color>
     <color name="color_surface">#FAFAF8</color>
 

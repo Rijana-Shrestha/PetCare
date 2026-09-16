@@ -37,6 +37,7 @@
             android:contentDescription="@null"
             android:clickable="true"
             android:focusable="true"
+            app:tint = "@color/color_black"
             app:layout_constraintTop_toTopOf="@id/tvTitle"
             app:layout_constraintBottom_toBottomOf="@id/tvTitle"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -239,7 +240,8 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_notification"
-                android:contentDescription="@null" />
+                android:contentDescription="@null"
+                app:tint= "@color/color_primary"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -294,8 +296,6 @@
             android:textAllCaps="false"
             android:textColor="@color/color_white"
             android:textStyle="bold"
-            app:strokeColor="@color/color_white"
-            app:strokeWidth="1.5dp"
             app:backgroundTint="@color/color_danger"
             app:cornerRadius="10dp"
             app:icon="@drawable/ic_logout"
