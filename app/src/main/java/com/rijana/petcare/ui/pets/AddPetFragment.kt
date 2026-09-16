@@ -47,8 +47,6 @@ class AddPetFragment : Fragment() {
     private var selectedPhotoUri: String? = null
     private var selectedDateOfBirth: Long? = null
 
-    // If this stays null, we're adding a new pet. If it gets set (edit mode),
-    // saving updates THIS pet instead of inserting a new one.
     private var existingPet: Pet? = null
     private val isEditMode: Boolean get() = existingPet != null
 
@@ -130,7 +128,7 @@ class AddPetFragment : Fragment() {
 
         selectedPhotoUri = pet.photoUri
         if (pet.photoUri != null) {
-            showPickedPhoto(pet.photoUri)
+            showPickedPhoto(pet.photoUri!!)
         }
     }
 
@@ -141,7 +139,11 @@ class AddPetFragment : Fragment() {
     }
 
     private fun showPickedPhoto(uriOrPath: String) {
-        Glide.with(this).load(uriOrPath).centerCrop().into(binding.imgPetPhoto)
+        Glide.with(this)
+            .load(uriOrPath)
+            .circleCrop()
+            .into(binding.imgPetPhoto)
+
         binding.ivCameraIcon.visibility = View.GONE
         binding.tvAddPhoto.visibility = View.GONE
     }
@@ -234,7 +236,6 @@ class AddPetFragment : Fragment() {
             .setNegativeButton(R.string.cancel, null)
             .setPositiveButton(R.string.delete) { _, _ ->
                 petViewModel.deletePet(pet)
-                // Pop back past Pet Detail too — that pet no longer exists
                 findNavController().popBackStack(R.id.petDetailFragment, true)
             }
             .show()

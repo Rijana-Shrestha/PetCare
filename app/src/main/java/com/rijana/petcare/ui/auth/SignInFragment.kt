@@ -21,6 +21,7 @@ import com.rijana.petcare.databinding.FragmentSignInBinding
 import com.rijana.petcare.viewmodel.AuthUiState
 import com.rijana.petcare.viewmodel.AuthViewModel
 import com.rijana.petcare.viewmodel.AuthViewModelFactory
+import com.rijana.petcare.util.setupPasswordToggle
 import kotlinx.coroutines.launch
 
 class SignInFragment : Fragment() {
@@ -44,11 +45,8 @@ class SignInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // The layout is now a scrollable NestedScrollView. Adding bottom
-        // padding equal to the keyboard's height gives it "room" below the
-        // last field to scroll into - Android then automatically scrolls
-        // whichever field is focused into view, without moving anything
-        // that's already visible above the keyboard.
+        binding.etPassword.setupPasswordToggle()
+
         ViewCompat.setOnApplyWindowInsetsListener(binding.scrollView) { v, insets ->
             val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
             v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, imeInsets.bottom)

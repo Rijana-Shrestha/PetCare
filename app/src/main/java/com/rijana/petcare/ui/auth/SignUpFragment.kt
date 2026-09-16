@@ -21,6 +21,7 @@ import com.rijana.petcare.databinding.FragmentSignUpBinding
 import com.rijana.petcare.viewmodel.AuthUiState
 import com.rijana.petcare.viewmodel.AuthViewModel
 import com.rijana.petcare.viewmodel.AuthViewModelFactory
+import com.rijana.petcare.util.setupPasswordToggle
 import kotlinx.coroutines.launch
 
 class SignUpFragment : Fragment() {
@@ -43,6 +44,9 @@ class SignUpFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.etPassword.setupPasswordToggle()
+        binding.etConfirmPassword.setupPasswordToggle()
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.scrollView) { v, insets ->
             val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())

@@ -38,7 +38,10 @@ class EditProfileFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
                 selectedPhotoUri = uri.toString()
-                Glide.with(this).load(uri).centerCrop().into(binding.imgAvatar)
+                Glide.with(this)
+                    .load(uri)
+                    .circleCrop()
+                    .into(binding.imgAvatar)
             }
         }
 
@@ -80,7 +83,7 @@ class EditProfileFragment : Fragment() {
                         selectedPhotoUri = user.profileImageUri
                         Glide.with(this@EditProfileFragment)
                             .load(user.profileImageUri)
-                            .centerCrop()
+                            .circleCrop()
                             .into(binding.imgAvatar)
                     }
                 }

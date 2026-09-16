@@ -63,52 +63,59 @@
                 app:layout_constraintTop_toTopOf="@id/ivBack" />
 
             <!-- Photo picker -->
-            <FrameLayout
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/photoFrame"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/circle_avatar_placeholder"
                 android:clickable="true"
                 android:focusable="true"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardCornerRadius="55dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ivBack">
 
-                <ImageView
-                    android:id="@+id/imgPetPhoto"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="15dp"
-                    android:contentDescription="@null"
-                    android:scaleType="centerCrop" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:background="@drawable/circle_avatar_placeholder">
 
                     <ImageView
-                        android:id="@+id/ivCameraIcon"
-                        android:layout_width="26dp"
-                        android:layout_height="26dp"
+                        android:id="@+id/imgPetPhoto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:contentDescription="@null"
-                        android:src="@drawable/ic_add" />
+                        android:scaleType="centerCrop" />
 
-                    <TextView
-                        android:id="@+id/tvAddPhoto"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="@string/add_photo"
-                        android:textColor="@color/text_primary"
-                        android:textSize="11sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-            </FrameLayout>
+                        <ImageView
+                            android:id="@+id/ivCameraIcon"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_add" />
+
+                        <TextView
+                            android:id="@+id/tvAddPhoto"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="@string/add_photo"
+                            android:textColor="@color/text_primary"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </FrameLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Basic Information Section Header -->
             <TextView
