@@ -8,6 +8,7 @@ import com.rijana.petcare.data.network.NominatimResult
 import com.rijana.petcare.databinding.ItemSearchResultBinding
 
 class SearchResultAdapter(
+    private val onResultClick: (NominatimResult) -> Unit,
     private val onBookmarkClick: (NominatimResult, Int) -> Unit
 ) : RecyclerView.Adapter<SearchResultAdapter.ViewHolder>() {
 
@@ -44,6 +45,8 @@ class SearchResultAdapter(
             val parts = result.display_name.split(",")
             binding.tvResultName.text = parts.firstOrNull()?.trim() ?: result.display_name
             binding.tvResultAddress.text = result.display_name
+
+            binding.root.setOnClickListener { onResultClick(result) }   // <-- new
 
             binding.ivBookmark.setImageResource(
                 if (isSaved) R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark_outline

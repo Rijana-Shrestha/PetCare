@@ -54,7 +54,10 @@ class SearchPlaceFragment : Fragment() {
 
         binding.ivBack.setOnClickListener { findNavController().popBackStack() }
 
-        resultAdapter = SearchResultAdapter { result, position -> saveResult(result, position) }
+        resultAdapter = SearchResultAdapter(
+            onResultClick = { result -> returnToMap(result) },
+            onBookmarkClick = { result, position -> saveResult(result, position) }
+        )
         binding.rvSearchResults.layoutManager = LinearLayoutManager(requireContext())
         binding.rvSearchResults.adapter = resultAdapter
 
@@ -76,6 +79,12 @@ class SearchPlaceFragment : Fragment() {
                 Toast.makeText(requireContext(), "Search failed - check your connection", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun returnToMap(result: com.rijana.petcare.data.network.NominatimResult) {
+        findNavController().previousBackStackEntry?.savedStateHandle?.set("selected_lat", result.lat.toDouble())
+        findNavController().previousBackStackEntry?.savedStateHandle?.set("selected_lon", result.lon.toDouble())
+        findNavController().popBackStack()
     }
 
     private fun saveResult(result: com.rijana.petcare.data.network.NominatimResult, position: Int) {

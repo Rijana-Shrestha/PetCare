@@ -74,6 +74,13 @@ class MapFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        findNavController().currentBackStackEntry?.savedStateHandle
+            ?.getLiveData<Double>("selected_lat")
+            ?.observe(viewLifecycleOwner) { lat ->
+                val lon = findNavController().currentBackStackEntry?.savedStateHandle?.get<Double>("selected_lon")
+                if (lon != null) moveCamera(lat, lon)
+            }
+
         binding.fabAddLocation.setOnClickListener {
             findNavController().navigate(R.id.action_map_to_addLocation)
         }

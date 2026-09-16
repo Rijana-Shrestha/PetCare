@@ -19,6 +19,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import android.Manifest
+import android.content.pm.PackageManager
+import android.provider.ContactsContract
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.rijana.petcare.PetCareApplication
 import com.rijana.petcare.R
@@ -126,6 +131,16 @@ class DelegateTaskFragment : Fragment() {
         ContactViewModelFactory(ContactRepository(app.database.contactDao()), userRepository)
     }
 
+    private val pickContactLauncher =
+        registerForActivityResult(ActivityResultContracts.PickContact()) { uri ->
+            if (uri != null) loadContactFromDevice(uri)
+        }
+
+    private val requestContactsPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            if (granted) pickContactLauncher.launch(null)
+        }
+
     private val selectedPetIds = mutableSetOf<Long>()
     private val selectedTasks = mutableSetOf<DelegateTask>()
     private val selectedContactIds = mutableSetOf<Long>()
@@ -147,7 +162,7 @@ class DelegateTaskFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.ivBack.setOnClickListener { findNavController().popBackStack() }
-        binding.btnAddNewContact.setOnClickListener { showAddContactDialog() }
+        binding.btnAddNewContact.setOnClickListener { showContactSourceChooser() }
         binding.btnSendViaSms.setOnClickListener { sendViaSms() }
 
         observePets()
@@ -208,6 +223,87 @@ class DelegateTaskFragment : Fragment() {
                 contactViewModel.contacts.collect { contacts -> renderContactList(contacts) }
             }
         }
+    }
+
+    private fun showContactSourceChooser() {
+        AlertDialog.Builder(requireContext())
+            .setItems(arrayOf("Pick from Contacts", "Enter Manually")) { _, which ->
+                if (which == 0) {
+                    openContactPicker()
+                } else {
+                    showAddContactDialog()
+                }
+            }
+            .show()
+    }
+
+    private fun openContactPicker() {
+        val hasPermission = ContextCompat.checkSelfPermission(
+            requireContext(), Manifest.permission.READ_CONTACTS
+        ) == PackageManager.PERMISSION_GRANTED
+
+        if (hasPermission) {
+            pickContactLauncher.launch(null)
+        } else {
+            requestContactsPermission.launch(Manifest.permission.READ_CONTACTS)
+        }
+    }
+
+    private fun loadContactFromDevice(contactUri: Uri) {
+        val cursor = requireContext().contentResolver.query(contactUri, null, null, null, null)
+        cursor?.use {
+            if (!it.moveToFirst()) return@use
+
+            val idIndex = it.getColumnIndex(ContactsContract.Contacts._ID)
+            val nameIndex = it.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
+            val hasPhoneIndex = it.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)
+
+            val contactId = it.getString(idIndex)
+            val name = it.getString(nameIndex) ?: ""
+            var phone = ""
+
+            if (it.getInt(hasPhoneIndex) > 0) {
+                val phoneCursor = requireContext().contentResolver.query(
+                    ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                    null,
+                    "${ContactsContract.CommonDataKinds.Phone.CONTACT_ID} = ?",
+                    arrayOf(contactId),
+                    null
+                )
+                phoneCursor?.use { pc ->
+                    if (pc.moveToFirst()) {
+                        val numberIndex = pc.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
+                        phone = pc.getString(numberIndex) ?: ""
+                    }
+                }
+            }
+            showAddContactDialog(prefillName = name, prefillPhone = phone)
+        }
+    }
+
+    private fun showAddContactDialog(prefillName: String = "", prefillPhone: String = "") {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_add_contact, null)
+        val etName = dialogView.findViewById<EditText>(R.id.etContactName)
+        val etPhone = dialogView.findViewById<EditText>(R.id.etContactPhone)
+        val etRelationship = dialogView.findViewById<EditText>(R.id.etContactRelationship)
+
+        etName.setText(prefillName)
+        etPhone.setText(prefillPhone)
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Add New Contact")
+            .setView(dialogView)
+            .setNegativeButton("Cancel", null)
+            .setPositiveButton("Add") { _, _ ->
+                val name = etName.text.toString().trim()
+                val phone = etPhone.text.toString().trim()
+                if (name.isEmpty() || phone.isEmpty()) {
+                    Toast.makeText(requireContext(), "Name and phone are required", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+                contactViewModel.addContact(name, phone, etRelationship.text.toString().trim())
+            }
+            .show()
     }
 
     private fun allTasks(): List<DelegateTask> =

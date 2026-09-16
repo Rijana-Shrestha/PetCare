@@ -54,6 +54,10 @@ class AddLocationFragment : Fragment() {
         MapLibre.getInstance(requireContext())
         _binding = FragmentAddLocationBinding.inflate(inflater, container, false)
         binding.mapView.onCreate(savedInstanceState)
+        binding.mapView.setOnTouchListener { view, _ ->
+            view.parent.requestDisallowInterceptTouchEvent(true)
+            false
+        }
         return binding.root
     }
 
@@ -140,7 +144,6 @@ class AddLocationFragment : Fragment() {
     private fun saveLocation() {
         val name = binding.etLocationName.text.toString().trim()
         val typeText = binding.actvType.text.toString().trim()
-        val ownerId = placeViewModel.let { null } // placeholder, resolved below
 
         if (name.isEmpty() || typeText.isEmpty()) {
             Toast.makeText(requireContext(), R.string.please_enter_a_name, Toast.LENGTH_SHORT).show()
