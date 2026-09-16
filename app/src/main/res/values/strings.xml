@@ -149,6 +149,12 @@
     <string name="medication">Medication</string>
     <string name="routines">Routines</string>
     <string name="message">Message (Optional)</string>
+    <string name="delegate_task">Delegate Task</string>
+    <string name="select_pet">Select Pet</string>
+    <string name="send_to">Send to</string>
+    <string name="send">Send via SMS</string>
+    <string name="select_task">Select tasks to delegate</string>
+    <string name="contact">+ Add New Contact</string>
 
 
 <!--    Profile-->
