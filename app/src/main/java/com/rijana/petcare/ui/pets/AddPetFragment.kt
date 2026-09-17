@@ -27,6 +27,7 @@ import com.rijana.petcare.data.repository.UserRepository
 import com.rijana.petcare.databinding.FragmentAddPetBinding
 import com.rijana.petcare.viewmodel.PetViewModel
 import com.rijana.petcare.viewmodel.PetViewModelFactory
+import com.rijana.petcare.util.applyImeBottomPadding
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -69,6 +70,8 @@ class AddPetFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupPetTypeDropdown()
+
+        binding.root.applyImeBottomPadding()
 
         binding.ivBack.setOnClickListener { findNavController().popBackStack() }
 
