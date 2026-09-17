@@ -1,157 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_background"
-    android:fillViewport="true">
+    android:background="@color/color_background">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="24dp">
-
+    <!-- Fixed Header -->
     <ImageView
         android:id="@+id/ivBack"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="24dp"
+        android:clickable="true"
+        android:contentDescription="@null"
+        android:focusable="true"
         android:rotation="180"
         android:src="@drawable/ic_chevron_right"
-        android:contentDescription="@null"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_location"
         android:textColor="@color/text_primary"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="@id/ivBack"
         app:layout_constraintBottom_toBottomOf="@id/ivBack"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/ivBack" />
 
-    <EditText
-        android:id="@+id/etSearch"
+    <!-- Scrollable Content -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="0dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/outlined_border"
-        android:hint="@string/search_place"
-        android:textColor="@color/text_primary"
-        android:textColorHint="@color/text_secondary"
-        android:textSize="16sp"
-        android:paddingStart="14dp"
-        android:paddingEnd="14dp"
-        android:imeOptions="actionSearch"
-        android:inputType="text"
-        app:layout_constraintTop_toBottomOf="@id/ivBack"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/ivBack">
 
-    <FrameLayout
-        android:id="@+id/mapContainer"
-        android:layout_width="0dp"
-        android:layout_height="260dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintTop_toBottomOf="@id/etSearch"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <org.maplibre.android.maps.MapView
-            android:id="@+id/mapView"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:paddingBottom="24dp">
 
-        <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_map_pin"
-            android:contentDescription="@null" />
+            <EditText
+                android:id="@+id/etSearch"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/outlined_border"
+                android:hint="@string/search_place"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_secondary"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </FrameLayout>
+            <FrameLayout
+                android:id="@+id/mapContainer"
+                android:layout_width="0dp"
+                android:layout_height="260dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etSearch">
 
-    <TextView
-        android:id="@+id/tvSelectedAddress"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:textSize="12sp"
-        android:textColor="@color/text_secondary"
-        tools:text="Selected: Kathmandu, Bagmati Province, Nepal"
-        app:layout_constraintTop_toBottomOf="@id/mapContainer"
-        app:layout_constraintStart_toStartOf="parent" />
+                <org.maplibre.android.maps.MapView
+                    android:id="@+id/mapView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
-    <EditText
-        android:id="@+id/etLocationName"
-        android:layout_width="0dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/outlined_border"
-        android:hint="@string/location_name"
-        android:textSize="16sp"
-        android:textColor="@color/text_primary"
-        android:textColorHint="@color/text_secondary"
-        android:paddingStart="14dp"
-        android:paddingEnd="14dp"
-        app:layout_constraintTop_toBottomOf="@id/tvSelectedAddress"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_map_pin" />
 
-    <AutoCompleteTextView
-        android:id="@+id/actvType"
-        android:layout_width="0dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/outlined_border"
-        android:hint="@string/type"
-        android:textSize="16sp"
-        android:textColor="@color/text_primary"
-        android:textColorHint="@color/text_secondary"
-        android:paddingStart="14dp"
-        android:paddingEnd="14dp"
-        android:inputType="none"
-        app:layout_constraintTop_toBottomOf="@id/etLocationName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+            </FrameLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnSaveLocation"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:text="@string/save_location"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:textAllCaps="false"
-        android:textColor="@color/text_primary"
-        app:backgroundTint="@color/color_secondary"
-        app:cornerRadius="12dp"
-        app:layout_constraintTop_toBottomOf="@id/actvType"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+            <TextView
+                android:id="@+id/tvSelectedAddress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mapContainer"
+                tools:text="Selected: Kathmandu, Bagmati Province, Nepal" />
+
+            <EditText
+                android:id="@+id/etLocationName"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/outlined_border"
+                android:hint="@string/location_name"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_secondary"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvSelectedAddress" />
+
+            <AutoCompleteTextView
+                android:id="@+id/actvType"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/outlined_border"
+                android:hint="@string/type"
+                android:inputType="none"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_secondary"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etLocationName" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSaveLocation"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/save_location"
+                android:textAllCaps="false"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/color_secondary"
+                app:cornerRadius="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/actvType" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.core.widget.NestedScrollView>

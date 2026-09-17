@@ -191,7 +191,7 @@ class ProfileFragment : Fragment() {
         val navOptions = NavOptions.Builder()
             .setPopUpTo(R.id.nav_graph, true)
             .build()
-        outerNavController.navigate(R.id.getStartedFragment, null, navOptions)
+        outerNavController.navigate(R.id.signInFragment, null, navOptions)
     }
 
     override fun onDestroyView() {

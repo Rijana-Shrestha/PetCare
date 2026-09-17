@@ -40,10 +40,7 @@
             app:layout_constraintBottom_toBottomOf="@id/tvTitle"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Pet list; wrap_content + nested scrolling disabled so the whole
-             screen scrolls as one (fine for pet lists, which are short) -->
 
-        <!-- Always-visible "Add New Pet" card, whether the list is empty or not -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPets"
             android:layout_width="0dp"
@@ -61,11 +58,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="6dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/dashed_border_card"
-            android:paddingTop="18dp"
-            android:paddingBottom="18dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
             android:clickable="true"
             android:focusable="true"
             app:layout_constraintTop_toBottomOf="@id/rvPets"
@@ -75,7 +72,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="＋  Add New Pet"
+                android:text="+ Add New Pet"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="#1D95B1"
