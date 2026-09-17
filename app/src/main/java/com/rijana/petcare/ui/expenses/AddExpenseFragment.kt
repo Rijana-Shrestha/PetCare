@@ -28,6 +28,7 @@ import com.rijana.petcare.viewmodel.ExpenseViewModel
 import com.rijana.petcare.viewmodel.ExpenseViewModelFactory
 import com.rijana.petcare.viewmodel.PetViewModel
 import com.rijana.petcare.viewmodel.PetViewModelFactory
+import com.rijana.petcare.util.applyImeBottomPadding
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
@@ -63,6 +64,8 @@ class AddExpenseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.root.applyImeBottomPadding()
 
         binding.ivBack.setOnClickListener { findNavController().popBackStack() }
 

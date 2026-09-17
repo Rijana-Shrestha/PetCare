@@ -23,6 +23,7 @@ import com.rijana.petcare.data.repository.UserRepository
 import com.rijana.petcare.databinding.FragmentAddLocationBinding
 import com.rijana.petcare.viewmodel.PlaceViewModel
 import com.rijana.petcare.viewmodel.PlaceViewModelFactory
+import com.rijana.petcare.util.applyImeBottomPadding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.maplibre.android.MapLibre
@@ -63,6 +64,8 @@ class AddLocationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.root.applyImeBottomPadding()
 
         binding.ivBack.setOnClickListener { findNavController().popBackStack() }
         setupTypeDropdown()

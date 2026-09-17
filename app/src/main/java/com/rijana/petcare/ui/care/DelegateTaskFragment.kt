@@ -54,6 +54,7 @@ import com.rijana.petcare.viewmodel.RoutineOccurrence
 import com.rijana.petcare.viewmodel.RoutineViewModel
 import com.rijana.petcare.viewmodel.RoutineViewModelFactory
 import com.rijana.petcare.viewmodel.UpcomingAppointmentItem
+import com.rijana.petcare.util.applyImeBottomPadding
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -160,6 +161,8 @@ class DelegateTaskFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.root.applyImeBottomPadding()
 
         binding.ivBack.setOnClickListener { findNavController().popBackStack() }
         binding.btnAddNewContact.setOnClickListener { showContactSourceChooser() }

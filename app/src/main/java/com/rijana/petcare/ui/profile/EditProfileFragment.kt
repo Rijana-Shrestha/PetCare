@@ -20,6 +20,7 @@ import com.rijana.petcare.data.repository.UserRepository
 import com.rijana.petcare.databinding.FragmentEditProfileBinding
 import com.rijana.petcare.viewmodel.ProfileViewModel
 import com.rijana.petcare.viewmodel.ProfileViewModelFactory
+import com.rijana.petcare.util.applyImeBottomPadding
 import kotlinx.coroutines.launch
 
 class EditProfileFragment : Fragment() {
@@ -54,6 +55,8 @@ class EditProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.root.applyImeBottomPadding()
 
         binding.ivBack.setOnClickListener { findNavController().popBackStack() }
 

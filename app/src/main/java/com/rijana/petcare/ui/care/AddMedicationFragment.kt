@@ -30,6 +30,7 @@ import com.rijana.petcare.viewmodel.MedicationViewModel
 import com.rijana.petcare.viewmodel.MedicationViewModelFactory
 import com.rijana.petcare.viewmodel.PetViewModel
 import com.rijana.petcare.viewmodel.PetViewModelFactory
+import com.rijana.petcare.util.applyImeBottomPadding
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
@@ -71,6 +72,8 @@ class AddMedicationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.root.applyImeBottomPadding()
 
         binding.ivBack.setOnClickListener { findNavController().popBackStack() }
 
