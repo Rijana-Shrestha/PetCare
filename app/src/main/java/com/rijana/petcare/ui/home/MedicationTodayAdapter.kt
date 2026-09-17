@@ -2,9 +2,11 @@ package com.rijana.petcare.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.rijana.petcare.R
 import com.rijana.petcare.databinding.ItemRoutineBinding
 import com.rijana.petcare.viewmodel.MedicationOccurrence
 import java.text.SimpleDateFormat
@@ -29,6 +31,12 @@ class MedicationTodayAdapter(
             binding.tvRoutineTitle.text = "${item.petName} · ${med.name}"
             binding.tvRoutineSubtitle.text = med.dosage
             binding.tvRoutineTime.text = formatTime(med.time)
+
+            binding.tvTypeIcon.text = "M"
+            binding.tvTypeIcon.background.setTint(
+                ContextCompat.getColor(binding.root.context, R.color.color_secondary)
+            )
+
             binding.cbDone.setOnCheckedChangeListener(null)
             binding.cbDone.isChecked = item.occurrence.isCompleted
             binding.cbDone.setOnCheckedChangeListener { _, _ -> onToggle(item.occurrence) }

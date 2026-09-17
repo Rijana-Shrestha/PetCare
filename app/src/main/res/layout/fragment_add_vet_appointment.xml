@@ -160,50 +160,57 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/etProviderName" />
 
-            <EditText
-                android:id="@+id/etDate"
+            <!-- MODIFICATION: Date & Time Side-by-Side Horizontal Layout -->
+            <LinearLayout
+                android:id="@+id/llDateTimeContainer"
                 android:layout_width="0dp"
-                android:layout_height="42dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
-                android:background="@drawable/outlined_border"
-                android:clickable="true"
-                android:drawableEnd="@drawable/ic_nav_schedule"
-                android:drawablePadding="8dp"
-                android:focusable="false"
-                android:hint="@string/date"
-                android:paddingStart="14dp"
-                android:paddingEnd="14dp"
-                android:textColor="@color/text_primary"
-                android:textColorHint="@color/text_secondary"
-                android:textSize="16sp"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvScheduleLabel" />
+                app:layout_constraintTop_toBottomOf="@id/tvScheduleLabel">
 
-            <EditText
-                android:id="@+id/etTime"
-                android:layout_width="0dp"
-                android:layout_height="42dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/outlined_border"
-                android:clickable="true"
-                android:drawableEnd="@drawable/ic_clock"
-                android:drawablePadding="8dp"
-                android:drawableTint="@color/color_black"
-                android:focusable="false"
-                android:hint="@string/time"
-                android:paddingStart="14dp"
-                android:paddingEnd="14dp"
-                android:textColor="@color/text_primary"
-                android:textColorHint="@color/text_secondary"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etDate" />
+                <EditText
+                    android:id="@+id/etDate"
+                    android:layout_width="0dp"
+                    android:layout_height="42dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/outlined_border"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/ic_nav_schedule"
+                    android:drawablePadding="8dp"
+                    android:focusable="false"
+                    android:hint="@string/date"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_secondary"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/etTime"
+                    android:layout_width="0dp"
+                    android:layout_height="42dp"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/outlined_border"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/ic_clock"
+                    android:drawablePadding="8dp"
+                    android:drawableTint="@color/color_black"
+                    android:focusable="false"
+                    android:hint="@string/time"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_secondary"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tvRemindersLabel"
@@ -221,7 +228,7 @@
                 android:textSize="13sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etTime" />
+                app:layout_constraintTop_toBottomOf="@id/llDateTimeContainer" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cardReminder"

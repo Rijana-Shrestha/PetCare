@@ -149,42 +149,48 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/etMedicationName" />
 
-            <EditText
-                android:id="@+id/etDosage"
+            <!-- Dosage & Instructions Side-by-Side -->
+            <LinearLayout
+                android:id="@+id/llDosageInstructionsContainer"
                 android:layout_width="0dp"
-                android:layout_height="42dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
-                android:background="@drawable/outlined_border"
-                android:hint="@string/dosage"
-                android:paddingStart="14dp"
-                android:paddingEnd="14dp"
-                android:textColor="@color/text_primary"
-                android:textColorHint="@color/text_secondary"
-                android:textSize="16sp"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/actvMedicationType" />
+                app:layout_constraintTop_toBottomOf="@id/actvMedicationType">
 
-            <EditText
-                android:id="@+id/etInstructions"
-                android:layout_width="0dp"
-                android:layout_height="42dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/outlined_border"
-                android:hint="@string/instructions"
-                android:paddingStart="14dp"
-                android:paddingEnd="14dp"
-                android:textColor="@color/text_primary"
-                android:textColorHint="@color/text_secondary"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etDosage" />
+                <EditText
+                    android:id="@+id/etDosage"
+                    android:layout_width="0dp"
+                    android:layout_height="42dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/outlined_border"
+                    android:hint="@string/dosage"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_secondary"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/etInstructions"
+                    android:layout_width="0dp"
+                    android:layout_height="42dp"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/outlined_border"
+                    android:hint="@string/instructions"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_secondary"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tvScheduleLabel"
@@ -202,7 +208,7 @@
                 android:textSize="13sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etInstructions" />
+                app:layout_constraintTop_toBottomOf="@id/llDosageInstructionsContainer" />
 
             <EditText
                 android:id="@+id/etTime"
@@ -245,49 +251,56 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/etTime" />
 
-            <EditText
-                android:id="@+id/etStartDate"
+            <!-- Start Date & End Date Side-by-Side -->
+            <LinearLayout
+                android:id="@+id/llDatesContainer"
                 android:layout_width="0dp"
-                android:layout_height="42dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
-                android:background="@drawable/outlined_border"
-                android:clickable="true"
-                android:drawableEnd="@drawable/ic_nav_schedule"
-                android:drawablePadding="8dp"
-                android:focusable="false"
-                android:hint="@string/start_date"
-                android:paddingStart="14dp"
-                android:paddingEnd="14dp"
-                android:textColor="@color/text_primary"
-                android:textColorHint="@color/text_secondary"
-                android:textSize="16sp"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etFrequency" />
+                app:layout_constraintTop_toBottomOf="@id/etFrequency">
 
-            <EditText
-                android:id="@+id/etEndDate"
-                android:layout_width="0dp"
-                android:layout_height="42dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/outlined_border"
-                android:clickable="true"
-                android:drawableEnd="@drawable/ic_nav_schedule"
-                android:drawablePadding="8dp"
-                android:focusable="false"
-                android:hint="@string/end_date_optional"
-                android:paddingStart="14dp"
-                android:paddingEnd="14dp"
-                android:textColor="@color/text_primary"
-                android:textColorHint="@color/text_secondary"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etStartDate" />
+                <EditText
+                    android:id="@+id/etStartDate"
+                    android:layout_width="0dp"
+                    android:layout_height="42dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/outlined_border"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/ic_nav_schedule"
+                    android:drawablePadding="8dp"
+                    android:focusable="false"
+                    android:hint="@string/start_date"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_secondary"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/etEndDate"
+                    android:layout_width="0dp"
+                    android:layout_height="42dp"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/outlined_border"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/ic_nav_schedule"
+                    android:drawablePadding="8dp"
+                    android:focusable="false"
+                    android:hint="@string/end_date"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_secondary"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tvRemindersLabel"
@@ -305,7 +318,7 @@
                 android:textSize="13sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etEndDate" />
+                app:layout_constraintTop_toBottomOf="@id/llDatesContainer" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cardReminder"

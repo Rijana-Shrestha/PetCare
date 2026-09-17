@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_background"
-    >
+    android:background="@color/color_background">
 
     <!-- Fixed Header -->
     <ImageView
@@ -107,6 +106,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/petCheckboxContainer" />
 
+            <!-- Stacked: Task Name -->
             <EditText
                 android:id="@+id/etTaskName"
                 android:layout_width="0dp"
@@ -125,6 +125,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvRoutineDetailsLabel" />
 
+            <!-- Stacked: Task Type -->
             <EditText
                 android:id="@+id/etTaskType"
                 android:layout_width="0dp"
@@ -160,47 +161,54 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/etTaskType" />
 
-            <EditText
-                android:id="@+id/etTime"
+            <!-- MODIFICATION: Time & Duration side-by-side in Horizontal LinearLayout -->
+            <LinearLayout
+                android:id="@+id/llTimeDuration"
                 android:layout_width="0dp"
-                android:layout_height="42dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
-                android:background="@drawable/outlined_border"
-                android:clickable="true"
-                android:drawableEnd="@drawable/ic_clock"
-                android:drawablePadding="8dp"
-                android:drawableTint="@color/color_black"
-                android:focusable="false"
-                android:hint="@string/time"
-                android:paddingStart="14dp"
-                android:paddingEnd="14dp"
-                android:textColor="@color/text_primary"
-                android:textColorHint="@color/text_secondary"
-                android:textSize="16sp"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvScheduleLabel" />
+                app:layout_constraintTop_toBottomOf="@id/tvScheduleLabel">
 
-            <EditText
-                android:id="@+id/etDuration"
-                android:layout_width="0dp"
-                android:layout_height="42dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/outlined_border"
-                android:hint="@string/duration_minutes"
-                android:inputType="number"
-                android:paddingStart="14dp"
-                android:paddingEnd="14dp"
-                android:textColor="@color/text_primary"
-                android:textColorHint="@color/text_secondary"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etTime" />
+                <EditText
+                    android:id="@+id/etTime"
+                    android:layout_width="0dp"
+                    android:layout_height="42dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/outlined_border"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/ic_clock"
+                    android:drawablePadding="8dp"
+                    android:drawableTint="@color/color_black"
+                    android:focusable="false"
+                    android:hint="@string/time"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_secondary"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/etDuration"
+                    android:layout_width="0dp"
+                    android:layout_height="42dp"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/outlined_border"
+                    android:hint="@string/duration_minutes"
+                    android:inputType="number"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_secondary"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
             <AutoCompleteTextView
                 android:id="@+id/actvRepeat"
@@ -219,7 +227,7 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etDuration" />
+                app:layout_constraintTop_toBottomOf="@id/llTimeDuration" />
 
             <com.google.android.material.button.MaterialButtonToggleGroup
                 android:id="@+id/toggleCustomDays"

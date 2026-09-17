@@ -129,7 +129,7 @@
     <string name="dosage">Dosage</string>
     <string name="instructions">Instructions</string>
     <string name="frequency">Frequency</string>
-    <string name="end_date_optional">End Date (optional)</string>
+    <string name="end_date">End Date</string>
 
 <!--    Appointment-->
     <string name="veterinary_care">Veterinary Care</string>
