@@ -9,7 +9,7 @@
         android:id="@+id/etContactName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Name"
+        android:hint="@string/name"
         android:inputType="textPersonName"
         android:autofillHints="name" />
 
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:hint="Phone number"
+        android:hint="@string/number"
         android:inputType="phone"
         android:autofillHints="phone" />
 
@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:hint="Relationship (optional)"
+        android:hint="@string/relationship"
         android:inputType="text" />
 
 </LinearLayout>

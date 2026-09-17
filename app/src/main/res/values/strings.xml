@@ -112,6 +112,9 @@
     <string name="remind_me">Remind me</string>
     <string name="select_at_least_one_pet">Please select at least one pet</string>
     <string name="select_at_least_one_day">Please select at least one day</string>
+    <string name="name">Name</string>
+    <string name="number">Phone Number</string>
+    <string name="relationship">Relationship (optional)</string>
 
 <!--    Medication-->
     <string name="add_medication">+ Add Medication</string>
