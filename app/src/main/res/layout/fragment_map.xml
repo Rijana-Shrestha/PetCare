@@ -14,7 +14,7 @@
         android:layout_height="24dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="24dp"
-        android:src="@drawable/ic_bookmark_outline"
+        android:src="@drawable/ic_bookmark_filled"
         android:contentDescription="@null"
         android:clickable="true"
         android:focusable="true"
