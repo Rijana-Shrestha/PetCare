@@ -115,6 +115,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <TextView
+            android:id="@+id/tvEmailError"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="32dp"
+            android:textColor="@color/color_danger"
+            android:textSize="12sp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            tools:text="An account with this email already exists"
+            app:layout_constraintTop_toBottomOf="@id/etEmail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <!-- Password -->
         <TextView
             android:id="@+id/tvPasswordLabel"
@@ -126,7 +142,7 @@
             android:text="@string/password"
             android:textColor="#222222"
             android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/etEmail"
+            app:layout_constraintTop_toBottomOf="@id/tvEmailError"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -151,6 +167,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <TextView
+            android:id="@+id/tvPasswordError"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="32dp"
+            android:textColor="@color/color_danger"
+            android:textSize="12sp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            tools:text="Password must be at least 6 characters"
+            app:layout_constraintTop_toBottomOf="@id/etPassword"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <!-- Confirm Password -->
         <TextView
             android:id="@+id/tvConfirmPasswordLabel"
@@ -162,7 +194,7 @@
             android:text="@string/confirm_password"
             android:textColor="#222222"
             android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/etPassword"
+            app:layout_constraintTop_toBottomOf="@id/tvPasswordError"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -186,6 +218,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <TextView
+            android:id="@+id/tvConfirmPasswordError"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="32dp"
+            android:textColor="@color/color_danger"
+            android:textSize="12sp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            tools:text="Passwords do not match"
+            app:layout_constraintTop_toBottomOf="@id/etConfirmPassword"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <!-- Sign Up Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSignUp"
@@ -201,7 +249,7 @@
             android:textAllCaps="false"
             app:backgroundTint="@color/color_secondary"
             app:cornerRadius="10dp"
-            app:layout_constraintTop_toBottomOf="@id/etConfirmPassword"
+            app:layout_constraintTop_toBottomOf="@id/tvConfirmPasswordError"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

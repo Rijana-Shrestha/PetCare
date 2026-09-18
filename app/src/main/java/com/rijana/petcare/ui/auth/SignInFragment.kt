@@ -1,9 +1,13 @@
 package com.rijana.petcare.ui.auth
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -18,6 +22,7 @@ import com.rijana.petcare.R
 import com.rijana.petcare.data.firebase.AuthManager
 import com.rijana.petcare.data.repository.UserRepository
 import com.rijana.petcare.databinding.FragmentSignInBinding
+import com.rijana.petcare.viewmodel.AuthErrorField
 import com.rijana.petcare.viewmodel.AuthUiState
 import com.rijana.petcare.viewmodel.AuthViewModel
 import com.rijana.petcare.viewmodel.AuthViewModelFactory
@@ -53,6 +58,10 @@ class SignInFragment : Fragment() {
             insets
         }
 
+        // Clear a field's error as soon as the user starts fixing it
+        binding.etEmail.addTextChangedListener(clearErrorOnEdit(binding.etEmail, binding.tvEmailError))
+        binding.etPassword.addTextChangedListener(clearErrorOnEdit(binding.etPassword, binding.tvPasswordError))
+
         binding.tvDontHaveAccount.setOnClickListener {
             findNavController().navigate(R.id.action_signIn_to_signUp)
         }
@@ -61,8 +70,15 @@ class SignInFragment : Fragment() {
             val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString()
 
-            if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            clearFieldError(binding.etEmail, binding.tvEmailError)
+            clearFieldError(binding.etPassword, binding.tvPasswordError)
+
+            if (email.isEmpty()) {
+                showFieldError(binding.etEmail, binding.tvEmailError, "Please enter your email")
+                return@setOnClickListener
+            }
+            if (password.isEmpty()) {
+                showFieldError(binding.etPassword, binding.tvPasswordError, "Please enter your password")
                 return@setOnClickListener
             }
 
@@ -72,7 +88,7 @@ class SignInFragment : Fragment() {
         binding.tvForgotPassword.setOnClickListener {
             val email = binding.etEmail.text.toString().trim()
             if (email.isEmpty()) {
-                Toast.makeText(requireContext(), "Enter your email first", Toast.LENGTH_SHORT).show()
+                showFieldError(binding.etEmail, binding.tvEmailError, "Enter your email first")
                 return@setOnClickListener
             }
             authViewModel.sendPasswordResetEmail(email)
@@ -95,7 +111,12 @@ class SignInFragment : Fragment() {
                         }
                         is AuthUiState.Error -> {
                             binding.btnLogin.isEnabled = true
-                            Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                            when (state.field) {
+                                AuthErrorField.EMAIL -> showFieldError(binding.etEmail, binding.tvEmailError, state.message)
+                                AuthErrorField.PASSWORD -> showFieldError(binding.etPassword, binding.tvPasswordError, state.message)
+                                AuthErrorField.CONFIRM_PASSWORD, AuthErrorField.GENERAL ->
+                                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                            }
                         }
                         is AuthUiState.PasswordResetSent -> {
                             binding.btnLogin.isEnabled = true
@@ -105,6 +126,25 @@ class SignInFragment : Fragment() {
                     }
                 }
             }
+        }
+    }
+
+    private fun showFieldError(field: EditText, errorView: TextView, message: String) {
+        field.setBackgroundResource(R.drawable.outlined_border_error)
+        errorView.text = message
+        errorView.visibility = View.VISIBLE
+    }
+
+    private fun clearFieldError(field: EditText, errorView: TextView) {
+        field.setBackgroundResource(R.drawable.outlined_border)
+        errorView.visibility = View.GONE
+    }
+
+    private fun clearErrorOnEdit(field: EditText, errorView: TextView) = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        override fun afterTextChanged(s: Editable?) {
+            if (errorView.visibility == View.VISIBLE) clearFieldError(field, errorView)
         }
     }
 

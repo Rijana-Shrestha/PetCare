@@ -83,6 +83,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <TextView
+            android:id="@+id/tvEmailError"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="32dp"
+            android:textColor="@color/color_danger"
+            android:textSize="12sp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            tools:text="No account found with this email"
+            app:layout_constraintTop_toBottomOf="@id/etEmail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <!-- Password -->
         <TextView
             android:id="@+id/tvPasswordLabel"
@@ -94,7 +110,7 @@
             android:text="@string/password"
             android:textColor="#222222"
             android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/etEmail"
+            app:layout_constraintTop_toBottomOf="@id/tvEmailError"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -118,6 +134,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <TextView
+            android:id="@+id/tvPasswordError"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="32dp"
+            android:textColor="@color/color_danger"
+            android:textSize="12sp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            tools:text="Incorrect password"
+            app:layout_constraintTop_toBottomOf="@id/etPassword"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <!-- Forgot Password -->
         <TextView
             android:id="@+id/tvForgotPassword"
@@ -130,7 +162,7 @@
             android:textSize="13sp"
             android:clickable="true"
             android:focusable="true"
-            app:layout_constraintTop_toBottomOf="@id/etPassword"
+            app:layout_constraintTop_toBottomOf="@id/tvPasswordError"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- Login Button -->
