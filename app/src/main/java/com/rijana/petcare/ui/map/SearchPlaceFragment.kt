@@ -2,6 +2,7 @@ package com.rijana.petcare.ui.map
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -66,6 +67,19 @@ class SearchPlaceFragment : Fragment() {
                 performSearch(binding.etSearchBar.text.toString())
                 true
             } else false
+        }
+
+        binding.etSearchBar.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                val drawableEnd = binding.etSearchBar.compoundDrawables[2]
+                if (drawableEnd != null &&
+                    event.rawX >= (binding.etSearchBar.right - drawableEnd.bounds.width() - binding.etSearchBar.paddingEnd)
+                ) {
+                    performSearch(binding.etSearchBar.text.toString())
+                    return@setOnTouchListener true
+                }
+            }
+            false
         }
     }
 
