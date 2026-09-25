@@ -180,7 +180,7 @@ class PetDetailFragment : Fragment() {
                             } else {
 
                                 medications.joinToString(
-                                    separator = "\n"
+                                    separator = "\n\n"
                                 ) { medication ->
 
                                     val dosage =
@@ -189,7 +189,17 @@ class PetDetailFragment : Fragment() {
                                     val frequency =
                                         medication.frequency
 
-                                    "${medication.name} • $dosage • $frequency"
+                                    val startDate =
+                                        formatDate(
+                                            millis = medication.startDate
+                                        )
+
+                                    val endDate =
+                                        medication.endDate?.let {
+                                            formatDate(millis = it)
+                                        } ?: "Ongoing"
+
+                                    "${medication.name} • $dosage • $frequency \n $startDate - $endDate"
                                 }
                             }
                     }
@@ -213,7 +223,7 @@ class PetDetailFragment : Fragment() {
                             } else {
 
                                 vaccinations.joinToString(
-                                    separator = "\n"
+                                    separator = "\n\n"
                                 ) { vaccination ->
 
                                     val date =
