@@ -320,6 +320,62 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <!-- Vaccination History -->
+
+                <TextView
+                    android:id="@+id/tvVaccinationHistoryLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:text="Vaccination History"
+                    android:textColor="#1C1C1E"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/cardAbout"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvVaccinationHistory"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/card_white_rounded"
+                    android:padding="16dp"
+                    android:text="No vaccination history"
+                    android:textColor="#6E6E73"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@id/tvVaccinationHistoryLabel"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <!-- Medication History -->
+
+                <TextView
+                    android:id="@+id/tvMedicationHistoryLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:text="Medication History"
+                    android:textColor="#1C1C1E"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/tvVaccinationHistory"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvMedicationHistory"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/card_white_rounded"
+                    android:padding="16dp"
+                    android:text="No medication history"
+                    android:textColor="#6E6E73"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@id/tvMedicationHistoryLabel"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>

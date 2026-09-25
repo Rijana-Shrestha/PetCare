@@ -142,6 +142,8 @@
                 android:textColor="@color/text_primary"
                 android:textColorHint="@color/text_secondary"
                 android:textSize="16sp"
+                android:drawableEnd="@drawable/ic_dropdown"
+                android:drawableTint="@color/color_black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/etLocationName" />

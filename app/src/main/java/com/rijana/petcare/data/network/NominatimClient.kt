@@ -9,7 +9,7 @@ object NominatimClient {
     private val okHttpClient = OkHttpClient.Builder()
         .addInterceptor { chain ->
             val requestWithHeader = chain.request().newBuilder()
-                .header("User-Agent", "PetCare-Android-App (CET343 student project)")
+                .header("User-Agent", "PetCare-Android-App")
                 .build()
             chain.proceed(requestWithHeader)
         }

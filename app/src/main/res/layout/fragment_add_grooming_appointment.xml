@@ -124,23 +124,46 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvDetailsLabel" />
 
-            <EditText
-                android:id="@+id/etProviderName"
+            <AutoCompleteTextView
+                android:id="@+id/actvSavedSalon"
                 android:layout_width="0dp"
                 android:layout_height="42dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/outlined_border"
-                android:hint="@string/groomer_salon"
+                android:clickable="true"
+                android:focusable="true"
+                android:drawableEnd="@drawable/ic_dropdown"
+                android:hint="Choose saved groomer / salon"
+                android:inputType="none"
                 android:paddingStart="14dp"
-                android:paddingEnd="14dp"
+                android:paddingEnd="10dp"
                 android:textColor="@color/text_primary"
                 android:textColorHint="@color/text_secondary"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/etType" />
+
+            <EditText
+                android:id="@+id/etCustomSalon"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/outlined_border"
+                android:hint="Enter custom groomer / salon"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_secondary"
+                android:textSize="16sp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/actvSavedSalon" />
 
             <TextView
                 android:id="@+id/tvScheduleLabel"
@@ -158,7 +181,7 @@
                 android:textSize="13sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etProviderName" />
+                app:layout_constraintTop_toBottomOf="@id/etCustomSalon" />
 
             <!-- Date & Time Side-by-Side -->
             <LinearLayout

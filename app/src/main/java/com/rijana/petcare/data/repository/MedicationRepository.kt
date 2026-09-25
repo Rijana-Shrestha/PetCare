@@ -15,22 +15,38 @@ class MedicationRepository(
     fun getMedicationsForOwner(ownerId: Long): Flow<List<Medication>> =
         medicationDao.getMedicationsForOwner(ownerId)
 
+    // Used by the individual Pet Detail screen
+    fun getMedicationsForPet(petId: Long): Flow<List<Medication>> =
+        medicationDao.getMedicationsForPet(petId)
+
     suspend fun addMedication(medication: Medication): Long =
         medicationDao.insert(medication)
 
     suspend fun updateMedication(medication: Medication) =
         medicationDao.update(medication)
 
-    suspend fun setStatus(medicationId: Long, status: MedicationStatus) =
+    suspend fun setStatus(
+        medicationId: Long,
+        status: MedicationStatus
+    ) =
         medicationDao.setStatus(medicationId, status)
 
     suspend fun deleteMedication(medication: Medication) =
         medicationDao.delete(medication)
 
-    fun getCompletion(medicationId: Long, occurrenceDate: Long): Flow<MedicationCompletion?> =
-        medicationCompletionDao.getCompletion(medicationId, occurrenceDate)
+    fun getCompletion(
+        medicationId: Long,
+        occurrenceDate: Long
+    ): Flow<MedicationCompletion?> =
+        medicationCompletionDao.getCompletion(
+            medicationId,
+            occurrenceDate
+        )
 
-    suspend fun markDone(medicationId: Long, occurrenceDate: Long) {
+    suspend fun markDone(
+        medicationId: Long,
+        occurrenceDate: Long
+    ) {
         medicationCompletionDao.markDone(
             MedicationCompletion(
                 medicationId = medicationId,
@@ -40,7 +56,13 @@ class MedicationRepository(
         )
     }
 
-    suspend fun markUndone(medicationId: Long, occurrenceDate: Long) {
-        medicationCompletionDao.markUndone(medicationId, occurrenceDate)
+    suspend fun markUndone(
+        medicationId: Long,
+        occurrenceDate: Long
+    ) {
+        medicationCompletionDao.markUndone(
+            medicationId,
+            occurrenceDate
+        )
     }
 }

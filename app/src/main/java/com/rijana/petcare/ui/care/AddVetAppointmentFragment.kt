@@ -19,18 +19,23 @@ import com.rijana.petcare.PetCareApplication
 import com.rijana.petcare.R
 import com.rijana.petcare.data.firebase.AuthManager
 import com.rijana.petcare.data.local.entity.Pet
+import com.rijana.petcare.data.local.entity.PlaceType
+import com.rijana.petcare.data.local.entity.SavedPlace
 import com.rijana.petcare.data.local.entity.VetAppointment
 import com.rijana.petcare.data.repository.GroomingAppointmentRepository
 import com.rijana.petcare.data.repository.PetRepository
+import com.rijana.petcare.data.repository.SavedPlaceRepository
 import com.rijana.petcare.data.repository.UserRepository
 import com.rijana.petcare.data.repository.VetAppointmentRepository
 import com.rijana.petcare.databinding.FragmentAddVetAppointmentBinding
 import com.rijana.petcare.databinding.ItemPetCheckboxBinding
+import com.rijana.petcare.util.applyImeBottomPadding
 import com.rijana.petcare.viewmodel.AppointmentViewModel
 import com.rijana.petcare.viewmodel.AppointmentViewModelFactory
 import com.rijana.petcare.viewmodel.PetViewModel
 import com.rijana.petcare.viewmodel.PetViewModelFactory
-import com.rijana.petcare.util.applyImeBottomPadding
+import com.rijana.petcare.viewmodel.PlaceViewModel
+import com.rijana.petcare.viewmodel.PlaceViewModelFactory
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
@@ -40,23 +45,53 @@ class AddVetAppointmentFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val petCheckboxes = mutableMapOf<Long, CheckBox>()
+
     private var selectedDate: Long? = null
 
+    // Saved veterinary places loaded from Room.
+    private var savedVetPlaces: List<SavedPlace> = emptyList()
+
+    // Currently selected saved place.
+    private var selectedVetPlace: SavedPlace? = null
+
     private val remindOffsetOptions = listOf(15, 60, 1440, 2880)
-    private val remindOffsetLabels = listOf("15 minutes before", "1 hour before", "1 day before", "2 days before")
+
+    private val remindOffsetLabels = listOf(
+        "15 minutes before",
+        "1 hour before",
+        "1 day before",
+        "2 days before"
+    )
 
     private val userRepository by lazy {
         val app = requireActivity().application as PetCareApplication
-        UserRepository(AuthManager(), app.database.userDao())
+        UserRepository(
+            AuthManager(),
+            app.database.userDao()
+        )
     }
 
     private val petViewModel: PetViewModel by viewModels {
         val app = requireActivity().application as PetCareApplication
-        PetViewModelFactory(PetRepository(app.database.petDao()), userRepository)
+
+        PetViewModelFactory(
+            PetRepository(app.database.petDao()),
+            userRepository
+        )
+    }
+
+    private val placeViewModel: PlaceViewModel by viewModels {
+        val app = requireActivity().application as PetCareApplication
+
+        PlaceViewModelFactory(
+            SavedPlaceRepository(app.database.savedPlaceDao()),
+            userRepository
+        )
     }
 
     private val appointmentViewModel: AppointmentViewModel by viewModels {
         val app = requireActivity().application as PetCareApplication
+
         AppointmentViewModelFactory(
             VetAppointmentRepository(app.database.vetAppointmentDao()),
             GroomingAppointmentRepository(app.database.groomingAppointmentDao()),
@@ -65,64 +100,233 @@ class AddVetAppointmentFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAddVetAppointmentBinding.inflate(inflater, container, false)
+        _binding = FragmentAddVetAppointmentBinding.inflate(
+            inflater,
+            container,
+            false
+        )
+
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.root.applyImeBottomPadding()
 
-        binding.ivBack.setOnClickListener { findNavController().popBackStack() }
+        binding.ivBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        setupPlaceDropdown()
+        observeSavedPlaces()
 
         setupRemindOffsetDropdown()
         loadPetCheckboxes()
 
-        binding.etDate.setOnClickListener { showDatePicker() }
-        binding.etTime.setOnClickListener { showTimePicker() }
+        binding.etDate.setOnClickListener {
+            showDatePicker()
+        }
 
-        binding.btnSave.setOnClickListener { saveAppointment() }
-        binding.tvSaveTop.setOnClickListener { saveAppointment() }
+        binding.etTime.setOnClickListener {
+            showTimePicker()
+        }
+
+        binding.btnSave.setOnClickListener {
+            saveAppointment()
+        }
+
+        binding.tvSaveTop.setOnClickListener {
+            saveAppointment()
+        }
     }
 
-    private fun loadPetCheckboxes() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                petViewModel.pets.collect { pets -> renderPetCheckboxes(pets) }
+    /**
+     * Sets up the clinic dropdown.
+     *
+     * The dropdown contains:
+     * - saved veterinary clinics
+     * - Add custom clinic
+     */
+    private fun setupPlaceDropdown() {
+
+        binding.actvSavedClinic.setOnClickListener {
+            binding.actvSavedClinic.showDropDown()
+        }
+
+        binding.actvSavedClinic.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                binding.actvSavedClinic.showDropDown()
+            }
+        }
+
+        binding.actvSavedClinic.setOnItemClickListener { _, _, position, _ ->
+
+            if (position < savedVetPlaces.size) {
+
+                // User selected an existing saved clinic.
+                selectedVetPlace = savedVetPlaces[position]
+
+                binding.etCustomClinic.visibility = View.GONE
+                binding.etCustomClinic.text?.clear()
+
+                binding.actvSavedClinic.setText(
+                    selectedVetPlace!!.name,
+                    false
+                )
+
+            } else {
+
+                // User selected "+ Add custom clinic".
+                selectedVetPlace = null
+
+                binding.etCustomClinic.visibility = View.VISIBLE
+                binding.etCustomClinic.requestFocus()
+
+                binding.actvSavedClinic.setText(
+                    "Add custom clinic",
+                    false
+                )
             }
         }
     }
 
-    private fun renderPetCheckboxes(pets: List<Pet>) {
+    /**
+     * Observes all SavedPlace records belonging to the current user.
+     *
+     * Only VET_CLINIC places are shown here.
+     */
+    private fun observeSavedPlaces() {
+
+        viewLifecycleOwner.lifecycleScope.launch {
+
+            viewLifecycleOwner.repeatOnLifecycle(
+                Lifecycle.State.STARTED
+            ) {
+
+                placeViewModel.places.collect { places ->
+
+                    savedVetPlaces = places.filter {
+                        it.type == PlaceType.VET_CLINIC
+                    }
+
+                    updateClinicDropdown()
+                }
+            }
+        }
+    }
+
+    /**
+     * Updates the dropdown whenever saved places change.
+     */
+    private fun updateClinicDropdown() {
+
+        val options = savedVetPlaces
+            .map { it.name }
+            .toMutableList()
+
+        options.add("+ Add custom clinic")
+
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_dropdown_item_1line,
+            options
+        )
+
+        binding.actvSavedClinic.setAdapter(adapter)
+    }
+
+    private fun loadPetCheckboxes() {
+
+        viewLifecycleOwner.lifecycleScope.launch {
+
+            viewLifecycleOwner.repeatOnLifecycle(
+                Lifecycle.State.STARTED
+            ) {
+
+                petViewModel.pets.collect { pets ->
+                    renderPetCheckboxes(pets)
+                }
+            }
+        }
+    }
+
+    private fun renderPetCheckboxes(
+        pets: List<Pet>
+    ) {
+
         binding.petCheckboxContainer.removeAllViews()
         petCheckboxes.clear()
+
         pets.forEach { pet ->
-            val row = ItemPetCheckboxBinding.inflate(layoutInflater, binding.petCheckboxContainer, false)
+
+            val row = ItemPetCheckboxBinding.inflate(
+                layoutInflater,
+                binding.petCheckboxContainer,
+                false
+            )
+
             row.cbPet.text = pet.name
+
             petCheckboxes[pet.id] = row.cbPet
+
             binding.petCheckboxContainer.addView(row.root)
         }
     }
 
     private fun setupRemindOffsetDropdown() {
+
         binding.actvRemindOffset.setAdapter(
-            ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, remindOffsetLabels)
+            ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                remindOffsetLabels
+            )
         )
-        binding.actvRemindOffset.setText(remindOffsetLabels[2], false) // default: 1 day before
-        binding.actvRemindOffset.setOnClickListener { binding.actvRemindOffset.showDropDown() }
+
+        binding.actvRemindOffset.setText(
+            remindOffsetLabels[2],
+            false
+        )
+
+        binding.actvRemindOffset.setOnClickListener {
+            binding.actvRemindOffset.showDropDown()
+        }
     }
 
     private fun showDatePicker() {
+
         val calendar = Calendar.getInstance()
+
         DatePickerDialog(
             requireContext(),
             { _, year, month, day ->
-                calendar.set(year, month, day, 0, 0, 0)
+
+                calendar.set(
+                    year,
+                    month,
+                    day,
+                    0,
+                    0,
+                    0
+                )
+
                 selectedDate = calendar.timeInMillis
-                binding.etDate.setText("%02d/%02d/%04d".format(day, month + 1, year))
+
+                binding.etDate.setText(
+                    "%02d/%02d/%04d".format(
+                        day,
+                        month + 1,
+                        year
+                    )
+                )
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
@@ -131,10 +335,20 @@ class AddVetAppointmentFragment : Fragment() {
     }
 
     private fun showTimePicker() {
+
         val calendar = Calendar.getInstance()
+
         TimePickerDialog(
             requireContext(),
-            { _, hour, minute -> binding.etTime.setText("%02d:%02d".format(hour, minute)) },
+            { _, hour, minute ->
+
+                binding.etTime.setText(
+                    "%02d:%02d".format(
+                        hour,
+                        minute
+                    )
+                )
+            },
             calendar.get(Calendar.HOUR_OF_DAY),
             calendar.get(Calendar.MINUTE),
             false
@@ -142,33 +356,101 @@ class AddVetAppointmentFragment : Fragment() {
     }
 
     private fun saveAppointment() {
-        val type = binding.etType.text.toString().trim()
-        val provider = binding.etProviderName.text.toString().trim()
-        val time = binding.etTime.text.toString().trim()
-        val selectedPetIds = petCheckboxes.filterValues { it.isChecked }.keys
 
-        if (type.isEmpty() || provider.isEmpty() || time.isEmpty() || selectedDate == null) {
-            Toast.makeText(requireContext(), "Please fill in all required fields", Toast.LENGTH_SHORT).show()
+        val type = binding.etType.text
+            .toString()
+            .trim()
+
+        val customClinic = binding.etCustomClinic.text
+            .toString()
+            .trim()
+
+        val time = binding.etTime.text
+            .toString()
+            .trim()
+
+        val selectedPetIds =
+            petCheckboxes
+                .filterValues { it.isChecked }
+                .keys
+
+        /*
+         * Determine the clinic name.
+         *
+         * Saved clinic:
+         *     selectedVetPlace != null
+         *
+         * Custom clinic:
+         *     selectedVetPlace == null
+         *     and customClinic is entered
+         */
+        val clinicName = if (selectedVetPlace != null) {
+            selectedVetPlace!!.name
+        } else {
+            customClinic
+        }
+
+        if (
+            type.isEmpty() ||
+            clinicName.isEmpty() ||
+            time.isEmpty() ||
+            selectedDate == null
+        ) {
+
+            Toast.makeText(
+                requireContext(),
+                "Please fill in all required fields",
+                Toast.LENGTH_SHORT
+            ).show()
+
             return
         }
+
         if (selectedPetIds.isEmpty()) {
-            Toast.makeText(requireContext(), R.string.select_at_least_one_pet, Toast.LENGTH_SHORT).show()
+
+            Toast.makeText(
+                requireContext(),
+                R.string.select_at_least_one_pet,
+                Toast.LENGTH_SHORT
+            ).show()
+
             return
         }
 
-        val reminderEnabled = binding.switchReminder.isChecked
-        val labelIndex = remindOffsetLabels.indexOf(binding.actvRemindOffset.text.toString())
-        val reminderOffset = remindOffsetOptions.getOrElse(labelIndex) { 1440 }
+        val reminderEnabled =
+            binding.switchReminder.isChecked
+
+        val labelIndex =
+            remindOffsetLabels.indexOf(
+                binding.actvRemindOffset.text.toString()
+            )
+
+        val reminderOffset =
+            remindOffsetOptions.getOrElse(labelIndex) {
+                1440
+            }
 
         selectedPetIds.forEach { petId ->
+
             appointmentViewModel.addVetAppointment(
+
                 VetAppointment(
                     petId = petId,
+
+                    // Saved place ID if an existing clinic was selected.
+                    // null if the user entered a custom clinic.
+                    placeId = selectedVetPlace?.id,
+
                     type = type,
-                    clinicName = provider,
+
+                    clinicName = clinicName,
+
                     date = selectedDate!!,
+
                     time = time,
+
                     reminderEnabled = reminderEnabled,
+
                     reminderOffsetMinutes = reminderOffset
                 )
             )

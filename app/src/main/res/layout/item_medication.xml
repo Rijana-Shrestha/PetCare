@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/delete"
-        android:textSize="12sp"
+        android:textSize="11sp"
         android:textColor="@color/color_danger"
         android:clickable="true"
         android:focusable="true"

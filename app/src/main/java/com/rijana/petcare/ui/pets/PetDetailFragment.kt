@@ -17,9 +17,13 @@ import com.rijana.petcare.R
 import com.rijana.petcare.data.firebase.AuthManager
 import com.rijana.petcare.data.local.entity.Gender
 import com.rijana.petcare.data.local.entity.Pet
+import com.rijana.petcare.data.repository.MedicationRepository
 import com.rijana.petcare.data.repository.PetRepository
 import com.rijana.petcare.data.repository.UserRepository
+import com.rijana.petcare.data.repository.VetAppointmentRepository
 import com.rijana.petcare.databinding.FragmentPetDetailBinding
+import com.rijana.petcare.viewmodel.PetHistoryViewModel
+import com.rijana.petcare.viewmodel.PetHistoryViewModelFactory
 import com.rijana.petcare.viewmodel.PetViewModel
 import com.rijana.petcare.viewmodel.PetViewModelFactory
 import kotlinx.coroutines.launch
@@ -35,96 +39,316 @@ class PetDetailFragment : Fragment() {
     private var currentPet: Pet? = null
 
     private val petViewModel: PetViewModel by viewModels {
-        val app = requireActivity().application as PetCareApplication
-        val petRepository = PetRepository(app.database.petDao())
-        val userRepository = UserRepository(AuthManager(), app.database.userDao())
-        PetViewModelFactory(petRepository, userRepository)
+        val app =
+            requireActivity().application as PetCareApplication
+
+        val petRepository =
+            PetRepository(app.database.petDao())
+
+        val userRepository =
+            UserRepository(
+                AuthManager(),
+                app.database.userDao()
+            )
+
+        PetViewModelFactory(
+            petRepository,
+            userRepository
+        )
+    }
+
+    private val historyViewModel: PetHistoryViewModel by viewModels {
+        val app =
+            requireActivity().application as PetCareApplication
+
+        val medicationRepository =
+            MedicationRepository(
+                app.database.medicationDao(),
+                app.database.medicationCompletionDao()
+            )
+
+        val vetAppointmentRepository =
+            VetAppointmentRepository(
+                app.database.vetAppointmentDao()
+            )
+
+        PetHistoryViewModelFactory(
+            medicationRepository,
+            vetAppointmentRepository
+        )
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentPetDetailBinding.inflate(inflater, container, false)
+
+        _binding =
+            FragmentPetDetailBinding.inflate(
+                inflater,
+                container,
+                false
+            )
+
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
         super.onViewCreated(view, savedInstanceState)
 
-        val petId = arguments?.getLong("petId") ?: run {
+        val petId =
+            arguments?.getLong("petId")
+                ?: run {
+                    findNavController().popBackStack()
+                    return
+                }
+
+        binding.ivBack.setOnClickListener {
             findNavController().popBackStack()
-            return
         }
 
-        binding.ivBack.setOnClickListener { findNavController().popBackStack() }
-        binding.ivDelete.setOnClickListener { confirmDelete() }
+        binding.ivDelete.setOnClickListener {
+            confirmDelete()
+        }
+
         binding.ivEdit.setOnClickListener {
-            val pet = currentPet ?: return@setOnClickListener
-            val bundle = Bundle().apply { putLong("petId", pet.id) }
-            findNavController().navigate(R.id.action_petDetail_to_addPet, bundle)
+
+            val pet = currentPet
+                ?: return@setOnClickListener
+
+            val bundle = Bundle().apply {
+                putLong("petId", pet.id)
+            }
+
+            findNavController().navigate(
+                R.id.action_petDetail_to_addPet,
+                bundle
+            )
         }
 
         observePet(petId)
+        observePetHistory(petId)
     }
 
-    private fun observePet(petId: Long) {
+    private fun observePet(
+        petId: Long
+    ) {
+
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                petViewModel.getPetById(petId).collect { pet ->
-                    if (pet != null) {
-                        currentPet = pet
-                        bindPet(pet)
+
+            viewLifecycleOwner.repeatOnLifecycle(
+                Lifecycle.State.STARTED
+            ) {
+
+                petViewModel
+                    .getPetById(petId)
+                    .collect { pet ->
+
+                        if (pet != null) {
+
+                            currentPet = pet
+
+                            bindPet(pet)
+                        }
                     }
-                }
             }
         }
     }
 
-    private fun bindPet(pet: Pet) {
-        binding.tvPetName.text = pet.name
-        binding.tvPetBreedAge.text = "${pet.breed} · ${calculateAge(pet.dateOfBirth)}"
-        binding.tvWeightChip.text = "Wt: ${pet.weightKg} kg"
-        binding.tvGenderChip.text = if (pet.gender == Gender.MALE) "Male" else "Female"
+    private fun observePetHistory(
+        petId: Long
+    ) {
 
-        binding.tvBirthdayValue.text = formatDate(pet.dateOfBirth)
-        binding.tvDietValue.text = pet.dietaryPreference ?: "Not specified"
-        binding.tvAllergiesValue.text = pet.allergies ?: getString(R.string.no_known_allergies)
-        binding.tvFavToyValue.text = pet.favoriteToy ?: "Not specified"
+        // Medication History
+        viewLifecycleOwner.lifecycleScope.launch {
+
+            viewLifecycleOwner.repeatOnLifecycle(
+                Lifecycle.State.STARTED
+            ) {
+
+                historyViewModel
+                    .getMedicationHistory(petId)
+                    .collect { medications ->
+
+                        binding.tvMedicationHistory.text =
+                            if (medications.isEmpty()) {
+                                "No medication history"
+                            } else {
+
+                                medications.joinToString(
+                                    separator = "\n"
+                                ) { medication ->
+
+                                    val dosage =
+                                        medication.dosage
+
+                                    val frequency =
+                                        medication.frequency
+
+                                    "${medication.name} • $dosage • $frequency"
+                                }
+                            }
+                    }
+            }
+        }
+
+        // Vaccination History
+        viewLifecycleOwner.lifecycleScope.launch {
+
+            viewLifecycleOwner.repeatOnLifecycle(
+                Lifecycle.State.STARTED
+            ) {
+
+                historyViewModel
+                    .getVaccinationHistory(petId)
+                    .collect { vaccinations ->
+
+                        binding.tvVaccinationHistory.text =
+                            if (vaccinations.isEmpty()) {
+                                "No vaccination history"
+                            } else {
+
+                                vaccinations.joinToString(
+                                    separator = "\n"
+                                ) { vaccination ->
+
+                                    val date =
+                                        formatDate(
+                                            vaccination.date
+                                        )
+
+                                    "${vaccination.type} • $date"
+                                }
+                            }
+                    }
+            }
+        }
+    }
+
+    private fun bindPet(
+        pet: Pet
+    ) {
+
+        binding.tvPetName.text =
+            pet.name
+
+        binding.tvPetBreedAge.text =
+            "${pet.breed} · ${calculateAge(pet.dateOfBirth)}"
+
+        binding.tvWeightChip.text =
+            "Wt: ${pet.weightKg} kg"
+
+        binding.tvGenderChip.text =
+            if (pet.gender == Gender.MALE) {
+                "Male"
+            } else {
+                "Female"
+            }
+
+        binding.tvBirthdayValue.text =
+            formatDate(pet.dateOfBirth)
+
+        binding.tvDietValue.text =
+            pet.dietaryPreference
+                ?: "Not specified"
+
+        binding.tvAllergiesValue.text =
+            pet.allergies
+                ?: getString(
+                    R.string.no_known_allergies
+                )
+
+        binding.tvFavToyValue.text =
+            pet.favoriteToy
+                ?: "Not specified"
+
+        binding.tvAboutLabel.text =
+            "About ${pet.name}"
 
         Glide.with(this)
             .load(pet.photoUri)
-            .placeholder(R.drawable.circle_avatar_placeholder)
-            .error(R.drawable.circle_avatar_placeholder)
+            .placeholder(
+                R.drawable.circle_avatar_placeholder
+            )
+            .error(
+                R.drawable.circle_avatar_placeholder
+            )
             .centerCrop()
             .into(binding.ivPetPhoto)
     }
 
-    private fun calculateAge(dateOfBirthMillis: Long): String {
-        val ageMillis = System.currentTimeMillis() - dateOfBirthMillis
-        val years = TimeUnit.MILLISECONDS.toDays(ageMillis) / 365
-        return if (years < 1) "<1 yr" else "$years yrs"
+    private fun calculateAge(
+        dateOfBirthMillis: Long
+    ): String {
+
+        val ageMillis =
+            System.currentTimeMillis() -
+                    dateOfBirthMillis
+
+        val years =
+            TimeUnit.MILLISECONDS
+                .toDays(ageMillis) / 365
+
+        return if (years < 1) {
+            "<1 yr"
+        } else {
+            "$years yrs"
+        }
     }
 
-    private fun formatDate(millis: Long): String {
-        val formatter = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+    private fun formatDate(
+        millis: Long
+    ): String {
+
+        val formatter =
+            SimpleDateFormat(
+                "dd MMM yyyy",
+                Locale.getDefault()
+            )
+
         return formatter.format(millis)
     }
 
     private fun confirmDelete() {
-        val pet = currentPet ?: return
+
+        val pet =
+            currentPet
+                ?: return
+
         AlertDialog.Builder(requireContext())
-            .setTitle(R.string.delete_pet_title)
-            .setMessage(getString(R.string.delete_pet_message, pet.name))
-            .setNegativeButton(R.string.cancel, null)
-            .setPositiveButton(R.string.delete) { _, _ ->
+            .setTitle(
+                R.string.delete_pet_title
+            )
+            .setMessage(
+                getString(
+                    R.string.delete_pet_message,
+                    pet.name
+                )
+            )
+            .setNegativeButton(
+                R.string.cancel,
+                null
+            )
+            .setPositiveButton(
+                R.string.delete
+            ) { _, _ ->
+
                 petViewModel.deletePet(pet)
-                findNavController().popBackStack()
+
+                findNavController()
+                    .popBackStack()
             }
             .show()
     }
 
     override fun onDestroyView() {
+
         super.onDestroyView()
+
         _binding = null
     }
 }
