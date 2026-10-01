@@ -25,10 +25,10 @@ import com.rijana.petcare.data.local.entity.PetType
 import com.rijana.petcare.data.repository.PetRepository
 import com.rijana.petcare.data.repository.UserRepository
 import com.rijana.petcare.databinding.FragmentAddPetBinding
+import com.rijana.petcare.util.SuccessToast
+import com.rijana.petcare.util.applyImeBottomPadding
 import com.rijana.petcare.viewmodel.PetViewModel
 import com.rijana.petcare.viewmodel.PetViewModelFactory
-import com.rijana.petcare.util.applyImeBottomPadding
-import com.rijana.petcare.util.SuccessToast
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -185,7 +185,6 @@ class AddPetFragment : Fragment() {
         val typeText = binding.actvPetType.text.toString().trim()
         val breed = binding.etBreed.text.toString().trim()
         val weightText = binding.etWeight.text.toString().trim()
-        val ownerId = existingPet?.ownerId ?: petViewModel.ownerId.value
 
         if (name.isEmpty() || typeText.isEmpty() || breed.isEmpty() ||
             selectedDateOfBirth == null || weightText.isEmpty()
@@ -203,35 +202,41 @@ class AddPetFragment : Fragment() {
             }
         }
 
-        if (ownerId == null) {
-            Toast.makeText(requireContext(), "Couldn't identify your account, please try again", Toast.LENGTH_SHORT).show()
-            return
-        }
+        binding.btnSaveChanges.isEnabled = false
 
-        val pet = Pet(
-            id = existingPet?.id ?: 0,
-            ownerId = ownerId,
-            name = name,
-            type = PetType.valueOf(typeText.uppercase()),
-            breed = breed,
-            dateOfBirth = selectedDateOfBirth!!,
-            gender = gender,
-            weightKg = weightText.toFloat(),
-            dietaryPreference = binding.etDietaryPreference.text.toString().trim().ifEmpty { null },
-            allergies = binding.etAllergies.text.toString().trim().ifEmpty { null },
-            favoriteToy = binding.etFavoriteToy.text.toString().trim().ifEmpty { null },
-            note = binding.etNote.text.toString().trim().ifEmpty { null },
-            photoUri = selectedPhotoUri
-        )
+        viewLifecycleOwner.lifecycleScope.launch {
+            val ownerId = existingPet?.ownerId ?: petViewModel.requireOwnerId()
+            if (ownerId == null) {
+                binding.btnSaveChanges.isEnabled = true
+                Toast.makeText(requireContext(), "Couldn't identify your account, please try again", Toast.LENGTH_SHORT).show()
+                return@launch
+            }
 
-        if (isEditMode) {
-            petViewModel.updatePet(pet)
-            SuccessToast.show(requireContext(), "Pet updated successfully")
-        } else {
-            petViewModel.addPet(pet)
-            SuccessToast.show(requireContext(), "Pet added successfully")
+            val pet = Pet(
+                id = existingPet?.id ?: 0,
+                ownerId = ownerId,
+                name = name,
+                type = PetType.valueOf(typeText.uppercase()),
+                breed = breed,
+                dateOfBirth = selectedDateOfBirth!!,
+                gender = gender,
+                weightKg = weightText.toFloat(),
+                dietaryPreference = binding.etDietaryPreference.text.toString().trim().ifEmpty { null },
+                allergies = binding.etAllergies.text.toString().trim().ifEmpty { null },
+                favoriteToy = binding.etFavoriteToy.text.toString().trim().ifEmpty { null },
+                note = binding.etNote.text.toString().trim().ifEmpty { null },
+                photoUri = selectedPhotoUri
+            )
+
+            if (isEditMode) {
+                petViewModel.updatePet(pet)
+                SuccessToast.show(requireContext(), "Pet updated successfully")
+            } else {
+                petViewModel.addPet(pet)
+                SuccessToast.show(requireContext(), "Pet added successfully")
+            }
+            findNavController().popBackStack()
         }
-        findNavController().popBackStack()
     }
 
     private fun confirmDelete() {

@@ -46,6 +46,15 @@ class PetViewModel(
         }
     }
 
+    /** Returns the owner id immediately if cached, otherwise looks it up directly (never races with init). */
+    suspend fun requireOwnerId(): Long? {
+        _ownerId.value?.let { return it }
+        val firebaseUid = userRepository.currentFirebaseUid ?: return null
+        val id = userRepository.getUserProfile(firebaseUid).first()?.id
+        _ownerId.value = id
+        return id
+    }
+
     fun getPetById(petId: Long): Flow<Pet?> = petRepository.getPetById(petId)
 
     fun addPet(pet: Pet) {

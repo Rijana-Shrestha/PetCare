@@ -15,13 +15,13 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.rijana.petcare.PetCareApplication
 import com.rijana.petcare.R
-import com.rijana.petcare.util.SuccessToast
 import com.rijana.petcare.data.firebase.AuthManager
 import com.rijana.petcare.data.repository.UserRepository
 import com.rijana.petcare.databinding.FragmentEditProfileBinding
+import com.rijana.petcare.util.SuccessToast
+import com.rijana.petcare.util.applyImeBottomPadding
 import com.rijana.petcare.viewmodel.ProfileViewModel
 import com.rijana.petcare.viewmodel.ProfileViewModelFactory
-import com.rijana.petcare.util.applyImeBottomPadding
 import kotlinx.coroutines.launch
 
 class EditProfileFragment : Fragment() {
@@ -44,6 +44,7 @@ class EditProfileFragment : Fragment() {
                     .load(uri)
                     .circleCrop()
                     .into(binding.imgAvatar)
+                binding.ivCameraIcon.visibility = View.GONE
             }
         }
 
@@ -93,6 +94,7 @@ class EditProfileFragment : Fragment() {
                             .load(user.profileImageUri)
                             .circleCrop()
                             .into(binding.imgAvatar)
+                        binding.ivCameraIcon.visibility = View.GONE
                     }
                 }
             }

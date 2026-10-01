@@ -1,18 +1,20 @@
 package com.rijana.petcare.ui.expenses
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rijana.petcare.PetCareApplication
 import com.rijana.petcare.R
@@ -28,7 +30,6 @@ import com.rijana.petcare.viewmodel.PetViewModel
 import com.rijana.petcare.viewmodel.PetViewModelFactory
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-
 
 class ExpenseListFragment : Fragment() {
 
@@ -97,12 +98,14 @@ class ExpenseListFragment : Fragment() {
     private fun addChip(label: String, petId: Long?) {
         val chip = TextView(requireContext()).apply {
             text = label
-            textSize = 12f
-            setPadding(32, 14, 32, 14)
+            textSize = 14f
+            typeface = ResourcesCompat.getFont(requireContext(), R.font.fredoka_medium)
+            gravity = Gravity.CENTER
+            setPadding(dp(14), dp(10), dp(14), dp(10))
             val params = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
             )
-            params.marginEnd = 20
+            params.marginEnd = dp(12)
             layoutParams = params
         }
         applyChipStyle(chip, isSelected = petId == expenseViewModel.selectedPetId.value)
@@ -144,6 +147,9 @@ class ExpenseListFragment : Fragment() {
             }
         }
     }
+
+    private fun dp(value: Int): Int =
+        (value * resources.displayMetrics.density).toInt()
 
     override fun onDestroyView() {
         super.onDestroyView()
