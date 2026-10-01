@@ -31,6 +31,7 @@ import com.rijana.petcare.viewmodel.MedicationViewModelFactory
 import com.rijana.petcare.viewmodel.PetViewModel
 import com.rijana.petcare.viewmodel.PetViewModelFactory
 import com.rijana.petcare.util.applyImeBottomPadding
+import com.rijana.petcare.util.SuccessToast
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
@@ -201,6 +202,7 @@ class AddMedicationFragment : Fragment() {
             )
         }
 
+        SuccessToast.show(requireContext(), "Medication added successfully")
         findNavController().popBackStack()
     }
 

@@ -26,6 +26,7 @@ import com.rijana.petcare.viewmodel.PetHistoryViewModel
 import com.rijana.petcare.viewmodel.PetHistoryViewModelFactory
 import com.rijana.petcare.viewmodel.PetViewModel
 import com.rijana.petcare.viewmodel.PetViewModelFactory
+import com.rijana.petcare.util.SuccessToast
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -339,18 +340,12 @@ class PetDetailFragment : Fragment() {
                     pet.name
                 )
             )
-            .setNegativeButton(
-                R.string.cancel,
-                null
-            )
-            .setPositiveButton(
-                R.string.delete
-            ) { _, _ ->
+            .setNegativeButton(R.string.cancel, null)
 
+            .setPositiveButton(R.string.delete) { _, _ ->
                 petViewModel.deletePet(pet)
-
-                findNavController()
-                    .popBackStack()
+                SuccessToast.show(requireContext(), "Pet deleted successfully")
+                findNavController().popBackStack()
             }
             .show()
     }

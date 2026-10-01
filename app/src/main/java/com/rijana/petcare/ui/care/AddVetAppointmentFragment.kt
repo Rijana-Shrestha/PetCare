@@ -30,6 +30,7 @@ import com.rijana.petcare.data.repository.VetAppointmentRepository
 import com.rijana.petcare.databinding.FragmentAddVetAppointmentBinding
 import com.rijana.petcare.databinding.ItemPetCheckboxBinding
 import com.rijana.petcare.util.applyImeBottomPadding
+import com.rijana.petcare.util.SuccessToast
 import com.rijana.petcare.viewmodel.AppointmentViewModel
 import com.rijana.petcare.viewmodel.AppointmentViewModelFactory
 import com.rijana.petcare.viewmodel.PetViewModel
@@ -375,7 +376,6 @@ class AddVetAppointmentFragment : Fragment() {
                 .keys
 
         /*
-         * Determine the clinic name.
          *
          * Saved clinic:
          *     selectedVetPlace != null
@@ -456,6 +456,7 @@ class AddVetAppointmentFragment : Fragment() {
             )
         }
 
+        SuccessToast.show(requireContext(), "Vet appointment added successfully")
         findNavController().popBackStack()
     }
 

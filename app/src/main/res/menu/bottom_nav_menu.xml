@@ -11,11 +11,11 @@
     <item
         android:id="@+id/schedulePlaceholderFragment"
         android:icon="@drawable/ic_nav_schedule"
-        android:title="@string/nav_schedule" />
+        android:title="@string/nav_care" />
     <item
         android:id="@+id/findPlaceholderFragment"
         android:icon="@drawable/ic_nav_find"
-        android:title="@string/nav_find" />
+        android:title="@string/nav_map" />
     <item
         android:id="@+id/profilePlaceholderFragment"
         android:icon="@drawable/ic_nav_profile"

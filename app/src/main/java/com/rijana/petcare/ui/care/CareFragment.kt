@@ -36,6 +36,7 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import com.rijana.petcare.util.SuccessToast
 
 private enum class CareTab { ROUTINES, MEDICATION, VET_GROOMING }
 
@@ -100,7 +101,12 @@ class CareFragment : Fragment() {
         setupDayTabs()
         setupSectionToggle()
 
-        routineAdapter = RoutineAdapter { occurrence -> routineViewModel.toggleComplete(occurrence) }
+        routineAdapter = RoutineAdapter { occurrence ->
+            val wasCompleted = occurrence.isCompleted
+            routineViewModel.toggleComplete(occurrence)
+            if (!wasCompleted) SuccessToast.show(requireContext(),  "${occurrence.routine.taskName} completed")
+        }
+
         binding.rvRoutines.layoutManager = LinearLayoutManager(requireContext())
         binding.rvRoutines.adapter = routineAdapter
 

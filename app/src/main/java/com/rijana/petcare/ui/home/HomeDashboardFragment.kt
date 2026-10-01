@@ -41,6 +41,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.Calendar
+import com.rijana.petcare.util.SuccessToast
 
 class HomeDashboardFragment : Fragment() {
 
@@ -117,11 +118,19 @@ class HomeDashboardFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvMyPets.adapter = homePetAdapter
 
-        todaysCareAdapter = RoutineAdapter { occurrence -> routineViewModel.toggleComplete(occurrence) }
+        todaysCareAdapter = RoutineAdapter { occurrence ->
+            val wasCompleted = occurrence.isCompleted
+            routineViewModel.toggleComplete(occurrence)
+            if (!wasCompleted) SuccessToast.show(requireContext(), "${occurrence.routine.taskName} completed")
+        }
         binding.rvTodaysCare.layoutManager = LinearLayoutManager(requireContext())
         binding.rvTodaysCare.adapter = todaysCareAdapter
 
-        medicationTodayAdapter = MedicationTodayAdapter { occurrence -> medicationViewModel.toggleComplete(occurrence) }
+        medicationTodayAdapter = MedicationTodayAdapter { occurrence ->
+            val wasCompleted = occurrence.isCompleted
+            medicationViewModel.toggleComplete(occurrence)
+            if (!wasCompleted) SuccessToast.show(requireContext(),  "${occurrence.medication.name} taken")
+        }
         binding.rvTodaysMedication.layoutManager = LinearLayoutManager(requireContext())
         binding.rvTodaysMedication.adapter = medicationTodayAdapter
 

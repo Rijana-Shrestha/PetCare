@@ -38,6 +38,7 @@ import com.rijana.petcare.viewmodel.PlaceViewModel
 import com.rijana.petcare.viewmodel.PlaceViewModelFactory
 import kotlinx.coroutines.launch
 import java.util.Calendar
+import com.rijana.petcare.util.SuccessToast
 
 class AddGroomingAppointmentFragment : Fragment() {
 
@@ -446,6 +447,7 @@ class AddGroomingAppointmentFragment : Fragment() {
             )
         }
 
+        SuccessToast.show(requireContext(), "Grooming appointment added successfully")
         findNavController().popBackStack()
     }
 

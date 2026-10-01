@@ -27,6 +27,7 @@ import com.rijana.petcare.viewmodel.AuthUiState
 import com.rijana.petcare.viewmodel.AuthViewModel
 import com.rijana.petcare.viewmodel.AuthViewModelFactory
 import com.rijana.petcare.util.setupPasswordToggle
+import com.rijana.petcare.util.SuccessToast
 import kotlinx.coroutines.launch
 
 class SignInFragment : Fragment() {
@@ -107,6 +108,7 @@ class SignInFragment : Fragment() {
                         }
                         is AuthUiState.Success -> {
                             binding.btnLogin.isEnabled = true
+                            SuccessToast.show(requireContext(), "Login successful")
                             findNavController().navigate(R.id.action_signIn_to_home)
                         }
                         is AuthUiState.Error -> {

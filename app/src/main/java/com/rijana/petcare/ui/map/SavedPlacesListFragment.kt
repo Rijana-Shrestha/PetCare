@@ -21,6 +21,7 @@ import com.rijana.petcare.databinding.FragmentSavedPlacesBinding
 import com.rijana.petcare.viewmodel.PlaceViewModel
 import com.rijana.petcare.viewmodel.PlaceViewModelFactory
 import kotlinx.coroutines.launch
+import com.rijana.petcare.util.SuccessToast
 
 class SavedPlacesListFragment : Fragment() {
 
@@ -81,7 +82,10 @@ class SavedPlacesListFragment : Fragment() {
             .setTitle("Delete Place")
             .setMessage("Remove \"${place.name}\" from your saved places?")
             .setNegativeButton("Cancel", null)
-            .setPositiveButton("Delete") { _, _ -> placeViewModel.deletePlace(place) }
+            .setPositiveButton("Delete") { _, _ ->
+                placeViewModel.deletePlace(place)
+                SuccessToast.show(requireContext(), "Location deleted successfully")
+            }
             .show()
     }
 

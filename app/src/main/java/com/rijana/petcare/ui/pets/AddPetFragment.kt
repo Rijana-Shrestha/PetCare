@@ -28,6 +28,7 @@ import com.rijana.petcare.databinding.FragmentAddPetBinding
 import com.rijana.petcare.viewmodel.PetViewModel
 import com.rijana.petcare.viewmodel.PetViewModelFactory
 import com.rijana.petcare.util.applyImeBottomPadding
+import com.rijana.petcare.util.SuccessToast
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -225,8 +226,10 @@ class AddPetFragment : Fragment() {
 
         if (isEditMode) {
             petViewModel.updatePet(pet)
+            SuccessToast.show(requireContext(), "Pet updated successfully")
         } else {
             petViewModel.addPet(pet)
+            SuccessToast.show(requireContext(), "Pet added successfully")
         }
         findNavController().popBackStack()
     }
@@ -239,6 +242,7 @@ class AddPetFragment : Fragment() {
             .setNegativeButton(R.string.cancel, null)
             .setPositiveButton(R.string.delete) { _, _ ->
                 petViewModel.deletePet(pet)
+                SuccessToast.show(requireContext(), "Pet deleted successfully")
                 findNavController().popBackStack(R.id.petDetailFragment, true)
             }
             .show()

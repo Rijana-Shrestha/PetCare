@@ -27,7 +27,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/nav_find"
+        android:text="@string/nav_map"
         android:textColor="@color/text_primary"
         android:textSize="18sp"
         android:textStyle="bold"

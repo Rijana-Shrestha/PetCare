@@ -34,6 +34,7 @@ import org.maplibre.android.MapLibre
 import org.maplibre.android.camera.CameraPosition
 import org.maplibre.android.geometry.LatLng
 import org.maplibre.android.maps.MapLibreMap
+import com.rijana.petcare.util.SuccessToast
 
 class AddLocationFragment : Fragment() {
 
@@ -380,30 +381,18 @@ class AddLocationFragment : Fragment() {
             maplibreMap.cameraPosition.target
                 ?: return
 
-        /*
-         * Every request receives a new ID.
-         */
         reverseRequestId++
 
-        val currentRequestId =
-            reverseRequestId
+        val currentRequestId = reverseRequestId
 
-        reverseGeocodeJob =
-            viewLifecycleOwner.lifecycleScope.launch {
-
+        reverseGeocodeJob = viewLifecycleOwner.lifecycleScope.launch {
                 try {
-
                     val result =
                         NominatimClient.api.reverse(
                             lat = center.latitude,
                             lon = center.longitude
                         )
 
-                    /*
-                     * If another request was started after this
-                     * request, this result is old and must not
-                     * update the UI.
-                     */
                     if (currentRequestId != reverseRequestId) {
                         return@launch
                     }
@@ -648,13 +637,9 @@ class AddLocationFragment : Fragment() {
                 )
             )
 
-            Toast.makeText(
-                requireContext(),
-                "Location saved",
-                Toast.LENGTH_SHORT
-            ).show()
-
+            SuccessToast.show(requireContext(), "Location saved successfully")
             findNavController().popBackStack()
+
         }
     }
 

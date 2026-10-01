@@ -27,6 +27,7 @@ import com.rijana.petcare.viewmodel.AuthUiState
 import com.rijana.petcare.viewmodel.AuthViewModel
 import com.rijana.petcare.viewmodel.AuthViewModelFactory
 import com.rijana.petcare.util.setupPasswordToggle
+import com.rijana.petcare.util.SuccessToast
 import kotlinx.coroutines.launch
 
 class SignUpFragment : Fragment() {
@@ -109,6 +110,7 @@ class SignUpFragment : Fragment() {
                         }
                         is AuthUiState.Success -> {
                             binding.btnSignUp.isEnabled = true
+                            SuccessToast.show(requireContext(), "Account created successfully")
                             findNavController().navigate(R.id.action_signUp_to_home)
                         }
                         is AuthUiState.Error -> {

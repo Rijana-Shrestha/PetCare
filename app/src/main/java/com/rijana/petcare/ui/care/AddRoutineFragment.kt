@@ -31,6 +31,7 @@ import com.rijana.petcare.viewmodel.PetViewModelFactory
 import com.rijana.petcare.viewmodel.RoutineViewModel
 import com.rijana.petcare.viewmodel.RoutineViewModelFactory
 import com.rijana.petcare.util.applyImeBottomPadding
+import com.rijana.petcare.util.SuccessToast
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
@@ -216,6 +217,7 @@ class AddRoutineFragment : Fragment() {
             )
         }
 
+        SuccessToast.show(requireContext(), "Routine added successfully")
         findNavController().popBackStack()
     }
 

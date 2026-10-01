@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.rijana.petcare.PetCareApplication
 import com.rijana.petcare.R
+import com.rijana.petcare.util.SuccessToast
 import com.rijana.petcare.data.firebase.AuthManager
 import com.rijana.petcare.data.repository.UserRepository
 import com.rijana.petcare.databinding.FragmentEditProfileBinding
@@ -111,6 +112,7 @@ class EditProfileFragment : Fragment() {
             address = binding.etAddress.text.toString().trim().ifEmpty { null },
             profileImageUri = selectedPhotoUri
         )
+        SuccessToast.show(requireContext(), "Profile updated successfully")
         findNavController().popBackStack()
     }
 

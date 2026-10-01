@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ExpenseDao {
-
     @Query(
         """
         SELECT expenses.* FROM expenses
@@ -16,7 +15,6 @@ interface ExpenseDao {
         """
     )
     fun getExpenses(ownerId: Long, petId: Long?): Flow<List<Expense>>
-
     @Query(
         """
         SELECT COALESCE(SUM(expenses.amount), 0) FROM expenses

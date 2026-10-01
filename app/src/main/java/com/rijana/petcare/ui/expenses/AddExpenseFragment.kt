@@ -31,6 +31,7 @@ import com.rijana.petcare.viewmodel.PetViewModelFactory
 import com.rijana.petcare.util.applyImeBottomPadding
 import kotlinx.coroutines.launch
 import java.util.Calendar
+import com.rijana.petcare.util.SuccessToast
 
 class AddExpenseFragment : Fragment() {
 
@@ -150,6 +151,7 @@ class AddExpenseFragment : Fragment() {
             )
         )
 
+        SuccessToast.show(requireContext(), "Expense added successfully")
         findNavController().popBackStack()
     }
 
