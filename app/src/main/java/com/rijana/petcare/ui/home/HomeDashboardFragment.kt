@@ -138,7 +138,7 @@ class HomeDashboardFragment : Fragment() {
         binding.rvUpcoming.layoutManager = LinearLayoutManager(requireContext())
         binding.rvUpcoming.adapter = upcomingAdapter
 
-        expenseAdapter = ExpenseAdapter()
+        expenseAdapter = ExpenseAdapter { expense -> expenseViewModel.deleteExpense(expense) }
         binding.expensesCard.rvRecentExpenses.layoutManager = LinearLayoutManager(requireContext())
         binding.expensesCard.rvRecentExpenses.adapter = expenseAdapter
 

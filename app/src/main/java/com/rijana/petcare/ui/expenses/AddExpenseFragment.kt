@@ -117,6 +117,7 @@ class AddExpenseFragment : Fragment() {
             requireContext(),
             { _, year, month, day ->
                 calendar.set(year, month, day, 0, 0, 0)
+                calendar.set(Calendar.MILLISECOND, 0)
                 selectedDate = calendar.timeInMillis
                 binding.etDate.setText("%02d/%02d/%04d".format(day, month + 1, year))
             },

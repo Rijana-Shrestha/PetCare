@@ -15,17 +15,20 @@ import java.util.Locale
 
 data class ExpenseListItem(val expense: Expense, val petName: String)
 
-class ExpenseAdapter : ListAdapter<ExpenseListItem, ExpenseAdapter.ViewHolder>(DiffCallback()) {
+class ExpenseAdapter(
+    private val onDeleteClick: (Expense) -> Unit = {}
+) : ListAdapter<ExpenseListItem, ExpenseAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemExpenseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(getItem(position))
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) =
+        holder.bind(getItem(position), onDeleteClick)
 
     class ViewHolder(private val binding: ItemExpenseBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ExpenseListItem) {
+        fun bind(item: ExpenseListItem, onDeleteClick: (Expense) -> Unit) {
             val expense = item.expense
             val context = binding.root.context
 
@@ -37,6 +40,8 @@ class ExpenseAdapter : ListAdapter<ExpenseListItem, ExpenseAdapter.ViewHolder>(D
             binding.tvCategoryIcon.background.setTint(
                 ContextCompat.getColor(context, categoryColor(expense.category))
             )
+
+            binding.ivDeleteExpense.setOnClickListener { onDeleteClick(expense) }
         }
 
         private fun categoryLabel(category: ExpenseCategory): String =

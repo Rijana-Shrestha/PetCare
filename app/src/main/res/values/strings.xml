@@ -2,17 +2,17 @@
     <string name="app_name">PetCare</string>
 
 
-<!--    Greetings-->
+    <!--    Greetings-->
     <string name="good_morning">Good morning</string>
     <string name="good_afternoon">Good afternoon</string>
     <string name="good_evening">Good evening</string>
 
-<!-- GET STARTED -->
+    <!-- GET STARTED -->
     <string name="first_tagline">Happy pets,</string>
     <string name="second_tagline">Happy hearts.</string>
     <string name="get_started">Get Started</string>
 
-<!-- Onboarding -->
+    <!-- Onboarding -->
     <string name="heading1">Personalized care&#10;made simple.</string>
     <string name="heading2">Share the care,&#10;together.</string>
     <string name="heading3">Ready to care smarter?</string>
@@ -58,7 +58,7 @@
     <string name="no_medication_today">No medication due today</string>
     <string name="no_upcoming_appointments">No upcoming appointments</string>
 
-<!--    Pets-->
+    <!--    Pets-->
     <!-- Add Pet -->
     <string name="add_new_pet">Add New Pet</string>
     <string name="add_photo">Add Photo</string>
@@ -95,7 +95,7 @@
     <string name="edit_pet">Edit Pet</string>
     <string name="save_changes">Save Changes</string>
 
-<!--    Care/Schedule-->
+    <!--    Care/Schedule-->
     <string name="care">Care</string>
     <string name="add_routine">+ Add Routine</string>
     <string name="routine">Add Routine</string>
@@ -118,7 +118,7 @@
     <string name="number">Phone Number</string>
     <string name="relationship">Relationship (optional)</string>
 
-<!--    Medication-->
+    <!--    Medication-->
     <string name="add_medication">+ Add Medication</string>
     <string name="med">Add Medication</string>
     <string name="completed">Completed</string>
@@ -133,7 +133,7 @@
     <string name="frequency">Frequency</string>
     <string name="end_date">End Date</string>
 
-<!--    Appointment-->
+    <!--    Appointment-->
     <string name="veterinary_care">Veterinary Care</string>
     <string name="grooming">Grooming</string>
     <string name="add_appointment">+ Add Appointment</string>
@@ -162,7 +162,7 @@
     <string name="contact">+ Add New Contact</string>
 
 
-<!--    Profile-->
+    <!--    Profile-->
     <!-- Screen Header -->
     <string name="profile">Profile</string>
 
@@ -171,6 +171,7 @@
     <string name="view_all">View All</string>
     <string name="no_expenses_yet">No expenses yet</string>
     <string name="add_expenses">Add Expenses</string>
+    <string name="delete_expense">Delete expense</string>
     <string name="change_profile">Change Profile</string>
     <string name="phone_number">Phone Number (Optional):</string>
     <string name="address">Address:</string>
@@ -193,7 +194,7 @@
     <string name="save_expense">Save expense</string>
     <string name="please_select_a_pet">Please select a pet</string>
 
-<!--    Find-->
+    <!--    Find-->
     <string name="saved_places">Saved Places</string>
     <string name="no_address_saved">No address saved</string>
     <string name="add_location">Add Location</string>

@@ -80,7 +80,7 @@ class ProfileFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvPets.adapter = petAdapter
 
-        expenseAdapter = ExpenseAdapter()
+        expenseAdapter = ExpenseAdapter { expense -> expenseViewModel.deleteExpense(expense) }
         binding.expensesCard.rvRecentExpenses.layoutManager = LinearLayoutManager(requireContext())
         binding.expensesCard.rvRecentExpenses.adapter = expenseAdapter
 

@@ -68,6 +68,20 @@
             tools:text="$32.00"
             app:layout_constraintTop_toTopOf="@id/tvCategoryIcon"
             app:layout_constraintBottom_toBottomOf="@id/tvCategoryIcon"
+            app:layout_constraintEnd_toStartOf="@id/ivDeleteExpense" />
+
+        <ImageView
+            android:id="@+id/ivDeleteExpense"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="4dp"
+            android:padding="7dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_delete"
+            android:contentDescription="@string/delete_expense"
+            app:tint="@color/color_danger"
+            app:layout_constraintTop_toTopOf="@id/tvCategoryIcon"
+            app:layout_constraintBottom_toBottomOf="@id/tvCategoryIcon"
             app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -66,7 +66,7 @@ class ExpenseListFragment : Fragment() {
 
         binding.ivBack.setOnClickListener { findNavController().popBackStack() }
 
-        expenseAdapter = ExpenseAdapter()
+        expenseAdapter = ExpenseAdapter { expense -> expenseViewModel.deleteExpense(expense) }
         binding.rvExpenses.layoutManager = LinearLayoutManager(requireContext())
         binding.rvExpenses.adapter = expenseAdapter
 

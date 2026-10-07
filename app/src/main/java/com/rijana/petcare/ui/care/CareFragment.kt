@@ -40,6 +40,10 @@ import com.rijana.petcare.util.SuccessToast
 
 private enum class CareTab { ROUTINES, MEDICATION, VET_GROOMING }
 
+// Two weeks (starting from this week's Monday) so the day-tab strip has
+// something to scroll to past Sunday instead of hard-stopping there.
+private const val VISIBLE_DAY_COUNT = 14
+
 class CareFragment : Fragment() {
 
     private var _binding: FragmentCareBinding? = null
@@ -140,7 +144,7 @@ class CareFragment : Fragment() {
         val todayStart = RoutineViewModel.startOfDay(System.currentTimeMillis())
         val dayLetterFormat = SimpleDateFormat("EEE", Locale.getDefault())
 
-        repeat(7) {
+        repeat(VISIBLE_DAY_COUNT) {
             val cellDate = calendar.timeInMillis
             val cell = layoutInflater.inflate(
                 R.layout.item_day_tab, binding.dayTabsContainer, false
